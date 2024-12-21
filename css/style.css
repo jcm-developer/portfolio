@@ -107,7 +107,8 @@ section {
 
 .profile-img {
     height: auto;
-    width: 400px;
+    width: auto;
+    max-width: 400px;
 }
 
 .profile-text a {
@@ -131,16 +132,6 @@ section {
     transform: translateX(8px);
 }
 
-.gradient-divider {
-    position: absolute;
-    bottom: -120px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background-color: #FBAB7E;
-    clip-path: polygon(50% 5%, 0 0, 100% 0);
-}
-
 .skills {
     height: 100%;
     width: 100%;
@@ -152,13 +143,14 @@ section {
     display: grid;
     grid-template-columns: repeat(4, 2fr);
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .skills-card {
     height: 250px;
     width: 200px;
     padding: 20px;
+    border-radius: 30px;
 
     background-color: white;
 
@@ -290,6 +282,15 @@ section {
         height: 100%;
         gap: 1rem;
         grid-template-columns: 1fr;
+    }
+
+    .skills {
+        padding: 9%;
+    }
+
+    .skills-card {
+        margin: 20px auto;
+        width: 90%;
     }
 
     .icons {
