@@ -7,11 +7,6 @@ let skills = document.querySelector('#skills');
 let projects = document.querySelector('#projects');
 let contact = document.querySelector('#contact');
 
-menu.onclick = () => {
-    menu.classList.toggle('bx-x');
-    navlist.classList.toggle('open');
-}
-
 const sr = ScrollReveal({
     distance: '65px',
     duration: 2600,
@@ -19,11 +14,16 @@ const sr = ScrollReveal({
     reset: true
 });
 
-sr.reveal('.profile-text', { delay: 200, origin: 'top' });
-sr.reveal('.profile-img', { delay: 450, origin: 'top' });
-sr.reveal('.icons', { delay: 500, origin: 'left' });
-sr.reveal('.scroll-down', { delay: 500, origin: 'right' });
-sr.reveal('.skills-card', { delay: 500, origin: 'top' });
+sr.reveal('.profile-text', { delay: 100, origin: 'top' });
+sr.reveal('.profile-img', { delay: 350, origin: 'top' });
+sr.reveal('.icons', { delay: 400, origin: 'left' });
+sr.reveal('.scroll-down', { delay: 400, origin: 'right' });
+sr.reveal('.skills-card', { delay: 400, origin: 'top' });
+
+menu.onclick = () => {
+    menu.classList.toggle('bx-x');
+    navlist.classList.toggle('open');
+}
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 0) {
