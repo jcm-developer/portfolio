@@ -140,7 +140,7 @@ section {
 
     position: relative;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
     gap: 1rem;
 }
@@ -167,28 +167,37 @@ section {
 
 .skills-card {
     height: 250px;
-    width: 225px;
-    padding: 20px;
+    width: 450px;
+    padding: 40px;
     border-radius: 30px;
 
     background-color: white;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.skills-card h3 {
+.skills-card-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.skills-card-image {
+    font-size: 100px;
+}
+
+.skills-card-text h3 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 
-.skills-card p {
+.skills-card-text p {
     line-clamp: 3;
     line-height: 1.2em;
+    margin-right: 20px;
 }
 
 .rating {
