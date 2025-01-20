@@ -143,12 +143,12 @@ section {
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
     gap: 0.5rem;
-    margin-top: 50px;
+    margin-top: 75px;
 }
 
 .skills-svg-top {
     position: absolute;
-    top: -50px;
+    top: -76px;
     left: 0;
     width: 100%;
     height: auto;
@@ -165,7 +165,7 @@ section {
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -376,5 +376,9 @@ section {
     .profile-img img {
         width: 100%;
         height: auto;
+    }
+
+    .skills-card-image {
+        display: none;
     }
 }
