@@ -136,13 +136,13 @@ section {
 .skills {
     height: auto;
     width: 100%;
-    min-height: 100vh;
+    min-height: 90vh;
 
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
     margin-top: 75px;
 }
 
@@ -156,26 +156,27 @@ section {
 }
 
 .skills-card {
-    height: 250px;
-    width: 450px;
-    padding: 40px;
+    height: 300px;
+    width: auto;
+    padding: 30px;
     border-radius: 30px;
 
     background-color: white;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.skills-card-image {
+    font-size: 100px;
+}
+
 .skills-card-text {
     display: flex;
     flex-direction: column;
-}
-
-.skills-card-image {
-    font-size: 100px;
 }
 
 .skills-card-text h3 {
@@ -189,25 +190,6 @@ section {
     line-height: 1.2em;
     margin-right: 10px;
 }
-
-/* .rating {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-.dot {
-    height: 20px;
-    width: 20px;
-    margin: 0 5px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.dot.active {
-    background-color: #000000;
-} */
 
 .icons {
     position: absolute;
@@ -298,7 +280,7 @@ section {
 
 @media (max-width: 1195px) {
     section {
-        padding: 0 3%;
+        padding: 0 8%;
         transition: .2s;
     }
 
@@ -308,6 +290,7 @@ section {
 
     .profile-img {
         text-align: center;
+        margin: auto;
     }
 
     .profile-img img {
@@ -315,16 +298,14 @@ section {
         height: auto;
     }
 
-    .profile,
-    .skills {
+    .profile {
         height: 100%;
-        gap: 1rem;
         grid-template-columns: 1fr;
     }
 
-    .skills {
+    /* .skills {
         padding: 9%;
-    }
+    } */
 
     .skills-card {
         margin: 20px auto;
@@ -370,6 +351,12 @@ section {
     .navlist.open {
         right: 0;
     }
+
+    .profile,
+    .skills {
+        height: 100%;
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 680px) {
@@ -378,7 +365,7 @@ section {
         height: auto;
     }
 
-    .skills-card-image {
+    /* .skills-card-image {
         display: none;
-    }
+    } */
 }

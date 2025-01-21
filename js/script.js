@@ -25,6 +25,13 @@ menu.onclick = () => {
     navlist.classList.toggle('open');
 }
 
+document.querySelectorAll('.navlist a').forEach(link => {
+    link.addEventListener('click', () => {
+        menu.classList.remove('bx-x');
+        navlist.classList.remove('open');
+    });
+});
+
 window.addEventListener('scroll', () => {
     if (window.scrollY > 0) {
         header.classList.add('hidden');
