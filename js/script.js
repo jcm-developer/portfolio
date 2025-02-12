@@ -2,10 +2,6 @@ let menu = document.querySelector('#menu-icon');
 let navlist = document.querySelector('.navlist');
 let header = document.querySelector('header');
 let scrollDown = document.querySelector('.scroll-down');
-let home = document.querySelector('#home');
-let skills = document.querySelector('#skills');
-let projects = document.querySelector('#projects');
-let contact = document.querySelector('#contact');
 
 const sr = ScrollReveal({
     distance: '65px',
@@ -41,4 +37,21 @@ window.addEventListener('scroll', () => {
         header.classList.remove('hidden');
         scrollDown.classList.remove('visible');
     }
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(event) {
+        event.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop,
+                behavior: "smooth"
+            });
+
+            history.replaceState(null, null, ' ');
+        }
+    });
 });

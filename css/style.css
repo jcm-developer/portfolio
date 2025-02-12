@@ -144,11 +144,12 @@ section {
     align-items: center;
     gap: 1rem;
     margin-top: 75px;
+    padding-top: 100px;
 }
 
 .skills-svg-top {
     position: absolute;
-    top: -153px;
+    top: -76px;
     left: 0;
     width: 100%;
     height: auto;
@@ -262,6 +263,50 @@ section {
 
 .projects-card:hover .projects-card-text {
     opacity: 1;
+}
+
+.contact {
+    height: auto;
+    width: 100%;
+    min-height: 90vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 75px;
+}
+
+.contact-svg-top {
+    position: absolute;
+    top: -75px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    fill: #f4f4f4;
+}
+
+.footer {
+    height: auto;
+    width: 100%;
+    min-height: 6vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+    background-color: #1d1d1d;
+    color: white;
+    font-size: 10px;
+}
+
+.footer img {
+    width: 27px;
+    padding-right: 8px;
+    border-right: 1px white solid;
+}
+
+.footer h1 {
+    margin-left: 8px;
 }
 
 .icons {
