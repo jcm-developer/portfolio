@@ -10,15 +10,16 @@ let contact = document.querySelector('#contact');
 const sr = ScrollReveal({
     distance: '65px',
     duration: 2600,
-    delay: 450,
+    delay: 200,
     reset: true
 });
 
-sr.reveal('.profile-text', { delay: 100, origin: 'top' });
-sr.reveal('.profile-img', { delay: 350, origin: 'top' });
-sr.reveal('.icons', { delay: 400, origin: 'left' });
-sr.reveal('.scroll-down', { delay: 400, origin: 'right' });
-sr.reveal('.skills-card', { delay: 400, origin: 'top' });
+sr.reveal('.profile-text', { delay: 25, origin: 'top' });
+sr.reveal('.profile-img', { delay: 25, origin: 'top' });
+sr.reveal('.icons', { delay: 50, origin: 'left' });
+sr.reveal('.scroll-down', { delay: 25, origin: 'right' });
+sr.reveal('.skills-card', { delay: 25, origin: 'top' });
+sr.reveal('.projects-card', { delay: 25, origin: 'top' });
 
 menu.onclick = () => {
     menu.classList.toggle('bx-x');
