@@ -419,7 +419,7 @@ section {
     display: block;
     padding: 12px;
     font-size: 25px;
-    color: #134E5E;
+    color: #2c3e50;
     background: white;
     border-radius: 30px;
     transition: all 0.50s ease;
@@ -427,7 +427,7 @@ section {
 
 .scroll-down:hover i {
     color: white;
-    background: #134E5E;
+    background: #2c3e50;
 }
 
 .scroll-down i:hover {
