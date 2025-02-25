@@ -9,6 +9,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 
@@ -495,7 +496,7 @@ section {
         grid-template-columns: 1fr;
     }
 
-    .skills-card, .projects-card {
+    .skills-card, .projects-card, .projects-card-title {
         margin: 20px auto;
         width: 90%;
     }
@@ -561,7 +562,7 @@ section {
     }
 
     .contact-container .container-info p {
-        font-size: x-large;
+        font-size: large;
     }
 
     .contact-container .container-image {
@@ -580,8 +581,4 @@ section {
         width: 100%;
         height: auto;
     }
-
-    /* .skills-card-image {
-        display: none;
-    } */
 }
