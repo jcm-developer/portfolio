@@ -506,16 +506,6 @@ section {
         margin: auto;
     }
 
-    .profile-img img {
-        width: 560px;
-        height: auto;
-    }
-
-    .profile {
-        height: 100%;
-        grid-template-columns: 1fr;
-    }
-
     .skills-card,
     .projects-card,
     .projects-card-title {
@@ -563,12 +553,23 @@ section {
         right: 0;
     }
 
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
     .profile,
     .skills,
     .projects {
         height: 100%;
         grid-template-columns: 1fr;
         gap: 0;
+    }
+
+    .profile-img img {
+        margin: 32px auto;
     }
 
     .contact-container {
@@ -595,12 +596,5 @@ section {
 
     .contact-container .container-image img {
         width: 300px;
-    }
-}
-
-@media (max-width: 680px) {
-    .profile-img img {
-        width: 100%;
-        height: auto;
     }
 }
