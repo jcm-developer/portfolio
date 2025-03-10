@@ -12,7 +12,6 @@ html {
     overflow-x: hidden;
 }
 
-
 body::-webkit-scrollbar {
     display: none;
 }
@@ -35,6 +34,20 @@ header.hidden {
     transform: translateY(-100%);
 }
 
+#language-toggle {
+    background-image: url('../img/flags/en.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border: 2px solid white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
 .logo {
     font-size: 30px;
     font-weight: 700;
@@ -43,9 +56,11 @@ header.hidden {
 
 .navlist {
     display: flex;
+    align-items: center;
 }
 
-.navlist a {
+.navlist a,
+.navlist button {
     color: white;
     margin-left: 60px;
     font-size: 15px;
@@ -250,19 +265,19 @@ section {
 .projects-card::before {
     content: "";
     position: absolute;
-    top: 0; 
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0);
     transition: background-color 0.2s ease;
     z-index: 1;
 }
 
 
 .projects-card:hover::before {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
 }
 
@@ -329,14 +344,19 @@ section {
     font-size: x-large;
 }
 
-.info .email, .phone, .location, .divider {
+.info .email,
+.phone,
+.location,
+.divider {
     display: flex;
     justify-content: start;
     margin: auto;
     align-items: center;
 }
 
-.info .email p, .phone p, .location p {
+.info .email p,
+.phone p,
+.location p {
     margin-left: 8px;
     font-size: large;
 }
@@ -496,7 +516,9 @@ section {
         grid-template-columns: 1fr;
     }
 
-    .skills-card, .projects-card, .projects-card-title {
+    .skills-card,
+    .projects-card,
+    .projects-card-title {
         margin: 20px auto;
         width: 90%;
     }

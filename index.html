@@ -28,9 +28,10 @@
         <a href="#home" class="logo">Portfolio</a>
 
         <ul class="navlist">
-            <li><a href="#skills">Habilidades</a></li>
-            <li><a href="#projects">¿Qué puedo aportar?</a></li>
-            <li><a href="#contact">Contacto</a></li>
+            <li><a data-lang="skills" href="#skills">Skills</a></li>
+            <li><a data-lang="projects" href="#projects">What can I bring?</a></li>
+            <li><a data-lang="contact" href="#contact">Contact</a></li>
+            <li><button id="language-toggle"></button></li>
         </ul>
 
         <div class="bx bx-menu" id="menu-icon"></div>
@@ -39,10 +40,13 @@
     <section class="profile" id="home">
         <div class="profile-text">
             <h1>Jaume Cortés</h1>
-            <h2>Programador y Desarrollador Multiplataforma especializado en automatizaciones con IA</h2>
-            <p>Soy un programador y desarrollador multiplataforma que trabaja en el desarrollo de software,
+            <h2 data-lang="title">Programador y Desarrollador Multiplataforma especializado en automatizaciones con IA
+            </h2>
+            <p data-lang="description">Soy un programador y desarrollador multiplataforma que trabaja en el desarrollo
+                de software,
                 automatizaciones y asistentes con IA</p>
-            <a href="cv/CV Jaume Cortés.pdf" target="_blank">Descargar CV <i class="ri-download-cloud-2-line"></i></a>
+            <a data-lang="download_cv" class="cv-link" href="cv/CV-EN.pdf" target="_blank">Descargar CV <i
+                    class="ri-download-cloud-2-line"></i></a>
         </div>
 
         <div class="profile-img">
@@ -77,8 +81,9 @@
                 <i class="ri-user-star-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Liderazgo</h3>
-                <p>Guío equipos, fomentando la motivación, la toma de decisiones efectivas y el logro de objetivos.
+                <h3 data-lang="leadership">Liderazgo</h3>
+                <p data-lang="leadership_desc">Guío equipos, fomentando la motivación, la toma de decisiones efectivas y
+                    el logro de objetivos.
                 </p>
             </div>
         </div>
@@ -87,8 +92,9 @@
                 <i class="ri-trophy-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Ambición</h3>
-                <p>Me impulsa el deseo constante de superación, estableciendo metas desafiantes y trabajando para
+                <h3 data-lang="ambition">Ambición</h3>
+                <p data-lang="ambition_desc">Me impulsa el deseo constante de superación, estableciendo metas
+                    desafiantes y trabajando para alcanzarlas.
                     alcanzarlas.
                 </p>
             </div>
@@ -98,8 +104,9 @@
                 <i class="ri-brain-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Creatividad</h3>
-                <p>Aplico un pensamiento innovador y original para generar ideas únicas y resolver desafíos de manera
+                <h3 data-lang="creativity">Creatividad</h3>
+                <p data-lang="creativity_desc">Aplico un pensamiento innovador y original para generar ideas únicas y
+                    resolver desafíos de manera efectiva.
                     efectiva.
                 </p>
             </div>
@@ -109,8 +116,9 @@
                 <i class="ri-book-2-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Capacidad de aprendizaje</h3>
-                <p>Aprendo con rapidez y curiosidad, adaptándome a nuevos conocimientos y tecnologías.
+                <h3 data-lang="learning">Capacidad de aprendizaje</h3>
+                <p data-lang="learning_desc">Aprendo con rapidez y curiosidad, adaptándome a nuevos conocimientos y
+                    tecnologías.
                 </p>
             </div>
         </div>
@@ -119,8 +127,8 @@
                 <i class="ri-puzzle-2-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Adaptabilidad</h3>
-                <p>Me adapto con rapidez y flexibilidad a nuevos desafíos y entornos.</p>
+                <h3 data-lang="adaptability">Adaptabilidad</h3>
+                <p data-lang="adaptability_desc">Me adapto con rapidez y flexibilidad a nuevos desafíos y entornos.</p>
             </div>
         </div>
         <div class="skills-card">
@@ -128,8 +136,9 @@
                 <i class="ri-lightbulb-flash-line" style="color: #454545;"></i>
             </div>
             <div class="skills-card-text">
-                <h3>Resolución de problemas</h3>
-                <p>Me adapto con rapidez y flexibilidad a nuevos desafíos y entornos.</p>
+                <h3 data-lang="problem_solving">Resolución de problemas</h3>
+                <p data-lang="problem_solving_desc">Me adapto con rapidez y flexibilidad a nuevos desafíos y entornos.
+                </p>
             </div>
         </div>
     </section>
@@ -143,14 +152,15 @@
                     class="shape-fill"></path>
             </svg>
         </div>
-        <div class="projects-card-title" style="background-image: url(img/projects/mis-aportaciones.jpg);">
+        <div class="projects-card-title">
         </div>
         <a href="#">
             <div class="projects-card" style="background-image: url(img/projects/ai.jpg);">
                 <div class="projects-card-text">
-                    <h1>Inteligencia artificial</h1>
+                    <h1 data-lang="ai">Inteligencia artificial</h1>
                     <br>
-                    <p>Desarrollo de sistemas, modelos y automatizaciones para gestionar procesos de manera más
+                    <p data-lang="ai_desc">Desarrollo de sistemas, modelos y automatizaciones para gestionar procesos de
+                        manera más
                         eficiente</p>
                 </div>
             </div>
@@ -158,36 +168,40 @@
         <a href="#">
             <div class="projects-card" style="background-image: url(img/projects/automations.jpg);">
                 <div class="projects-card-text">
-                    <h1>Sistemas automatizados</h1>
+                    <h1 data-lang="automations">Sistemas automatizados</h1>
                     <br>
-                    <p>Desarrollo de sistemas automatizados para gestionar procesos de negocios</p>
+                    <p data-lang="automations_desc">Desarrollo de sistemas automatizados para gestionar procesos de
+                        negocios</p>
                 </div>
             </div>
         </a>
         <a href="#" target="_blank">
             <div class="projects-card" style="background-image: url(img/projects/code.jpg);">
                 <div class="projects-card-text">
-                    <h1>Programas y soluciones con código</h1>
+                    <h1 data-lang="coding">Programas y soluciones con código</h1>
                     <br>
-                    <p>Desarrollo de programas y soluciones con código para gestionar procesos de negocios</p>
+                    <p data-lang="coding_desc">Desarrollo de programas y soluciones con código para gestionar procesos
+                        de negocios</p>
                 </div>
             </div>
         </a>
         <a href="#">
             <div class="projects-card" style="background-image: url(img/projects/multiplatform.jpg);">
                 <div class="projects-card-text">
-                    <h1>Desarrollo multiplataforma</h1>
+                    <h1 data-lang="multiplatform">Desarrollo multiplataforma</h1>
                     <br>
-                    <p>Desarrollo de aplicaciones multiplataforma de diversas empresas y proyectos</p>
+                    <p data-lang="multiplatform_desc">Desarrollo de aplicaciones multiplataforma de diversas empresas y
+                        proyectos</p>
                 </div>
             </div>
         </a>
         <a href="#">
             <div class="projects-card" style="background-image: url(img/projects/vr.jpg);">
                 <div class="projects-card-text">
-                    <h1>Entorno de AR/VR</h1>
+                    <h1 data-lang="vr">Entorno de AR/VR</h1>
                     <br>
-                    <p>Desarrollo de un entorno para visualizar y aplicar soluciones de realidad aumentada a negocios
+                    <p data-lang="vr_desc">Desarrollo de un entorno para visualizar y aplicar soluciones de realidad
+                        aumentada a negocios
                     </p>
                 </div>
             </div>
@@ -204,27 +218,22 @@
         <div class="contact-container">
             <div class="container-info">
                 <div class="info">
-                    <h3>Información de contacto</h3>
+                    <h3 data-lang="contact_info">Información de contacto</h3>
                     <br>
                     <div class="email">
                         <i class="ri-mail-line" style="color: #454545;"></i>
-                        <p>jaumecortesmonzon@gmail.com</p>
+                        <p data-lang="email">jaumecortesmonzon@gmail.com</p>
                     </div>
                     <br>
                     <div class="phone">
                         <i class="ri-phone-line" style="color: #454545;"></i>
-                        <p>+34 615 163 612</p>
+                        <p data-lang="phone">+34 615 163 612</p>
                     </div>
                     <br>
                     <div class="location">
                         <i class="ri-map-pin-line" style="color: #454545;"></i>
-                        <p>Valencia, Spain</p>
+                        <p data-lang="location">Valencia, Spain</p>
                     </div>
-                    <!-- <div class="divider">
-                        <hr>
-                        <p>o</p>
-                        <hr>
-                    </div> -->
                 </div>
             </div>
             <div class="container-image">
