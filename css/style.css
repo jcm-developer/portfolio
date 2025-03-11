@@ -304,6 +304,9 @@ section {
     flex-direction: column;
     align-items: center;
     margin-top: 75px;
+    background-image: url("../img/contact-bg.png");
+    background-position: center;
+    background-size: cover;
 }
 
 .contact-svg-top {
@@ -318,66 +321,64 @@ section {
 
 .contact-container {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     margin: auto;
-    align-items: center;
+    align-items: start;
     width: 100%;
 }
 
-.container-image {
-    width: 100%;
+.contact-container h1 {
+    font-size: 3.5rem;
+    margin: 8px 0;
 }
 
-.container-image img {
-    width: inherit;
-}
-
-.container-info {
+.contact-container form {
     display: flex;
-    justify-content: space-around;
-    margin: auto;
-    align-items: center;
-    width: 100%;
-}
-
-.info h3 {
-    font-size: x-large;
-}
-
-.info .email,
-.phone,
-.location,
-.divider {
-    display: flex;
-    justify-content: start;
-    margin: auto;
-    align-items: center;
-}
-
-.info .email p,
-.phone p,
-.location p {
-    margin-left: 8px;
-    font-size: large;
-}
-
-.divider {
-    display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 16px;
-    margin-bottom: 16px;
     align-items: center;
-}
-
-.divider hr {
-    border: 1px darkgray solid;
     width: 100%;
+    max-width: 500px;
 }
 
-.divider p {
-    margin-left: 8px;
-    margin-right: 8px;
+.contact-container form input,
+.contact-container form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.contact-container form textarea {
+    height: 150px;
+    resize: none;
+}
+
+.contact-container form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #3a6073;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin: 8px 0;
+    border: 2px solid #3a6073;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.contact-container form button:hover {
+    background-color: transparent;
+    color: #3a6073;
 }
 
 .footer {
@@ -459,6 +460,7 @@ section {
     header {
         padding: 15px 3%;
         transition: .2s;
+        width: 100%;
     }
 
     .icons {
@@ -570,31 +572,5 @@ section {
 
     .profile-img img {
         margin: 32px auto;
-    }
-
-    .contact-container {
-        flex-direction: column;
-    }
-
-    .contact-container .container-info {
-        margin-bottom: 16px;
-    }
-
-    .contact-container .container-info h3 {
-        font-size: xx-large;
-    }
-
-    .contact-container .container-info p {
-        font-size: large;
-    }
-
-    .contact-container .container-image {
-        display: flex;
-        justify-content: center;
-        margin-top: 16px;
-    }
-
-    .contact-container .container-image img {
-        width: 300px;
     }
 }

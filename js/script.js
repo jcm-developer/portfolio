@@ -48,10 +48,9 @@ const translations = {
         "multiplatform_desc": "Desarrollo de aplicaciones multiplataforma de diversas empresas y proyectos.",
         "vr": "Entorno de AR/VR",
         "vr_desc": "Desarrollo de un entorno para visualizar y aplicar soluciones de realidad aumentada a negocios.",
-        "contact_info": "Información de contacto",
-        "email": "Correo electrónico",
-        "phone": "Teléfono",
-        "location": "Valencia, España"
+        "contact_title": "Trabajemos juntos",
+        "write-me-email": "O escríbeme un correo electrónico a jaumecortesmonzon@gmail.com",
+        "send": "Enviar mensaje"
     },
     "en": {
         "skills": "Skills",
@@ -82,10 +81,9 @@ const translations = {
         "multiplatform_desc": "Development of cross-platform applications for various businesses and projects.",
         "vr": "AR/VR Environment",
         "vr_desc": "Development of an environment to visualize and apply augmented reality solutions to businesses.",
-        "contact_info": "Contact Information",
-        "email": "Email",
-        "phone": "Phone",
-        "location": "Valencia, Spain"
+        "contact_title": "Let's work together",
+        "write-me-email": "Or write me an email at jaumecortesmonzon@gmail.com",
+        "send": "Send message"
     }
 };
 
