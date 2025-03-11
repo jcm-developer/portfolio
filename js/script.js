@@ -11,12 +11,13 @@ const sr = ScrollReveal({
 });
 
 sr.reveal('.profile-text', { delay: 25, origin: 'top' });
-sr.reveal('.profile-img', { delay: 25, origin: 'right' });
+sr.reveal('.profile-img', { delay: 25, origin: 'bottom' });
 sr.reveal('.icons', { delay: 50, origin: 'left' });
 sr.reveal('.scroll-down', { delay: 25, origin: 'right' });
 sr.reveal('.skills-card', { delay: 25, origin: 'top' });
 sr.reveal('.projects-card-title', { delay: 25, origin: 'top' });
 sr.reveal('.projects-card', { delay: 25, origin: 'top' });
+sr.reveal('.contact-container', { delay: 25, origin: 'bottom' });
 
 const translations = {
     "es": {
