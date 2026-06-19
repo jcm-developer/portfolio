@@ -30,9 +30,9 @@ export function getLang(): Lang {
 
 export function getTheme(): Theme {
   try {
-    return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+    return localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light';
   } catch {
-    return 'dark';
+    return 'light';
   }
 }
 
@@ -45,7 +45,39 @@ export function applyLang(lang: Lang): void {
     // Only write when it actually changes. This avoids needless DOM churn and,
     // crucially, preserves child markup (e.g. the hero's per-word spans) on the
     // initial English render where the target text already equals the content.
-    if (el.textContent !== next) el.textContent = next;
+    if (el.textContent === next) return;
+
+    if (el.dataset.splitWords !== undefined) {
+      // This element (the hero tagline) renders one `.hero-word` span per word
+      // for the GSAP stagger reveal and the gradient text clip. A plain
+      // textContent swap would flatten those spans and drop the gradient, so we
+      // rebuild the word spans for the new language. \s also matches the &nbsp;
+      // captured from the SSR markup, so this works swapping in either direction.
+      //
+      // We CLONE an existing word span rather than create a fresh one: Astro
+      // scopes the component styles with a `data-astro-cid-*` attribute on the
+      // SSR spans. A `document.createElement` span lacks it, so the scoped
+      // `.hero-word` / gradient rules would not match (text renders black, and
+      // without inline-block the &nbsp; stops the line from wrapping).
+      const template = el.querySelector<HTMLElement>('.hero-word');
+      el.replaceChildren(
+        ...next
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((word) => {
+            const span = template
+              ? (template.cloneNode(false) as HTMLElement)
+              : document.createElement('span');
+            span.className = "hero-word";
+            // Trailing non-breaking space matches the SSR markup; a normal space
+            // collapses between inline-block spans and would glue words together.
+            span.textContent = `${word} `;
+            return span;
+          })
+      );
+    } else {
+      el.textContent = next;
+    }
   });
 
   document.querySelectorAll<HTMLElement>('[data-es-placeholder]').forEach((el) => {
@@ -54,6 +86,13 @@ export function applyLang(lang: Lang): void {
     }
     const next = lang === 'es' ? el.dataset.esPlaceholder ?? '' : el.dataset.enPlaceholder ?? '';
     el.setAttribute('placeholder', next);
+  });
+
+  // Point CV download links at the PDF matching the active language.
+  document.querySelectorAll<HTMLAnchorElement>('[data-cv-en]').forEach((el) => {
+    const url = lang === 'es' ? el.dataset.cvEs : el.dataset.cvEn;
+    if (url) el.setAttribute('href', url);
+    el.setAttribute('download', lang === 'es' ? 'Jaume-Cortes-CV-ES.pdf' : 'Jaume-Cortes-CV-EN.pdf');
   });
 
   // Refresh the toggle button label + accessible name.

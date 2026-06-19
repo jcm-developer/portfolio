@@ -31,7 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
     <script is:inline>
       (function () {
         try {
-          var t = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+          var t = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
           document.documentElement.setAttribute('data-theme', t);
           if (localStorage.getItem('lang') === 'es') document.documentElement.lang = 'es';
         } catch (e) {}
@@ -56,7 +56,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <meta name="theme-color" content="#0A0A0F" />
+    <meta name="theme-color" content="#F5F5FA" />
 
     <!-- Fonts (DESIGN.md §3) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
