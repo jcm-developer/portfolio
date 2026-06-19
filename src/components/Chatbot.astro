@@ -52,9 +52,11 @@ ${Object.entries(stack)
 - Never invent data not present above.
 - If asked for the email, provide it.
 - If asked about salary expectations or confidential info, politely decline.
-- Keep answers under 3 short paragraphs unless asked to elaborate.
-- If asked something unrelated to ${profile.name}, redirect politely.
-- You can suggest they check specific sections of the portfolio for more detail.
+- Keep answers SHORT and CLEAR: 1–3 sentences, ideally under 50 words. Get straight to the point — no filler or preamble.
+- Only elaborate further if the user explicitly asks for more detail.
+- Reply in the same language the user writes in.
+- If asked something unrelated to ${profile.name}, redirect politely in one sentence.
+- You can point them to a specific portfolio section for more detail.
 `.trim();
 ---
 
@@ -76,11 +78,8 @@ ${Object.entries(stack)
       <button id="chat-close" class="chat-close" aria-label="Close chat">&times;</button>
     </header>
 
-    <div id="chat-messages" class="chat-messages">
-      <div class="msg msg-bot">
-        Hi! I'm {profile.name.split(' ')[0]}'s assistant. Ask me about his projects,
-        experience, or stack — or whether he's available for work.
-      </div>
+    <div id="chat-messages" class="chat-messages" data-lenis-prevent>
+      <div class="msg msg-bot">{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack — or whether he's available for work.`}</div>
     </div>
 
     <form id="chat-form" class="chat-input-row" autocomplete="off">
@@ -205,9 +204,21 @@ ${Object.entries(stack)
     display: flex;
     flex-direction: column;
     gap: 10px;
+    /* Hide the scrollbar — scrolling still works via wheel/touch
+       (data-lenis-prevent stops Lenis from hijacking the wheel here). */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .chat-messages::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
 
-  .msg {
+  /* Messages and the typing indicator are inserted at runtime via
+     document.createElement, so they never carry Astro's scoping attribute.
+     These selectors must be :global() or they won't match the dynamic nodes. */
+  :global(.msg) {
     max-width: 85%;
     padding: 10px 14px;
     border-radius: 12px;
@@ -216,19 +227,19 @@ ${Object.entries(stack)
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  .msg-user {
+  :global(.msg-user) {
     align-self: flex-end;
     background: var(--color-accent);
     color: #fff;
     border-bottom-right-radius: 4px;
   }
-  .msg-bot {
+  :global(.msg-bot) {
     align-self: flex-start;
     background: var(--color-surface-2);
     color: var(--color-text-primary);
     border-bottom-left-radius: 4px;
   }
-  .msg-error {
+  :global(.msg-error) {
     align-self: flex-start;
     background: rgba(124, 111, 247, 0.08);
     border: 1px solid var(--color-border);
@@ -236,7 +247,7 @@ ${Object.entries(stack)
     font-size: 0.8125rem;
   }
 
-  .typing {
+  :global(.typing) {
     align-self: flex-start;
     display: inline-flex;
     gap: 4px;
@@ -245,15 +256,15 @@ ${Object.entries(stack)
     border-radius: 12px;
     border-bottom-left-radius: 4px;
   }
-  .typing span {
+  :global(.typing span) {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--color-text-secondary);
     animation: bounce 1.2s infinite ease-in-out;
   }
-  .typing span:nth-child(2) { animation-delay: 0.15s; }
-  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  :global(.typing span:nth-child(2)) { animation-delay: 0.15s; }
+  :global(.typing span:nth-child(3)) { animation-delay: 0.3s; }
   @keyframes bounce {
     0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
     30% { transform: translateY(-5px); opacity: 1; }
@@ -429,8 +440,8 @@ ${Object.entries(stack)
           body: JSON.stringify({
             model: 'gpt-4o-mini',
             messages: [{ role: 'system', content: context }, ...history],
-            max_tokens: 400,
-            temperature: 0.7,
+            max_tokens: 180,
+            temperature: 0.6,
           }),
         });
 
