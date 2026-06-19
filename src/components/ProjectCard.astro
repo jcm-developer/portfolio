@@ -1,0 +1,163 @@
+---
+import type { Project } from '../data/profile';
+
+interface Props {
+  project: Project;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+---
+
+<a
+  href={`/projects/${project.slug}`}
+  class:list={['project-card', { featured }]}
+>
+  <div class="card-visual" transition:name={`project-img-${project.slug}`}>
+    {project.metrics && <span class="metrics-badge">{project.metrics}</span>}
+    <span class="card-visual-year">{project.year}</span>
+    <span class="card-visual-mark">{project.title.split(' ')[0]}</span>
+  </div>
+
+  <div class="card-body">
+    <ul class="tag-row">
+      {project.stack.slice(0, 4).map((t) => (
+        <li class="tag-chip">{t}</li>
+      ))}
+    </ul>
+
+    <h3 class="card-title">{project.title}</h3>
+    <p class="card-desc">{project.description}</p>
+
+    <span class="card-link">View details →</span>
+  </div>
+</a>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-gradient-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+    will-change: transform;
+    height: 100%;
+  }
+  .project-card:hover {
+    border-color: var(--color-border-glow);
+    box-shadow: 0 0 32px var(--color-accent-glow);
+    transform: translateY(-4px);
+  }
+
+  .card-visual {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(124, 111, 247, 0.18), transparent 60%),
+      radial-gradient(circle at 75% 70%, rgba(0, 212, 170, 0.12), transparent 55%),
+      var(--color-surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .card-visual-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: -0.02em;
+    color: rgba(240, 240, 250, 0.14);
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .card-visual-year {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-secondary);
+  }
+  .metrics-badge {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-2);
+    color: #05231d;
+    font-weight: 500;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    flex: 1;
+  }
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+  .card-desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .card-link {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+    transition: gap 200ms ease;
+  }
+
+  .project-card.featured {
+    flex-direction: row;
+  }
+  .project-card.featured .card-visual {
+    aspect-ratio: auto;
+    width: 45%;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border);
+  }
+  .project-card.featured .card-body {
+    width: 55%;
+    justify-content: center;
+    padding: var(--space-6);
+  }
+  .project-card.featured .card-visual-mark {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+  }
+
+  @media (max-width: 768px) {
+    .project-card.featured {
+      flex-direction: column;
+    }
+    .project-card.featured .card-visual {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .project-card.featured .card-body {
+      width: 100%;
+      padding: var(--space-3);
+    }
+  }
+</style>

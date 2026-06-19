@@ -1,0 +1,63 @@
+---
+import { projects } from '../data/profile';
+import ProjectCard from './ProjectCard.astro';
+
+const sorted = [...projects].sort((a, b) => {
+  if (a.featured !== b.featured) return a.featured ? -1 : 1;
+  return a.order - b.order;
+});
+
+const featured = sorted.filter((p) => p.featured);
+const rest = sorted.filter((p) => !p.featured);
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="section-heading reveal">Selected Work<span class="dot">.</span></h2>
+
+    <div class="projects-grid">
+      <div class="featured-row">
+        {featured.map((p) => (
+          <ProjectCard project={p} featured={true} />
+        ))}
+      </div>
+
+      <div class="rest-grid">
+        {rest.map((p) => (
+          <ProjectCard project={p} />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .featured-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .rest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 1024px) {
+    .rest-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 640px) {
+    .rest-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

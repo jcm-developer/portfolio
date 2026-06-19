@@ -1,0 +1,290 @@
+---
+import { profile } from '../data/profile';
+
+const links = [
+  { label: 'About', href: '/#about' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Stack', href: '/#stack' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<nav id="main-nav">
+  <div class="nav-inner container">
+    <a href="/#top" class="nav-logo" data-nav-link>{profile.name}</a>
+
+    <ul class="nav-links">
+      {links.map((l) => (
+        <li><a href={l.href} data-nav-link>{l.label}</a></li>
+      ))}
+    </ul>
+
+    <button id="nav-toggle" class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div id="nav-overlay" class="nav-overlay" aria-hidden="true">
+    <button id="nav-close" class="nav-close" aria-label="Close menu">&times;</button>
+    <ul class="nav-overlay-links">
+      {links.map((l) => (
+        <li><a href={l.href} data-nav-link data-overlay-link>{l.label}</a></li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  #main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    z-index: 100;
+    background: rgba(10, 10, 15, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: background 300ms ease, backdrop-filter 300ms ease, border-color 300ms ease;
+  }
+  #main-nav.scrolled {
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+  }
+  .nav-links a {
+    position: relative;
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    transition: color 200ms ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 1.5px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms ease;
+  }
+  .nav-links a:hover {
+    color: var(--color-text-primary);
+  }
+  .nav-links a:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Hamburger */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 0 auto;
+    background: var(--color-text-primary);
+    border-radius: 2px;
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  /* Overlay */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    font-size: 2.25rem;
+    line-height: 1;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .nav-overlay-links {
+    list-style: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .nav-overlay-links a {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 2rem;
+    color: var(--color-text-primary);
+  }
+  .nav-overlay-links a:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    .nav-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  function smoothScrollTo(hash: string) {
+    const id = hash.replace(/^.*#/, '');
+    const target = id ? document.getElementById(id) : null;
+    const lenis = (window as any).__lenis;
+    if (target) {
+      if (lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(target, { offset: -64 });
+      } else {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      return true;
+    }
+    return false;
+  }
+
+  function openMenu() {
+    const overlay = document.getElementById('nav-overlay');
+    const toggle = document.getElementById('nav-toggle');
+    if (!overlay) return;
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    toggle?.setAttribute('aria-expanded', 'true');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+    gsap.fromTo(
+      overlay.querySelectorAll('li'),
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power3.out', delay: 0.05 }
+    );
+  }
+
+  function closeMenu() {
+    const overlay = document.getElementById('nav-overlay');
+    const toggle = document.getElementById('nav-toggle');
+    if (!overlay) return;
+    toggle?.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      overlay.style.display = 'none';
+      return;
+    }
+    gsap.to(overlay, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        overlay.style.display = 'none';
+      },
+    });
+  }
+
+  // Delegated handlers survive View Transition DOM swaps.
+  // Capture phase + stopPropagation so this runs BEFORE Astro's ClientRouter
+  // link interception — otherwise the router jumps to the anchor instantly
+  // and Lenis never gets to animate the scroll.
+  document.addEventListener(
+    'click',
+    (e) => {
+      const el = e.target as HTMLElement;
+
+      if (el.closest('#nav-toggle')) {
+        e.preventDefault();
+        openMenu();
+        return;
+      }
+      if (el.closest('#nav-close')) {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      const link = el.closest('[data-nav-link]') as HTMLAnchorElement | null;
+      if (!link) return;
+
+      const href = link.getAttribute('href') ?? '';
+      const isOverlayLink = link.hasAttribute('data-overlay-link');
+      const onHome = window.location.pathname === '/';
+      const hashOnly = href.startsWith('/#') || href.startsWith('#');
+
+      // In-page anchor on the current page → Lenis smooth scroll, no navigation.
+      if (onHome && hashOnly) {
+        const did = smoothScrollTo(href);
+        if (did) {
+          e.preventDefault();
+          e.stopPropagation();
+          const newHash = href.replace(/^\//, '') || '/';
+          history.replaceState(null, '', newHash);
+        }
+      }
+      if (isOverlayLink) closeMenu();
+    },
+    true // capture
+  );
+
+  // Close overlay on Escape.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // When landing on the home page with a hash (e.g. navigating back from a
+  // project page via "/#projects"), smooth-scroll to it once Lenis is ready.
+  document.addEventListener('astro:page-load', () => {
+    if (window.location.pathname === '/' && window.location.hash) {
+      const hash = window.location.hash;
+      requestAnimationFrame(() => requestAnimationFrame(() => smoothScrollTo(hash)));
+    }
+  });
+</script>

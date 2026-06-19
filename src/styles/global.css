@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Theme tokens — mapped from DESIGN.md §2, §3, §4
+   ============================================================ */
+@theme {
+  /* Colors */
+  --color-bg: #0A0A0F;
+  --color-surface: #111118;
+  --color-surface-2: #1A1A24;
+  --color-border: #2A2A3A;
+  --color-border-glow: #4F4F7A;
+
+  --color-text-primary: #F0F0FA;
+  --color-text-secondary: #8888AA;
+  --color-text-muted: #4A4A6A;
+
+  --color-accent: #7C6FF7;
+  --color-accent-2: #00D4AA;
+
+  /* Fonts */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* ============================================================
+   Non-Tailwind design tokens (used in raw CSS / components)
+   ============================================================ */
+:root {
+  --color-accent-glow: rgba(124, 111, 247, 0.15);
+  --color-gradient-hero: linear-gradient(135deg, #0A0A0F 0%, #0D0D1A 50%, #0A0F1A 100%);
+  --color-gradient-card: linear-gradient(145deg, #111118, #1A1A24);
+
+  /* Spacing scale (8px base) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Type scale */
+  --text-hero: clamp(3rem, 8vw, 6.5rem);
+  --text-h2: clamp(1.75rem, 4vw, 2.75rem);
+  --text-h3: clamp(1.25rem, 2.5vw, 1.5rem);
+}
+
+/* ============================================================
+   Base reset
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Lenis recommended base styles (smooth wheel + programmatic scroll) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  background-image: var(--color-gradient-hero);
+  background-attachment: fixed;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ============================================================
+   Shared layout helpers
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: var(--space-16) 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h2);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: var(--space-6);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.dot {
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   Buttons (DESIGN.md §6)
+   ============================================================ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 200ms, transform 150ms;
+}
+.btn-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--color-text-primary);
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: border-color 200ms, background 200ms;
+}
+.btn-ghost:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-glow);
+}
+
+/* ============================================================
+   Tag chips & stack pills (DESIGN.md §5.4, §5.5)
+   ============================================================ */
+.tag-chip {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(124, 111, 247, 0.1);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.stack-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  transition: all 200ms ease;
+  cursor: default;
+  will-change: transform;
+}
+.stack-pill:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-glow);
+}
+
+/* ============================================================
+   Scroll reveal fallback (GSAP enhances; this is the no-JS baseline)
+   ============================================================ */
+.reveal {
+  will-change: transform, opacity;
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  body {
+    background-attachment: scroll;
+  }
+}

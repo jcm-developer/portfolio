@@ -1,0 +1,180 @@
+---
+import { profile } from '../data/profile';
+// The CV lives in src/assets — import it so Astro emits a served URL.
+import cvEn from '../assets/cv/cv_en.pdf';
+
+// Split the tagline into words for the GSAP stagger reveal.
+const taglineWords = profile.tagline.split(' ');
+// One-sentence subline derived from the bio (first sentence of p1).
+const subline = profile.bio.p1.split('. ')[0] + '.';
+---
+
+<section id="top" class="hero">
+  <canvas id="particles" class="hero-canvas"></canvas>
+
+  <div class="container hero-content">
+    <p class="eyebrow hero-word">{profile.role} · {profile.location}</p>
+
+    <h1 class="hero-title">
+      <span class="hero-name">
+        {profile.name.split(' ').map((w) => <span class="hero-word">{w}&nbsp;</span>)}
+      </span>
+      <span class="hero-tagline">
+        {taglineWords.map((w) => <span class="hero-word">{w}&nbsp;</span>)}
+      </span>
+    </h1>
+
+    <p class="hero-subline hero-word">{subline}</p>
+
+    <div class="hero-cta hero-word">
+      <a href="/#projects" class="btn-primary" data-nav-link>View Projects</a>
+      <a href={cvEn} class="btn-ghost" download="Jaume-Cortes-CV.pdf">Download CV</a>
+    </div>
+  </div>
+
+  <a href="/#about" class="scroll-indicator" data-nav-link aria-label="Scroll to about">
+    <span class="scroll-mouse"><span class="scroll-dot"></span></span>
+    <span class="scroll-text">scroll</span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: block;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-hero);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: var(--space-3) 0 var(--space-4);
+  }
+  .hero-name {
+    display: block;
+    color: var(--color-text-primary);
+  }
+  .hero-tagline {
+    display: block;
+    background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-size: clamp(1.5rem, 3.6vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-top: var(--space-2);
+  }
+  .hero-word {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  .hero-subline {
+    max-width: 620px;
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-muted);
+    transition: opacity 300ms ease, color 200ms ease;
+  }
+  .scroll-indicator:hover {
+    color: var(--color-text-secondary);
+  }
+  .scroll-mouse {
+    width: 22px;
+    height: 36px;
+    border: 1.5px solid var(--color-border-glow);
+    border-radius: var(--radius-pill);
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+  .scroll-dot {
+    width: 3px;
+    height: 7px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    animation: scroll-bounce 1.6s ease-in-out infinite;
+  }
+  .scroll-text {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @keyframes scroll-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+</style>
+
+<script>
+  import { initParticles } from '../scripts/particles';
+
+  let cleanup: (() => void) | null = null;
+
+  function start() {
+    cleanup?.();
+    cleanup = initParticles('particles');
+
+    // Fade the scroll indicator out as the user scrolls down.
+    const indicator = document.querySelector('.scroll-indicator') as HTMLElement | null;
+    const onScroll = () => {
+      if (!indicator) return;
+      const o = Math.max(0, 1 - window.scrollY / 300);
+      indicator.style.opacity = String(o);
+      indicator.style.pointerEvents = o < 0.1 ? 'none' : 'auto';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  document.addEventListener('astro:page-load', start);
+  document.addEventListener('astro:before-swap', () => {
+    cleanup?.();
+    cleanup = null;
+  });
+</script>

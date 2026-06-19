@@ -1,0 +1,164 @@
+---
+import { experience, education } from '../data/profile';
+const sorted = [...experience].sort((a, b) => a.order - b.order);
+---
+
+<section id="experience" class="section">
+  <div class="container">
+    <h2 class="section-heading reveal">Experience<span class="dot">.</span></h2>
+
+    <div class="timeline">
+      {sorted.map((job) => (
+        <article class="timeline-entry">
+          <span class:list={['timeline-dot', { current: job.current }]}></span>
+          <div class="entry-body">
+            <span class="entry-dates">{job.startDate} – {job.endDate}</span>
+            <h3 class="entry-title">
+              {job.company} <span class="entry-role">— {job.role}</span>
+            </h3>
+            <p class="entry-desc">{job.description}</p>
+            {job.impact && <p class="entry-impact">{job.impact}</p>}
+            <ul class="entry-tags">
+              {job.stack.map((t) => <li class="tag-chip">{t}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="education reveal">
+      <span class="education-label">Education &amp; Learning</span>
+      <ul class="education-list">
+        {education.map((e) => (
+          <li class="education-item">
+            <span class="edu-year">{e.year}</span>
+            <span class="edu-school">{e.school}</span>
+            <span class="edu-field">{e.field}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    position: relative;
+    margin-left: 8px;
+    border-left: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-bottom: var(--space-2);
+  }
+
+  .timeline-entry {
+    position: relative;
+    padding-left: var(--space-4);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -6.5px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-bg);
+  }
+  .timeline-dot.current {
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 0 rgba(124, 111, 247, 0.5); }
+    50% { box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 8px rgba(124, 111, 247, 0); }
+  }
+
+  .entry-dates {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .entry-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-h3);
+    margin: 4px 0 8px;
+    color: var(--color-text-primary);
+  }
+  .entry-role {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+  .entry-desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    max-width: 65ch;
+  }
+  .entry-impact {
+    font-size: 0.9375rem;
+    color: var(--color-accent-2);
+    margin-top: 4px;
+  }
+  .entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin-top: var(--space-2);
+  }
+
+  .education {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .education-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .education-list {
+    list-style: none;
+    margin-top: var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .education-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: var(--space-2);
+    align-items: baseline;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .education-item:last-child {
+    border-bottom: none;
+  }
+  .edu-year {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+  .edu-school {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+  .edu-field {
+    grid-column: 2;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .education-item {
+      grid-template-columns: 1fr;
+    }
+    .edu-field {
+      grid-column: 1;
+    }
+  }
+</style>

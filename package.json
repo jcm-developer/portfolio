@@ -1,0 +1,26 @@
+{
+  "name": "jaume-cortes-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^5.0.0",
+    "gsap": "^3.12.0",
+    "lenis": "^1.1.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

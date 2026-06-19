@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import { profile } from '../data/profile';
+import avatar from '../assets/avatar.jpg';
+---
+
+<section id="about" class="section">
+  <div class="container about-grid">
+    <div class="about-text">
+      <h2 class="section-heading reveal">About me<span class="dot">.</span></h2>
+      <p class="about-p reveal">{profile.bio.p1}</p>
+      <p class="about-p reveal">{profile.bio.p2}</p>
+      <p class="about-quote reveal">{profile.bio.p3}</p>
+    </div>
+
+    <div class="about-visual">
+      <div class="avatar reveal">
+        <Image
+          src={avatar}
+          alt={`Portrait of ${profile.name}`}
+          width={640}
+          height={640}
+          loading="eager"
+          fetchpriority="high"
+          class="avatar-img"
+        />
+      </div>
+
+      <div class="stat-chips">
+        {profile.stats.map((s) => (
+          <div class="stat-chip reveal">
+            <span class="stat-value">{s.value}</span>
+            <span class="stat-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .about-p {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+    max-width: 60ch;
+  }
+  .about-quote {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    border-left: 2px solid var(--color-accent);
+    padding-left: var(--space-3);
+    max-width: 60ch;
+  }
+
+  .about-visual {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .avatar {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: 320px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 0 40px var(--color-accent-glow);
+    overflow: hidden;
+  }
+  .avatar :global(.avatar-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .stat-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    max-width: 320px;
+  }
+  .stat-chip {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-accent);
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1.3;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    .about-visual {
+      align-items: flex-start;
+    }
+    .avatar,
+    .stat-chips {
+      max-width: 100%;
+    }
+    .stat-chips {
+      width: 100%;
+    }
+  }
+</style>
