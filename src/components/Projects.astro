@@ -1,5 +1,6 @@
 ---
 import { projects } from '../data/profile';
+import { es } from '../i18n/es';
 import ProjectCard from './ProjectCard.astro';
 
 const sorted = [...projects].sort((a, b) => {
@@ -13,7 +14,7 @@ const rest = sorted.filter((p) => !p.featured);
 
 <section id="projects" class="section">
   <div class="container">
-    <h2 class="section-heading reveal">Selected Work<span class="dot">.</span></h2>
+    <h2 class="section-heading reveal"><span data-es={es.ui.projectsHeading}>Selected Work</span><span class="dot">.</span></h2>
 
     <div class="projects-grid">
       <div class="featured-row">

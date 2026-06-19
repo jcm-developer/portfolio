@@ -1,5 +1,6 @@
 ---
 import { profile } from '../data/profile';
+import { es } from '../i18n/es';
 // The CV lives in src/assets — import it so Astro emits a served URL.
 import cvEn from '../assets/cv/cv_en.pdf';
 
@@ -13,28 +14,28 @@ const subline = profile.bio.p1.split('. ')[0] + '.';
   <canvas id="particles" class="hero-canvas"></canvas>
 
   <div class="container hero-content">
-    <p class="eyebrow hero-word">{profile.role} · {profile.location}</p>
+    <p class="eyebrow hero-word" data-es={`${es.role} · ${es.location}`}>{profile.role} · {profile.location}</p>
 
     <h1 class="hero-title">
       <span class="hero-name">
         {profile.name.split(' ').map((w) => <span class="hero-word">{w}&nbsp;</span>)}
       </span>
-      <span class="hero-tagline">
+      <span class="hero-tagline" data-es={es.tagline}>
         {taglineWords.map((w) => <span class="hero-word">{w}&nbsp;</span>)}
       </span>
     </h1>
 
-    <p class="hero-subline hero-word">{subline}</p>
+    <p class="hero-subline hero-word" data-es={es.subline}>{subline}</p>
 
     <div class="hero-cta hero-word">
-      <a href="/#projects" class="btn-primary" data-nav-link>View Projects</a>
-      <a href={cvEn} class="btn-ghost" download="Jaume-Cortes-CV.pdf">Download CV</a>
+      <a href="/#projects" class="btn-primary" data-nav-link data-es={es.ui.hero.viewProjects}>View Projects</a>
+      <a href={cvEn} class="btn-ghost" download="Jaume-Cortes-CV.pdf" data-es={es.ui.hero.downloadCv}>Download CV</a>
     </div>
   </div>
 
   <a href="/#about" class="scroll-indicator" data-nav-link aria-label="Scroll to about">
     <span class="scroll-mouse"><span class="scroll-dot"></span></span>
-    <span class="scroll-text">scroll</span>
+    <span class="scroll-text" data-es={es.ui.hero.scroll}>scroll</span>
   </a>
 </section>
 

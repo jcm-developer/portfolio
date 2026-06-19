@@ -1,16 +1,17 @@
 ---
 import { Image } from 'astro:assets';
 import { profile } from '../data/profile';
+import { es } from '../i18n/es';
 import avatar from '../assets/avatar.jpg';
 ---
 
 <section id="about" class="section">
   <div class="container about-grid">
     <div class="about-text">
-      <h2 class="section-heading reveal">About me<span class="dot">.</span></h2>
-      <p class="about-p reveal">{profile.bio.p1}</p>
-      <p class="about-p reveal">{profile.bio.p2}</p>
-      <p class="about-quote reveal">{profile.bio.p3}</p>
+      <h2 class="section-heading reveal"><span data-es={es.ui.aboutHeading}>About me</span><span class="dot">.</span></h2>
+      <p class="about-p reveal" data-es={es.bio.p1}>{profile.bio.p1}</p>
+      <p class="about-p reveal" data-es={es.bio.p2}>{profile.bio.p2}</p>
+      <p class="about-quote reveal" data-es={es.bio.p3}>{profile.bio.p3}</p>
     </div>
 
     <div class="about-visual">
@@ -30,7 +31,7 @@ import avatar from '../assets/avatar.jpg';
         {profile.stats.map((s) => (
           <div class="stat-chip reveal">
             <span class="stat-value">{s.value}</span>
-            <span class="stat-label">{s.label}</span>
+            <span class="stat-label" data-es={es.stats[s.label] ?? s.label}>{s.label}</span>
           </div>
         ))}
       </div>

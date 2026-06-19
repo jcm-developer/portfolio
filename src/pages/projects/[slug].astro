@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projects, profile } from '../../data/profile';
 import type { Project } from '../../data/profile';
+import { es, esDate } from '../../i18n/es';
 
 export async function getStaticPaths() {
   const sorted = [...projects].sort((a, b) => a.order - b.order);
@@ -20,9 +21,11 @@ interface Props {
 }
 
 const { project, next } = Astro.props;
+const esp = es.projects[project.slug];
+const esNext = es.projects[next.slug];
 const links = [
-  { label: 'View on GitHub', url: project.github },
-  { label: 'Live demo', url: project.demo },
+  { label: 'View on GitHub', es: es.ui.detail.viewOnGithub, url: project.github },
+  { label: 'Live demo', es: es.ui.detail.liveDemo, url: project.demo },
 ].filter((l) => l.url);
 ---
 
@@ -32,10 +35,10 @@ const links = [
 >
   <article class="project-detail section">
     <div class="container detail-inner">
-      <a href="/#projects" class="back-link" data-nav-link>← Back to work</a>
+      <a href="/#projects" class="back-link" data-nav-link data-es={es.ui.detail.back}>← Back to work</a>
 
-      <span class="detail-year">{project.year}</span>
-      <h1 class="detail-title">{project.title}</h1>
+      <span class="detail-year" data-es={esDate(project.year)}>{project.year}</span>
+      <h1 class="detail-title" data-es={esp?.title ?? project.title}>{project.title}</h1>
 
       {project.metrics && <span class="detail-metric">{project.metrics}</span>}
 
@@ -44,15 +47,15 @@ const links = [
       </ul>
 
       <div class="detail-visual" transition:name={`project-img-${project.slug}`}>
-        <span class="detail-visual-mark">{project.title.split(' ')[0]}</span>
+        <span class="detail-visual-mark" data-es={(esp?.title ?? project.title).split(' ')[0]}>{project.title.split(' ')[0]}</span>
       </div>
 
-      <p class="detail-body">{project.body || project.description}</p>
+      <p class="detail-body" data-es={esp?.body ?? esp?.description ?? (project.body || project.description)}>{project.body || project.description}</p>
 
       {links.length > 0 && (
         <div class="detail-links">
           {links.map((l) => (
-            <a href={l.url} target="_blank" rel="noopener noreferrer" class="btn-ghost">
+            <a href={l.url} target="_blank" rel="noopener noreferrer" class="btn-ghost" data-es={`${l.es} ↗`}>
               {l.label} ↗
             </a>
           ))}
@@ -60,8 +63,8 @@ const links = [
       )}
 
       <a href={`/projects/${next.slug}`} class="next-project">
-        <span class="next-label">Next project</span>
-        <span class="next-title">{next.title} →</span>
+        <span class="next-label" data-es={es.ui.detail.nextProjectLabel}>Next project</span>
+        <span class="next-title" data-es={`${esNext?.title ?? next.title} →`}>{next.title} →</span>
       </a>
     </div>
   </article>

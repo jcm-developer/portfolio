@@ -1,5 +1,6 @@
 ---
 import { profile, projects, experience, stack } from '../data/profile';
+import { es } from '../i18n/es';
 
 const chatbotContext = `
 You are a conversational AI assistant embedded in the personal portfolio of ${profile.name}, an ${profile.role} based in ${profile.location}.
@@ -72,14 +73,14 @@ ${Object.entries(stack)
         </svg>
       </span>
       <div class="chat-header-text">
-        <strong>Ask me anything</strong>
-        <span>about {profile.name}</span>
+        <strong data-es={es.ui.chatbot.title}>Ask me anything</strong>
+        <span data-es={es.ui.chatbot.about}>about {profile.name}</span>
       </div>
       <button id="chat-close" class="chat-close" aria-label="Close chat">&times;</button>
     </header>
 
     <div id="chat-messages" class="chat-messages" data-lenis-prevent>
-      <div class="msg msg-bot">{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack — or whether he's available for work.`}</div>
+      <div class="msg msg-bot" data-es={es.ui.chatbot.greeting}>{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack — or whether he's available for work.`}</div>
     </div>
 
     <form id="chat-form" class="chat-input-row" autocomplete="off">
@@ -88,6 +89,7 @@ ${Object.entries(stack)
         class="chat-input"
         type="text"
         placeholder="Type a question…"
+        data-es-placeholder={es.ui.chatbot.placeholder}
         aria-label="Type a question"
         maxlength="500"
       />
@@ -102,7 +104,7 @@ ${Object.entries(stack)
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
       </svg>
     </span>
-    <span class="fab-label">Ask me anything</span>
+    <span class="fab-label" data-es={es.ui.chatbot.title}>Ask me anything</span>
   </button>
 </div>
 

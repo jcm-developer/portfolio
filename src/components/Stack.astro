@@ -1,16 +1,17 @@
 ---
 import { stack } from '../data/profile';
+import { es } from '../i18n/es';
 const categories = Object.entries(stack);
 ---
 
 <section id="stack" class="section">
   <div class="container">
-    <h2 class="section-heading reveal">Stack &amp; Tools<span class="dot">.</span></h2>
+    <h2 class="section-heading reveal"><span data-es={es.ui.stackHeading}>Stack &amp; Tools</span><span class="dot">.</span></h2>
 
     <div class="stack-grid">
       {categories.map(([category, items]) => (
         <div class="stack-category">
-          <span class="stack-label reveal">{category}</span>
+          <span class="stack-label reveal" data-es={es.stackCategories[category] ?? category}>{category}</span>
           <ul class="stack-pills">
             {items.map((item) => (
               <li class="stack-pill">{item}</li>

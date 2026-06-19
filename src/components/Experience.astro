@@ -1,22 +1,23 @@
 ---
 import { experience, education } from '../data/profile';
+import { es, esDate } from '../i18n/es';
 const sorted = [...experience].sort((a, b) => a.order - b.order);
 ---
 
 <section id="experience" class="section">
   <div class="container">
-    <h2 class="section-heading reveal">Experience<span class="dot">.</span></h2>
+    <h2 class="section-heading reveal"><span data-es={es.ui.experienceHeading}>Experience</span><span class="dot">.</span></h2>
 
     <div class="timeline">
       {sorted.map((job) => (
         <article class="timeline-entry">
           <span class:list={['timeline-dot', { current: job.current }]}></span>
           <div class="entry-body">
-            <span class="entry-dates">{job.startDate} – {job.endDate}</span>
+            <span class="entry-dates" data-es={esDate(`${job.startDate} – ${job.endDate}`)}>{job.startDate} – {job.endDate}</span>
             <h3 class="entry-title">
-              {job.company} <span class="entry-role">— {job.role}</span>
+              {job.company} <span class="entry-role">— <span data-es={es.experience[job.company]?.role ?? job.role}>{job.role}</span></span>
             </h3>
-            <p class="entry-desc">{job.description}</p>
+            <p class="entry-desc" data-es={es.experience[job.company]?.description ?? job.description}>{job.description}</p>
             {job.impact && <p class="entry-impact">{job.impact}</p>}
             <ul class="entry-tags">
               {job.stack.map((t) => <li class="tag-chip">{t}</li>)}
@@ -27,13 +28,13 @@ const sorted = [...experience].sort((a, b) => a.order - b.order);
     </div>
 
     <div class="education reveal">
-      <span class="education-label">Education &amp; Learning</span>
+      <span class="education-label" data-es={es.ui.educationLabel}>Education &amp; Learning</span>
       <ul class="education-list">
         {education.map((e) => (
           <li class="education-item">
             <span class="edu-year">{e.year}</span>
             <span class="edu-school">{e.school}</span>
-            <span class="edu-field">{e.field}</span>
+            <span class="edu-field" data-es={es.education[e.school] ?? e.field}>{e.field}</span>
           </li>
         ))}
       </ul>

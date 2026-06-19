@@ -1,5 +1,6 @@
 ---
 import { profile } from '../data/profile';
+import { es } from '../i18n/es';
 
 const socials = [
   { label: 'LinkedIn', url: profile.linkedin },
@@ -10,18 +11,18 @@ const socials = [
 <section id="contact" class="section">
   <div class="container contact-inner">
     <span class="availability reveal">
-      <span class="availability-dot"></span>{profile.availability}
+      <span class="availability-dot"></span><span data-es={es.availability}>{profile.availability}</span>
     </span>
 
-    <h2 class="section-heading reveal">Let's build something<span class="dot">.</span></h2>
+    <h2 class="section-heading reveal"><span data-es={es.ui.contact.heading}>Let's build something</span><span class="dot">.</span></h2>
 
-    <p class="contact-lead reveal">
+    <p class="contact-lead reveal" data-es={es.ui.contact.lead}>
       Open to AI/ML and software roles, freelance projects, and collaborations.
       The fastest way to reach me is email.
     </p>
 
     <div class="contact-cta reveal">
-      <a href={`mailto:${profile.email}`} class="btn-primary">Send an email</a>
+      <a href={`mailto:${profile.email}`} class="btn-primary" data-es={es.ui.contact.sendEmail}>Send an email</a>
     </div>
 
     <div class="contact-meta reveal">

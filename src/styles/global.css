@@ -55,6 +55,38 @@
 }
 
 /* ============================================================
+   Light theme — overrides the dark tokens above when the user
+   toggles light mode (data-theme="light" on <html>).
+   Higher specificity than @theme's :root, so these win.
+   ============================================================ */
+html[data-theme='light'] {
+  --color-bg: #F5F5FA;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #ECECF4;
+  --color-border: #DEDEEA;
+  --color-border-glow: #B4B4D4;
+
+  --color-text-primary: #16161F;
+  --color-text-secondary: #55556E;
+  --color-text-muted: #9696B0;
+
+  --color-accent: #5B4FD6;
+  --color-accent-2: #00A88A;
+
+  --color-accent-glow: rgba(91, 79, 214, 0.12);
+  --color-gradient-hero: linear-gradient(135deg, #F5F5FA 0%, #ECECF6 50%, #E8EEF6 100%);
+  --color-gradient-card: linear-gradient(145deg, #FFFFFF, #F0F0F7);
+}
+
+/* Smooth the dark ⇄ light transition for surfaces and text. */
+body,
+.project-card,
+.stack-pill,
+#main-nav {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}
+
+/* ============================================================
    Base reset
    ============================================================ */
 *, *::before, *::after {

@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/profile';
+import { es, esDate } from '../i18n/es';
 
 interface Props {
   project: Project;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { project, featured = false } = Astro.props;
+const esp = es.projects[project.slug];
 ---
 
 <a
@@ -15,8 +17,8 @@ const { project, featured = false } = Astro.props;
 >
   <div class="card-visual" transition:name={`project-img-${project.slug}`}>
     {project.metrics && <span class="metrics-badge">{project.metrics}</span>}
-    <span class="card-visual-year">{project.year}</span>
-    <span class="card-visual-mark">{project.title.split(' ')[0]}</span>
+    <span class="card-visual-year" data-es={esDate(project.year)}>{project.year}</span>
+    <span class="card-visual-mark" data-es={(esp?.title ?? project.title).split(' ')[0]}>{project.title.split(' ')[0]}</span>
   </div>
 
   <div class="card-body">
@@ -26,10 +28,10 @@ const { project, featured = false } = Astro.props;
       ))}
     </ul>
 
-    <h3 class="card-title">{project.title}</h3>
-    <p class="card-desc">{project.description}</p>
+    <h3 class="card-title" data-es={esp?.title ?? project.title}>{project.title}</h3>
+    <p class="card-desc" data-es={esp?.description ?? project.description}>{project.description}</p>
 
-    <span class="card-link">View details →</span>
+    <span class="card-link" data-es={es.ui.card.viewDetails}>View details →</span>
   </div>
 </a>
 

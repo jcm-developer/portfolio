@@ -26,6 +26,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Apply stored theme + language before first paint to avoid a flash. -->
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+          if (localStorage.getItem('lang') === 'es') document.documentElement.lang = 'es';
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
