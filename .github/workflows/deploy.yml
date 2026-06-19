@@ -1,0 +1,52 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Deploy on every push to the default branch.
+  push:
+    branches: [main]
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+# Permissions required by the GitHub Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Optional repo VARIABLES (Settings → Secrets and variables → Actions → Variables):
+      #   SITE_URL  e.g. https://jaumecortes.github.io   (or your custom domain)
+      #   BASE_PATH e.g. /portfolio  ← only for a PROJECT page; leave unset for root
+      SITE_URL: ${{ vars.SITE_URL }}
+      BASE_PATH: ${{ vars.BASE_PATH }}
+      # Optional repo SECRET to enable the chatbot in production.
+      # WARNING: PUBLIC_ vars are embedded into client JS and are publicly visible.
+      # Prefer setting strict usage limits in the OpenAI dashboard.
+      PUBLIC_OPENAI_API_KEY: ${{ secrets.PUBLIC_OPENAI_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build with Astro
+        # Installs deps (npm ci), runs `astro build`, and uploads the
+        # dist/ folder as a Pages artifact. Node 20 by default.
+        uses: withastro/action@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
