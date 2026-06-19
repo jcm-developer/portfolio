@@ -1,0 +1,46 @@
+---
+// Logo.astro — "</JC>" code-tag wordmark for Jaume Cortés.
+// Monospace brackets in a dimmed accent frame the initials, which carry the
+// brand gradient. Reads instantly as a developer/engineer mark.
+import { profile } from '../data/profile';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['logo', className]} aria-label={`${profile.name} logo`}>
+  <span class="logo-bracket">&lt;/</span><span class="logo-initials">JC</span><span class="logo-bracket">&gt;</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    user-select: none;
+  }
+  .logo-bracket {
+    color: var(--color-accent);
+    opacity: 0.65;
+    transition: opacity 250ms ease;
+  }
+  .logo-initials {
+    margin: 0 1px;
+    font-weight: 700;
+    background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .logo:hover .logo-bracket {
+    opacity: 1;
+  }
+</style>

@@ -68,6 +68,19 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Hide the native scrollbar site-wide — Lenis drives scrolling, the wheel /
+   touch / keyboard still work; only the visual bar is removed. */
+html {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old Edge / IE */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {       /* Chrome, Safari, new Edge */
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 /* Lenis recommended base styles (smooth wheel + programmatic scroll) */
 html.lenis,
 html.lenis body {
