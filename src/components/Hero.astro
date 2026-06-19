@@ -78,15 +78,23 @@ const subline = profile.bio.p1.split('. ')[0] + '.';
   }
   .hero-tagline {
     display: block;
+    font-size: clamp(1.5rem, 3.6vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-top: var(--space-2);
+  }
+  /* Apply the gradient clip on the same element GSAP animates (.hero-word).
+     The words get `will-change` + a residual `filter` from the reveal tween,
+     which promotes them to their own layer. If the clip lived on the parent,
+     that layer break would detach the clipped background and the text would
+     render transparent (invisible). Clipping on the word itself keeps the
+     gradient intact through the animation. */
+  .hero-tagline .hero-word {
     background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    font-size: clamp(1.5rem, 3.6vw, 2.75rem);
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    margin-top: var(--space-2);
   }
   .hero-word {
     display: inline-block;
