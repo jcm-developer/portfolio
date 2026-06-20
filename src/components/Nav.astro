@@ -237,12 +237,26 @@ import { withBase } from '../scripts/paths';
     letter-spacing: 0.02em;
   }
 
+  /* Chat toggle — subtly highlighted by default to draw attention. */
+  .chat-toggle {
+    color: var(--color-accent);
+  }
+  .chat-toggle::before {
+    opacity: 0.18;
+    background: var(--color-accent);
+  }
+  .chat-toggle:hover::before {
+    opacity: 0.28;
+    background: var(--color-accent);
+  }
+
   /* While the docked chat panel is open the trigger reads as "active". */
   :global(body.chat-open) .chat-toggle {
     color: var(--color-accent);
   }
   :global(body.chat-open) .chat-toggle::before {
-    opacity: 1;
+    opacity: 0.32;
+    background: var(--color-accent);
   }
 
   /* Tooltip label BELOW each item — the dock sits at the top of the viewport,
