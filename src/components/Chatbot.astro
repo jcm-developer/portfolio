@@ -60,6 +60,9 @@ ${Object.entries(stack)
   .map(([cat, items]) => `${cat}: ${items.join(', ')}`)
   .join('\n')}
 
+--- PORTFOLIO WEBSITE ---
+This portfolio website was designed and built by ${profile.name} himself from scratch. It uses Astro, TypeScript, GSAP, and a custom AI assistant (this one). If anyone asks who made this site or who built this portfolio, the answer is ${profile.name}.
+
 --- RULES ---
 - Never invent data not present above.
 - If asked for the email, provide it.
@@ -85,8 +88,6 @@ You can navigate the portfolio for the user — this makes it feel like you cont
 `.trim();
 
 // Navigation metadata consumed by the client to build the OpenAI tool schema.
-// Keeping the slug/section enums server-rendered guarantees the model can only
-// ever navigate to targets that actually exist.
 const navMeta = {
   sections: ['about', 'projects', 'experience', 'certifications', 'contact'],
   projects: projects.map((p) => p.slug),
@@ -96,27 +97,38 @@ const navMeta = {
 <div id="chatbot-context" hidden>{chatbotContext}</div>
 <script type="application/json" id="chatbot-nav" is:inline set:html={JSON.stringify(navMeta)}></script>
 
-<!-- Docked assistant. The trigger lives in the nav (Nav.astro → .chat-toggle);
-     this component owns the panel and its open/close state. The panel is
-     `transition:persist`ed so the conversation survives View Transitions, and
-     `data-open` records the state so it can be re-synced after a navigation. -->
 <div class="chatbot" data-chatbot data-open="false" transition:persist="chatbot">
   <aside id="chat-window" class="chat-panel" role="dialog" aria-modal="false" aria-label="Ask about Jaume" aria-hidden="true">
+
     <header class="chat-header">
-      <span class="chat-avatar" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" />
-        </svg>
-      </span>
+      <div class="chat-avatar-wrap" aria-hidden="true">
+        <span class="chat-avatar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" />
+          </svg>
+        </span>
+        <span class="chat-online-dot" aria-hidden="true"></span>
+      </div>
       <div class="chat-header-text">
         <strong data-es={es.ui.chatbot.title}>Ask me anything</strong>
         <span data-es={es.ui.chatbot.about}>about {profile.name}</span>
       </div>
-      <button id="chat-close" class="chat-close" aria-label="Close chat">&times;</button>
+      <button id="chat-close" class="chat-close" aria-label="Close chat">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
     </header>
 
     <div id="chat-messages" class="chat-messages" data-lenis-prevent>
       <div class="msg msg-bot" data-es={es.ui.chatbot.greeting}>{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack — or whether he's available for work.`}</div>
+    </div>
+
+    <div id="chat-suggestions" class="chat-suggestions" aria-label="Suggested questions">
+      <button class="suggestion-chip" type="button">What's his tech stack?</button>
+      <button class="suggestion-chip" type="button">Is he available?</button>
+      <button class="suggestion-chip" type="button">Show me his projects</button>
+      <button class="suggestion-chip" type="button">How to contact him?</button>
     </div>
 
     <form id="chat-form" class="chat-input-row" autocomplete="off">
@@ -129,15 +141,16 @@ const navMeta = {
         aria-label="Type a question"
         maxlength="500"
       />
-      <button type="submit" class="chat-send" aria-label="Send message">→</button>
+      <button type="submit" class="chat-send" aria-label="Send message">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m22 2-7 20-4-9-9-4 20-7z" />
+        </svg>
+      </button>
     </form>
   </aside>
 </div>
 
 <style>
-  /* The panel is fixed to the viewport's right edge and slides in. On desktop
-     the page is reflowed to make room (see global.css); on narrow screens it
-     overlays as a near-full-width sheet. */
   .chat-panel {
     position: fixed;
     top: 0;
@@ -150,8 +163,12 @@ const navMeta = {
     display: flex;
     flex-direction: column;
     background: var(--color-surface);
-    border-left: 1px solid var(--color-border);
-    box-shadow: -24px 0 64px rgba(0, 0, 0, 0.4);
+    border-left: none;
+    /* Inset violet glow on the left edge instead of a flat border */
+    box-shadow:
+      inset 1px 0 0 0 var(--color-border),
+      inset 2px 0 0 0 rgba(124, 111, 247, 0.15),
+      -24px 0 64px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     transform: translateX(100%);
     visibility: hidden;
@@ -163,55 +180,132 @@ const navMeta = {
   :global(body.chat-open) .chat-panel {
     transform: translateX(0);
     visibility: visible;
+    /* Intensify the accent glow when open */
+    box-shadow:
+      inset 1px 0 0 0 rgba(124, 111, 247, 0.4),
+      inset 2px 0 0 0 rgba(124, 111, 247, 0.12),
+      -24px 0 64px rgba(0, 0, 0, 0.4);
     transition:
       transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 420ms ease,
       visibility 0s;
   }
   :global(html[data-theme='light']) .chat-panel {
-    box-shadow: -24px 0 64px rgba(20, 20, 50, 0.18);
+    box-shadow:
+      inset 1px 0 0 0 var(--color-border),
+      inset 2px 0 0 0 rgba(91, 79, 214, 0.1),
+      -24px 0 64px rgba(20, 20, 50, 0.18);
+  }
+  :global(html[data-theme='light']) :global(body.chat-open) .chat-panel {
+    box-shadow:
+      inset 1px 0 0 0 rgba(91, 79, 214, 0.35),
+      inset 2px 0 0 0 rgba(91, 79, 214, 0.08),
+      -24px 0 64px rgba(20, 20, 50, 0.18);
   }
 
+  /* ── Header ─────────────────────────────────────────────────────────── */
   .chat-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 14px 16px;
     border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface-2);
+    /* Glass treatment matching the nav dock */
+    background: rgba(17, 17, 24, 0.7);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    flex: none;
+  }
+  :global(html[data-theme='light']) .chat-header {
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  /* Avatar — rounded square with accent glow, matching dock item aesthetic */
+  .chat-avatar-wrap {
+    position: relative;
+    flex: none;
   }
   .chat-avatar {
     display: inline-flex;
     align-items: center;
-    line-height: 0;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--color-accent-glow);
+    border: 1px solid rgba(124, 111, 247, 0.35);
     color: var(--color-accent);
+    box-shadow: 0 0 14px var(--color-accent-glow);
+    flex: none;
   }
+
+  /* Teal online dot — mirrors the availability badge in Contact section */
+  .chat-online-dot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-accent-2);
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 0 6px rgba(0, 212, 170, 0.6);
+    animation: pulse-dot 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 6px rgba(0, 212, 170, 0.6); }
+    50%       { box-shadow: 0 0 10px rgba(0, 212, 170, 0.9); }
+  }
+  :global(html[data-theme='light']) .chat-online-dot {
+    border-color: #fff;
+  }
+
   .chat-header-text {
     display: flex;
     flex-direction: column;
-    line-height: 1.2;
+    line-height: 1.25;
+    min-width: 0;
   }
   .chat-header-text strong {
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 0.9375rem;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .chat-header-text span {
-    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
     color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
   .chat-close {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 8px;
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     color: var(--color-text-secondary);
-    font-size: 1.5rem;
-    line-height: 1;
     cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
   }
   .chat-close:hover {
+    background: var(--color-surface-2);
+    border-color: var(--color-border);
     color: var(--color-text-primary);
   }
 
+  /* ── Messages ─────────────────────────────────────────────────────────── */
   .chat-messages {
     flex: 1;
     overflow-y: auto;
@@ -219,50 +313,55 @@ const navMeta = {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* Hide the scrollbar — scrolling still works via wheel/touch
-       (data-lenis-prevent stops Lenis from hijacking the wheel here). */
+    background: var(--color-bg);
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
   .chat-messages::-webkit-scrollbar {
-    width: 0;
-    height: 0;
     display: none;
   }
 
-  /* Messages and the typing indicator are inserted at runtime via
-     document.createElement, so they never carry Astro's scoping attribute.
-     These selectors must be :global() or they won't match the dynamic nodes. */
+  /* Shared message shell — globally scoped for runtime-created nodes */
   :global(.msg) {
-    max-width: 85%;
+    max-width: 86%;
     padding: 10px 14px;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 0.875rem;
-    line-height: 1.5;
+    line-height: 1.55;
     white-space: pre-wrap;
     word-wrap: break-word;
+    animation: msg-in 200ms ease both;
   }
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   :global(.msg-user) {
     align-self: flex-end;
     background: var(--color-accent);
     color: #fff;
     border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 12px rgba(124, 111, 247, 0.25);
   }
+  /* Bot messages match the project card treatment */
   :global(.msg-bot) {
     align-self: flex-start;
-    background: var(--color-surface-2);
+    background: var(--color-gradient-card);
+    border: 1px solid var(--color-border);
     color: var(--color-text-primary);
     border-bottom-left-radius: 4px;
   }
   :global(.msg-error) {
     align-self: flex-start;
-    background: rgba(124, 111, 247, 0.08);
+    background: rgba(124, 111, 247, 0.07);
     border: 1px solid var(--color-border);
     color: var(--color-text-secondary);
     font-size: 0.8125rem;
+    border-bottom-left-radius: 4px;
   }
-  /* Agent action pill — centred in the thread, signals the assistant
-     is controlling the page. */
+
+  /* Action pill — centred in the thread, signals navigation */
   :global(.msg-action) {
     align-self: center;
     display: inline-flex;
@@ -274,7 +373,7 @@ const navMeta = {
     border: 1px solid rgba(124, 111, 247, 0.25);
     color: var(--color-accent);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     max-width: 100%;
@@ -289,20 +388,24 @@ const navMeta = {
     to   { opacity: 1; transform: scale(1); }
   }
 
+  /* Typing indicator — matches bot message card style */
   :global(.typing) {
     align-self: flex-start;
     display: inline-flex;
-    gap: 4px;
-    padding: 12px 14px;
-    background: var(--color-surface-2);
-    border-radius: 12px;
+    gap: 5px;
+    padding: 13px 16px;
+    background: var(--color-gradient-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
     border-bottom-left-radius: 4px;
+    animation: msg-in 200ms ease both;
   }
   :global(.typing span) {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: var(--color-text-secondary);
+    background: var(--color-accent);
+    opacity: 0.5;
     animation: bounce 1.2s infinite ease-in-out;
   }
   :global(.typing span:nth-child(2)) { animation-delay: 0.15s; }
@@ -312,61 +415,116 @@ const navMeta = {
     30% { transform: translateY(-5px); opacity: 1; }
   }
 
+  /* ── Suggestion chips ─────────────────────────────────────────────────── */
+  /* Pill-style quick-question chips — match stack-pill from global.css */
+  .chat-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 14px 14px;
+    background: var(--color-bg);
+  }
+  .chat-suggestions.hidden {
+    display: none;
+  }
+  .suggestion-chip {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 200ms ease, color 200ms ease, background 200ms ease, transform 150ms ease;
+    will-change: transform;
+  }
+  .suggestion-chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-glow);
+    transform: translateY(-1px);
+  }
+
+  /* ── Input row ────────────────────────────────────────────────────────── */
   .chat-input-row {
     display: flex;
+    align-items: center;
     gap: 8px;
-    padding: 12px;
+    padding: 12px 14px;
     border-top: 1px solid var(--color-border);
+    background: var(--color-surface-2);
+    flex: none;
   }
   .chat-input {
     flex: 1;
-    background: var(--color-surface-2);
-    border: 1px solid transparent;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    padding: 10px 12px;
+    padding: 10px 13px;
     color: var(--color-text-primary);
     font-family: var(--font-body);
     font-size: 0.875rem;
     outline: none;
-    transition: border-color 200ms ease;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
   }
   .chat-input:focus {
     border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
   }
   .chat-input::placeholder {
     color: var(--color-text-muted);
   }
+
+  /* Send button — matches .btn-primary from global.css */
   .chat-send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
     background: var(--color-accent);
     color: #fff;
     border: none;
     border-radius: var(--radius-sm);
-    width: 42px;
-    font-size: 1.1rem;
     cursor: pointer;
-    transition: opacity 200ms ease;
+    transition: opacity 200ms ease, transform 150ms ease;
+    will-change: transform;
   }
   .chat-send:hover {
     opacity: 0.85;
+    transform: translateY(-1px);
+  }
+  .chat-send:active {
+    transform: translateY(0);
   }
   .chat-send:disabled {
-    opacity: 0.4;
+    opacity: 0.35;
     cursor: not-allowed;
+    transform: none;
   }
 
-  /* Below the desktop reflow breakpoint the panel overlays the page instead of
-     squeezing it; on phones it spans the full width. */
+  /* ── Responsive ───────────────────────────────────────────────────────── */
   @media (max-width: 560px) {
     .chat-panel {
       width: 100%;
       max-width: 100%;
-      border-left: none;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .chat-panel {
       transition: visibility 0s !important;
+    }
+    :global(.msg),
+    :global(.typing) {
+      animation: none !important;
+    }
+    .chat-online-dot {
+      animation: none !important;
     }
   }
 </style>
@@ -377,8 +535,6 @@ const navMeta = {
 
   const API_KEY = import.meta.env.PUBLIC_OPENAI_API_KEY as string | undefined;
 
-  // OpenAI chat messages. Assistant turns may carry tool_calls, and we append
-  // role:'tool' messages with their results — hence the loose shape.
   type ChatMessage = {
     role: 'user' | 'assistant' | 'tool';
     content: string | null;
@@ -398,22 +554,19 @@ const navMeta = {
     const form = document.getElementById('chat-form') as HTMLFormElement | null;
     const input = document.getElementById('chat-input') as HTMLInputElement | null;
     const messagesEl = document.getElementById('chat-messages');
+    const suggestionsEl = document.getElementById('chat-suggestions');
     const sendBtn = form?.querySelector('.chat-send') as HTMLButtonElement | null;
     const context = document.getElementById('chatbot-context')?.textContent ?? '';
 
     if (!windowEl || !form || !input || !messagesEl) return;
 
-    // Navigation targets (sections + project slugs), server-rendered so the
-    // tool schema can only ever point the model at real destinations.
     let navMeta: NavMeta = { sections: [], projects: [] };
     try {
       navMeta = JSON.parse(document.getElementById('chatbot-nav')?.textContent ?? '{}');
     } catch {
-      /* fall back to empty — navigation tools simply won't be offered */
+      /* fall back to empty */
     }
 
-    // Tools the model can call to drive the page. Only built when there are
-    // valid targets to offer.
     const tools: any[] = [];
     if (navMeta.sections?.length) {
       tools.push({
@@ -454,10 +607,7 @@ const navMeta = {
     let open = false;
     let busy = false;
 
-    // --- Page control --------------------------------------------------------
-    // Smooth-scroll to a section using the Lenis instance BaseLayout exposes;
-    // if we're not on the home page, route there first (the chatbot DOM
-    // persists across navigation, so the conversation stays open).
+    // ── Page control ──────────────────────────────────────────────────────
     function scrollToSection(section: string) {
       const target = document.getElementById(section);
       const lenis = (window as any).__lenis;
@@ -466,8 +616,6 @@ const navMeta = {
         else target.scrollIntoView({ behavior: 'smooth' });
         return;
       }
-      // Section lives on the home page and we're elsewhere → navigate with a
-      // hash; Nav's astro:page-load handler scrolls to it once home loads.
       navigate(withBase(`#${section}`));
     }
 
@@ -508,22 +656,20 @@ const navMeta = {
       messagesEl!.scrollTop = messagesEl!.scrollHeight;
     }
 
-    // Safety net: strip any markdown the model emits so the bubble shows clean
-    // plain text (the system prompt also forbids markdown, but models slip).
     function stripMarkdown(text: string): string {
       return text
-        .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, '').trim()) // fenced code
-        .replace(/`([^`]+)`/g, '$1') // inline code
-        .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links → just the text
-        .replace(/(\*\*|__)(.*?)\1/g, '$2') // bold
-        .replace(/(\*|_)(.*?)\1/g, '$2') // italic
-        .replace(/~~(.*?)~~/g, '$1') // strikethrough
-        .replace(/^\s{0,3}#{1,6}\s+/gm, '') // headings
-        .replace(/^\s{0,3}>\s?/gm, '') // blockquotes
-        .replace(/^\s*[-*+]\s+/gm, '') // bullet list markers
-        .replace(/^\s*\d+\.\s+/gm, '') // numbered list markers
-        .replace(/\n{3,}/g, '\n\n') // collapse extra blank lines
+        .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, '').trim())
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/(\*|_)(.*?)\1/g, '$2')
+        .replace(/~~(.*?)~~/g, '$1')
+        .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+        .replace(/^\s{0,3}>\s?/gm, '')
+        .replace(/^\s*[-*+]\s+/gm, '')
+        .replace(/^\s*\d+\.\s+/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
         .trim();
     }
 
@@ -553,8 +699,11 @@ const navMeta = {
       document.getElementById('typing-indicator')?.remove();
     }
 
-    // Reflect the open state on every nav trigger (there may be more than one
-    // after a View Transition swaps the nav DOM).
+    // Hide suggestion chips after the first interaction
+    function hideSuggestions() {
+      suggestionsEl?.classList.add('hidden');
+    }
+
     function syncToggles(isOpen: boolean) {
       document.querySelectorAll('[data-chat-toggle]').forEach((btn) => {
         btn.setAttribute('aria-expanded', String(isOpen));
@@ -562,8 +711,6 @@ const navMeta = {
       });
     }
 
-    // Opening/closing reflows the page (desktop squeeze), so once the slide
-    // transition settles let ScrollTrigger + Lenis recompute their geometry.
     function refreshLayout() {
       setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
@@ -596,7 +743,6 @@ const navMeta = {
       open ? closeChat() : openChat();
     }
 
-    // One request to OpenAI. Returns the assistant message, or null on error.
     async function requestCompletion(): Promise<ChatMessage | null> {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -618,6 +764,7 @@ const navMeta = {
     }
 
     async function sendMessage(userText: string) {
+      hideSuggestions();
       history.push({ role: 'user', content: userText });
       appendMessage('user', userText);
       busy = true;
@@ -636,10 +783,6 @@ const navMeta = {
       }
 
       try {
-        // Tool loop: the model may answer in text, request a navigation action,
-        // or both. When it only requests an action we run it, feed back the
-        // result, and loop once more so it produces the spoken reply. Capped to
-        // avoid runaway round-trips.
         let spoke = false;
         for (let turn = 0; turn < 3; turn++) {
           const msg = await requestCompletion();
@@ -664,7 +807,6 @@ const navMeta = {
           const calls = msg.tool_calls ?? [];
           if (!calls.length) break;
 
-          // Run each requested action and feed its result back to the model.
           for (const call of calls) {
             let parsed: Record<string, any> = {};
             try {
@@ -676,12 +818,10 @@ const navMeta = {
             history.push({ role: 'tool', tool_call_id: call.id, content: result });
           }
 
-          // If it already spoke alongside the action, no need to loop again.
           if (spoke) break;
         }
 
         if (!spoke) {
-          // Loop ended without any text (e.g. model only ever called tools).
           hideTyping();
           appendMessage('bot', 'Done — take a look.');
         }
@@ -695,8 +835,16 @@ const navMeta = {
       }
     }
 
+    // Suggestion chip click handlers
+    suggestionsEl?.querySelectorAll('.suggestion-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const text = chip.textContent?.trim() ?? '';
+        if (!text || busy) return;
+        sendMessage(text);
+      });
+    });
+
     closeBtn?.addEventListener('click', closeChat);
-    // The trigger lives in the nav; it dispatches this event (see Nav.astro).
     document.addEventListener('chatbot:toggle', toggleChat);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && open) closeChat();
@@ -711,9 +859,6 @@ const navMeta = {
     });
   }
 
-  // The panel is persisted across View Transitions, but the <body> is swapped —
-  // so re-apply the open class + trigger state from the panel's data-open after
-  // each navigation. Runs even when initChatbot early-returns (already inited).
   function syncChatState() {
     const root = document.querySelector('[data-chatbot]');
     const isOpen = root?.getAttribute('data-open') === 'true';
