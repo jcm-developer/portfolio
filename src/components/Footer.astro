@@ -1,6 +1,7 @@
 ---
 import { profile } from '../data/profile';
 import { es } from '../i18n/es';
+import { withBase } from '../scripts/paths';
 const year = new Date().getFullYear();
 ---
 
@@ -9,7 +10,7 @@ const year = new Date().getFullYear();
     <p class="footer-credit">
       © {year} {profile.name} · <span data-es={es.ui.footer.builtWith}>Built with</span> <span class="heart">♥</span> <span data-es={es.ui.footer.and}>and Astro</span>
     </p>
-    <a href="/#top" class="footer-top" data-nav-link data-es={es.ui.footer.backToTop}>Back to top ↑</a>
+    <a href={withBase('#top')} class="footer-top" data-nav-link data-es={es.ui.footer.backToTop}>Back to top ↑</a>
   </div>
 </footer>
 

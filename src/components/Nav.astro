@@ -2,46 +2,47 @@
 import { profile } from '../data/profile';
 import { es } from '../i18n/es';
 import Logo from './Logo.astro';
+import { withBase } from '../scripts/paths';
 ---
 
 <nav id="main-nav">
   <div class="dock" id="nav-dock">
-    <a href="/#top" class="dock-item dock-logo" data-nav-link aria-label={`${profile.name} — home`}>
+    <a href={withBase('#top')} class="dock-item dock-logo" data-nav-link aria-label={`${profile.name} — home`}>
       <Logo />
       <span class="dock-tip" data-es="Inicio">Home</span>
     </a>
 
     <span class="dock-sep" aria-hidden="true"></span>
 
-    <a href="/#about" class="dock-item" data-nav-link aria-label="About">
+    <a href={withBase('#about')} class="dock-item" data-nav-link aria-label="About">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
       </svg>
       <span class="dock-tip" data-es={es.ui.nav.about}>About</span>
     </a>
 
-    <a href="/#projects" class="dock-item" data-nav-link aria-label="Projects">
+    <a href={withBase('#projects')} class="dock-item" data-nav-link aria-label="Projects">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
       </svg>
       <span class="dock-tip" data-es={es.ui.nav.projects}>Projects</span>
     </a>
 
-    <a href="/#stack" class="dock-item" data-nav-link aria-label="Stack">
+    <a href={withBase('#stack')} class="dock-item" data-nav-link aria-label="Stack">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 2 2 7l10 5 10-5-10-5Z" /><path d="m2 17 10 5 10-5" /><path d="m2 12 10 5 10-5" />
       </svg>
       <span class="dock-tip" data-es={es.ui.nav.stack}>Stack</span>
     </a>
 
-    <a href="/#experience" class="dock-item" data-nav-link aria-label="Experience">
+    <a href={withBase('#experience')} class="dock-item" data-nav-link aria-label="Experience">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
       </svg>
       <span class="dock-tip" data-es={es.ui.nav.experience}>Experience</span>
     </a>
 
-    <a href="/#contact" class="dock-item" data-nav-link aria-label="Contact">
+    <a href={withBase('#contact')} class="dock-item" data-nav-link aria-label="Contact">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" />
       </svg>
@@ -260,6 +261,7 @@ import Logo from './Logo.astro';
 <script>
   import gsap from 'gsap';
   import { syncPreferences, toggleLang, toggleTheme } from '../scripts/i18n';
+  import { isHome } from '../scripts/paths';
 
   // Apply stored language + theme to the freshly-parsed DOM as early as possible.
   syncPreferences();
@@ -361,16 +363,15 @@ import Logo from './Logo.astro';
       if (!link) return;
 
       const href = link.getAttribute('href') ?? '';
-      const onHome = window.location.pathname === '/';
-      const hashOnly = href.startsWith('/#') || href.startsWith('#');
+      const hashOnly = href.includes('#');
 
       // In-page anchor on the current page → Lenis smooth scroll, no navigation.
-      if (onHome && hashOnly) {
+      if (isHome() && hashOnly) {
         const did = smoothScrollTo(href);
         if (did) {
           e.preventDefault();
           e.stopPropagation();
-          const newHash = href.replace(/^\//, '') || '/';
+          const newHash = href.replace(/^.*(?=#)/, '') || '/';
           history.replaceState(null, '', newHash);
         }
       }
@@ -385,7 +386,7 @@ import Logo from './Logo.astro';
     syncPreferences();
     initDock();
 
-    if (window.location.pathname === '/' && window.location.hash) {
+    if (isHome() && window.location.hash) {
       const hash = window.location.hash;
       requestAnimationFrame(() => requestAnimationFrame(() => smoothScrollTo(hash)));
     }

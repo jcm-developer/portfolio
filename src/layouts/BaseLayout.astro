@@ -4,6 +4,7 @@ import { profile, stack } from '../data/profile';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Chatbot from '../components/Chatbot.astro';
+import { withBase } from '../scripts/paths';
 import '../styles/global.css';
 
 interface Props {
@@ -38,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
       })();
     </script>
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>

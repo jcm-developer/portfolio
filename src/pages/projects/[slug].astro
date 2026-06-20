@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projects, profile } from '../../data/profile';
 import type { Project } from '../../data/profile';
 import { es, esDate } from '../../i18n/es';
+import { withBase } from '../../scripts/paths';
 
 export async function getStaticPaths() {
   const sorted = [...projects].sort((a, b) => a.order - b.order);
@@ -35,7 +36,7 @@ const links = [
 >
   <article class="project-detail section">
     <div class="container detail-inner">
-      <a href="/#projects" class="back-link" data-nav-link data-es={es.ui.detail.back}>← Back to work</a>
+      <a href={withBase('#projects')} class="back-link" data-nav-link data-es={es.ui.detail.back}>← Back to work</a>
 
       <span class="detail-year" data-es={esDate(project.year)}>{project.year}</span>
       <h1 class="detail-title" data-es={esp?.title ?? project.title}>{project.title}</h1>
@@ -62,7 +63,7 @@ const links = [
         </div>
       )}
 
-      <a href={`/projects/${next.slug}`} class="next-project">
+      <a href={withBase(`projects/${next.slug}`)} class="next-project">
         <span class="next-label" data-es={es.ui.detail.nextProjectLabel}>Next project</span>
         <span class="next-title" data-es={`${esNext?.title ?? next.title} →`}>{next.title} →</span>
       </a>

@@ -350,6 +350,7 @@ const navMeta = {
 <script>
   import gsap from 'gsap';
   import { navigate } from 'astro:transitions/client';
+  import { withBase, isHome } from '../scripts/paths';
 
   const API_KEY = import.meta.env.PUBLIC_OPENAI_API_KEY as string | undefined;
 
@@ -446,16 +447,16 @@ const navMeta = {
       }
       // Section lives on the home page and we're elsewhere → navigate with a
       // hash; Nav's astro:page-load handler scrolls to it once home loads.
-      navigate(`/#${section}`);
+      navigate(withBase(`#${section}`));
     }
 
     function goToSection(section: string) {
-      if (window.location.pathname === '/') scrollToSection(section);
-      else navigate(`/#${section}`);
+      if (isHome()) scrollToSection(section);
+      else navigate(withBase(`#${section}`));
     }
 
     function openProject(slug: string) {
-      navigate(`/projects/${slug}`);
+      navigate(withBase(`projects/${slug}`));
     }
 
     function runAction(name: string, args: Record<string, any>): string {

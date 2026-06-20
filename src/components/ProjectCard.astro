@@ -1,6 +1,7 @@
 ---
 import type { Project } from '../data/profile';
 import { es, esDate } from '../i18n/es';
+import { withBase } from '../scripts/paths';
 
 interface Props {
   project: Project;
@@ -12,7 +13,7 @@ const esp = es.projects[project.slug];
 ---
 
 <a
-  href={`/projects/${project.slug}`}
+  href={withBase(`projects/${project.slug}`)}
   class:list={['project-card', { featured }]}
 >
   <div class="card-visual" transition:name={`project-img-${project.slug}`}>

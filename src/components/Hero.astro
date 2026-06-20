@@ -4,6 +4,7 @@ import { es } from '../i18n/es';
 // The CV lives in src/assets — import it so Astro emits a served URL.
 import cvEn from '../assets/cv/cv_en.pdf';
 import cvEs from '../assets/cv/cv_es.pdf';
+import { withBase } from '../scripts/paths';
 
 // Split the tagline into words for the GSAP stagger reveal.
 const taglineWords = profile.tagline.split(' ');
@@ -29,12 +30,12 @@ const subline = profile.bio.p1.split('. ')[0] + '.';
     <p class="hero-subline hero-word" data-es={es.subline}>{subline}</p>
 
     <div class="hero-cta hero-word">
-      <a href="/#projects" class="btn-primary" data-nav-link data-es={es.ui.hero.viewProjects}>View Projects</a>
+      <a href={withBase('#projects')} class="btn-primary" data-nav-link data-es={es.ui.hero.viewProjects}>View Projects</a>
       <a href={cvEn} class="btn-ghost" download="Jaume-Cortes-CV.pdf" data-cv-en={cvEn} data-cv-es={cvEs} data-es={es.ui.hero.downloadCv}>Download CV</a>
     </div>
   </div>
 
-  <a href="/#about" class="scroll-indicator" data-nav-link aria-label="Scroll to about">
+  <a href={withBase('#about')} class="scroll-indicator" data-nav-link aria-label="Scroll to about">
     <span class="scroll-mouse"><span class="scroll-dot"></span></span>
     <span class="scroll-text" data-es={es.ui.hero.scroll}>scroll</span>
   </a>
