@@ -80,6 +80,28 @@ export function initAnimations(): void {
     });
   }
 
+  // Subtle parallax: the artwork inside each project card drifts vertically as
+  // the card travels through the viewport, adding depth without moving the card.
+  gsap.utils.toArray<HTMLElement>('.project-card').forEach((card) => {
+    const mark = card.querySelector<HTMLElement>('.card-visual-mark');
+    if (!mark) return;
+    gsap.fromTo(
+      mark,
+      { yPercent: -14 },
+      {
+        yPercent: 14,
+        ease: 'none',
+        force3D: true,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      }
+    );
+  });
+
   // Timeline entries slide in from left
   gsap.utils.toArray<HTMLElement>('.timeline-entry').forEach((el, i) => {
     gsap.from(el, {

@@ -255,7 +255,7 @@ button {
   font-size: 0.6875rem;
   padding: 4px 10px;
   border-radius: var(--radius-sm);
-  background: rgba(124, 111, 247, 0.1);
+  background: var(--color-accent-glow);
   color: var(--color-accent);
   white-space: nowrap;
 }

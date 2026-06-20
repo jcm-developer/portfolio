@@ -26,7 +26,24 @@ const socials = [
     </div>
 
     <div class="contact-meta reveal">
-      <a href={`mailto:${profile.email}`} class="contact-line">{profile.email}</a>
+      <button
+        type="button"
+        class="contact-line contact-copy"
+        data-copy={profile.email}
+        data-label-en="Copy email"
+        data-label-es={es.ui.contact.copyEmail}
+        data-copied-en="Copied!"
+        data-copied-es={es.ui.contact.copied}
+        aria-label="Copy email address"
+      >
+        <span class="copy-email">{profile.email}</span>
+        <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="13" height="13" x="9" y="9" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </button>
       <a href={`tel:${profile.phone.replace(/\s+/g, '')}`} class="contact-line">{profile.phone}</a>
     </div>
 
@@ -105,6 +122,40 @@ const socials = [
     color: var(--color-accent);
   }
 
+  /* Email is a copy-to-clipboard button styled to blend with the phone line. */
+  .contact-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .contact-copy .copy-icon,
+  .contact-copy .check-icon {
+    opacity: 0;
+    transition: opacity 200ms ease, color 200ms ease;
+    color: var(--color-text-muted);
+  }
+  .contact-copy:hover .copy-icon {
+    opacity: 0.7;
+  }
+  .contact-copy.copied .copy-icon {
+    opacity: 0 !important;
+  }
+  .contact-copy.copied {
+    color: var(--color-accent-2);
+  }
+  .contact-copy.copied .check-icon {
+    opacity: 1;
+    color: var(--color-accent-2);
+  }
+  /* Stack the two icons so swapping copy → check doesn't shift the text. */
+  .contact-copy .check-icon {
+    margin-left: -22px;
+  }
+
   .socials {
     display: flex;
     gap: var(--space-2);
@@ -126,4 +177,65 @@ const socials = [
     border-color: var(--color-accent);
     background: var(--color-accent-glow);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-copy .copy-icon,
+    .contact-copy .check-icon {
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  function initCopyEmail() {
+    const btn = document.querySelector<HTMLButtonElement>('.contact-copy');
+    if (!btn || btn.dataset.init === 'true') return;
+    btn.dataset.init = 'true';
+
+    const labelEl = btn.querySelector<HTMLElement>('.copy-email');
+    const original = btn.dataset.copy ?? '';
+    let resetTimer = 0;
+
+    btn.addEventListener('click', async () => {
+      if (!original || !labelEl) return;
+
+      try {
+        await navigator.clipboard.writeText(original);
+      } catch {
+        // Fallback for browsers without the async clipboard API.
+        const ta = document.createElement('textarea');
+        ta.value = original;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+        } catch {
+          /* give up silently */
+        }
+        ta.remove();
+      }
+
+      const isEs = (() => {
+        try {
+          return localStorage.getItem('lang') === 'es';
+        } catch {
+          return false;
+        }
+      })();
+      const copiedText = (isEs ? btn.dataset.copiedEs : btn.dataset.copiedEn) ?? 'Copied!';
+
+      btn.classList.add('copied');
+      labelEl.textContent = copiedText;
+
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        btn.classList.remove('copied');
+        labelEl.textContent = original;
+      }, 1600);
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCopyEmail);
+</script>

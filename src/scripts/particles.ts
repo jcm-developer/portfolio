@@ -11,9 +11,14 @@ interface Particle {
   r: number;
 }
 
-const ACCENT = '124, 111, 247'; // #7C6FF7 as rgb for rgba()
+const ACCENT_DARK = '124, 111, 247'; // #7C6FF7 — accent on the dark theme
+const ACCENT_LIGHT = '91, 79, 214'; //  #5B4FD6 — accent on the light theme
 const LINK_DISTANCE = 120;
 const MOUSE_RADIUS = 150;
+
+function isLightTheme(): boolean {
+  return document.documentElement.getAttribute('data-theme') === 'light';
+}
 
 export function initParticles(canvasId: string): () => void {
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
@@ -30,6 +35,19 @@ export function initParticles(canvasId: string): () => void {
   let particles: Particle[] = [];
   let rafId = 0;
   let mouseRafQueued = false;
+
+  // Recoloured live when the theme toggles. On the light theme the dots sit on a
+  // pale background, so they need a slightly stronger base opacity to read.
+  let accent = isLightTheme() ? ACCENT_LIGHT : ACCENT_DARK;
+  let baseOpacity = isLightTheme() ? 0.5 : 0.35;
+  let linkOpacity = isLightTheme() ? 0.26 : 0.18;
+
+  function applyTheme() {
+    const light = isLightTheme();
+    accent = light ? ACCENT_LIGHT : ACCENT_DARK;
+    baseOpacity = light ? 0.5 : 0.35;
+    linkOpacity = light ? 0.26 : 0.18;
+  }
 
   const mouse = { x: -9999, y: -9999, active: false };
 
@@ -72,7 +90,7 @@ export function initParticles(canvasId: string): () => void {
       if (p.y > height) p.y = 0;
 
       // mouse proximity boost
-      let opacity = 0.35;
+      let opacity = baseOpacity;
       let radius = p.r;
       if (mouse.active) {
         const dx = p.x - mouse.x;
@@ -80,14 +98,14 @@ export function initParticles(canvasId: string): () => void {
         const dist = Math.hypot(dx, dy);
         if (dist < MOUSE_RADIUS) {
           const t = 1 - dist / MOUSE_RADIUS;
-          opacity = 0.35 + t * 0.5;
+          opacity = baseOpacity + t * 0.5;
           radius = p.r + t * 1.2;
         }
       }
 
       ctx!.beginPath();
       ctx!.arc(p.x, p.y, radius, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(${ACCENT}, ${opacity})`;
+      ctx!.fillStyle = `rgba(${accent}, ${opacity})`;
       ctx!.fill();
     }
 
@@ -100,8 +118,8 @@ export function initParticles(canvasId: string): () => void {
         const dy = a.y - b.y;
         const dist = Math.hypot(dx, dy);
         if (dist < LINK_DISTANCE) {
-          const o = (1 - dist / LINK_DISTANCE) * 0.18;
-          ctx!.strokeStyle = `rgba(${ACCENT}, ${o})`;
+          const o = (1 - dist / LINK_DISTANCE) * linkOpacity;
+          ctx!.strokeStyle = `rgba(${accent}, ${o})`;
           ctx!.lineWidth = 1;
           ctx!.beginPath();
           ctx!.moveTo(a.x, a.y);
@@ -142,8 +160,18 @@ export function initParticles(canvasId: string): () => void {
   });
   ro.observe(canvas);
 
+  function onThemeChange() {
+    applyTheme();
+    // With the loop paused (reduced motion) we must repaint the static frame.
+    if (prefersReduced) {
+      step();
+      cancelAnimationFrame(rafId);
+    }
+  }
+
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mouseout', onMouseLeave);
+  document.addEventListener('theme:change', onThemeChange);
 
   if (prefersReduced) {
     // draw a single static frame, no animation loop
@@ -158,5 +186,6 @@ export function initParticles(canvasId: string): () => void {
     ro.disconnect();
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseout', onMouseLeave);
+    document.removeEventListener('theme:change', onThemeChange);
   };
 }

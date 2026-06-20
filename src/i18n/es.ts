@@ -36,6 +36,8 @@ export const es = {
       heading: 'Construyamos algo',
       lead: 'Abierto a roles de IA/ML y software, proyectos freelance y colaboraciones. La forma más rápida de contactarme es por email.',
       sendEmail: 'Enviar un email',
+      copyEmail: 'Copiar email',
+      copied: '¡Copiado!',
     },
     footer: {
       builtWith: 'Hecho con',

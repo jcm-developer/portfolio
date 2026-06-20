@@ -118,6 +118,9 @@ export function applyTheme(theme: Theme): void {
     );
     btn.setAttribute('aria-pressed', String(theme === 'light'));
   });
+
+  // Let theme-aware canvas effects (e.g. the hero particles) recolor live.
+  document.dispatchEvent(new CustomEvent('theme:change', { detail: { theme } }));
 }
 
 export function toggleLang(): Lang {
