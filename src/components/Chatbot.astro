@@ -24,7 +24,8 @@ ${profile.bio.p3}
 ${projects
   .map(
     (p) => `
-• ${p.title}: ${p.description}
+• ${p.title}${p.featured ? ' [FEATURED]' : ''}: ${p.description}
+  Slug: ${p.slug}
   Stack: ${p.stack.join(', ')}
   ${p.metrics ? `Impact: ${p.metrics}` : ''}
   ${p.github ? `GitHub: ${p.github}` : ''}
@@ -54,16 +55,38 @@ ${Object.entries(stack)
 - If asked for the email, provide it.
 - If asked about salary expectations or confidential info, politely decline.
 - Keep answers SHORT and CLEAR: 1–3 sentences, ideally under 50 words. Get straight to the point — no filler or preamble.
+- Reply in PLAIN TEXT only. Never use markdown: no asterisks for bold/italic, no "#" headings, no "-"/"*"/"•" bullet points or numbered lists. If you must list a few things, write them in a sentence separated by commas.
 - Only elaborate further if the user explicitly asks for more detail.
 - Reply in the same language the user writes in.
 - If asked something unrelated to ${profile.name}, redirect politely in one sentence.
-- You can point them to a specific portfolio section for more detail.
+
+--- CONTROLLING THE WEBSITE ---
+You can navigate the portfolio for the user — this makes it feel like you control the site. ALWAYS answer in text as well; navigation is in addition to your reply, never instead of it.
+- When the user asks about a TOPIC in general, call navigateToSection to scroll the page to the matching section. Pick the section by what it contains:
+  • about — who he is, his background, bio, studies/education, languages, where he's from, career path, personality.
+  • projects — his projects and selected work in general.
+  • stack — the technologies, tools, frameworks and languages he uses.
+  • experience — his work history: jobs, companies, roles, dates.
+  • contact — how to reach him (email, getting in touch, hiring, availability).
+  Always map the question to the closest section — e.g. "what did he study?", "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
+- When the user asks about ONE SPECIFIC project (e.g. "what's his best/featured project?", "tell me about Scalextric", "the VR one"), call openProject with that project's slug to open its detail page, then describe it in your text reply. The FEATURED projects are the most outstanding ones.
+- Match the section/project to the question; if no navigation clearly fits, just answer in text without calling a tool.
+- Never mention slugs, function names, or that you are "calling a tool" — just talk naturally.
 `.trim();
+
+// Navigation metadata consumed by the client to build the OpenAI tool schema.
+// Keeping the slug/section enums server-rendered guarantees the model can only
+// ever navigate to targets that actually exist.
+const navMeta = {
+  sections: ['about', 'projects', 'stack', 'experience', 'contact'],
+  projects: projects.map((p) => p.slug),
+};
 ---
 
 <div id="chatbot-context" hidden>{chatbotContext}</div>
+<script type="application/json" id="chatbot-nav" is:inline set:html={JSON.stringify(navMeta)}></script>
 
-<div class="chatbot" data-chatbot>
+<div class="chatbot" data-chatbot transition:persist="chatbot">
   <!-- Chat window -->
   <div id="chat-window" class="chat-window" role="dialog" aria-label="Ask about Jaume" aria-hidden="true">
     <header class="chat-header">
@@ -326,10 +349,20 @@ ${Object.entries(stack)
 
 <script>
   import gsap from 'gsap';
+  import { navigate } from 'astro:transitions/client';
 
   const API_KEY = import.meta.env.PUBLIC_OPENAI_API_KEY as string | undefined;
 
-  type ChatMessage = { role: 'user' | 'assistant'; content: string };
+  // OpenAI chat messages. Assistant turns may carry tool_calls, and we append
+  // role:'tool' messages with their results — hence the loose shape.
+  type ChatMessage = {
+    role: 'user' | 'assistant' | 'tool';
+    content: string | null;
+    tool_calls?: any[];
+    tool_call_id?: string;
+  };
+
+  type NavMeta = { sections: string[]; projects: string[] };
 
   function initChatbot() {
     const root = document.querySelector('[data-chatbot]');
@@ -347,19 +380,123 @@ ${Object.entries(stack)
 
     if (!fab || !windowEl || !form || !input || !messagesEl) return;
 
+    // Navigation targets (sections + project slugs), server-rendered so the
+    // tool schema can only ever point the model at real destinations.
+    let navMeta: NavMeta = { sections: [], projects: [] };
+    try {
+      navMeta = JSON.parse(document.getElementById('chatbot-nav')?.textContent ?? '{}');
+    } catch {
+      /* fall back to empty — navigation tools simply won't be offered */
+    }
+
+    // Tools the model can call to drive the page. Only built when there are
+    // valid targets to offer.
+    const tools: any[] = [];
+    if (navMeta.sections?.length) {
+      tools.push({
+        type: 'function',
+        function: {
+          name: 'navigateToSection',
+          description:
+            'Scroll the portfolio to a section when the user asks about that topic in general. Call this IN ADDITION to answering in text.',
+          parameters: {
+            type: 'object',
+            properties: {
+              section: { type: 'string', enum: navMeta.sections },
+            },
+            required: ['section'],
+          },
+        },
+      });
+    }
+    if (navMeta.projects?.length) {
+      tools.push({
+        type: 'function',
+        function: {
+          name: 'openProject',
+          description:
+            'Open the detail page of one specific project when the user asks about it specifically. Call this IN ADDITION to answering in text.',
+          parameters: {
+            type: 'object',
+            properties: {
+              slug: { type: 'string', enum: navMeta.projects },
+            },
+            required: ['slug'],
+          },
+        },
+      });
+    }
+
     const history: ChatMessage[] = [];
     let open = false;
     let busy = false;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // --- Page control --------------------------------------------------------
+    // Smooth-scroll to a section using the Lenis instance BaseLayout exposes;
+    // if we're not on the home page, route there first (the chatbot DOM
+    // persists across navigation, so the conversation stays open).
+    function scrollToSection(section: string) {
+      const target = document.getElementById(section);
+      const lenis = (window as any).__lenis;
+      if (target) {
+        if (lenis && typeof lenis.scrollTo === 'function') lenis.scrollTo(target, { offset: -88 });
+        else target.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      // Section lives on the home page and we're elsewhere → navigate with a
+      // hash; Nav's astro:page-load handler scrolls to it once home loads.
+      navigate(`/#${section}`);
+    }
+
+    function goToSection(section: string) {
+      if (window.location.pathname === '/') scrollToSection(section);
+      else navigate(`/#${section}`);
+    }
+
+    function openProject(slug: string) {
+      navigate(`/projects/${slug}`);
+    }
+
+    function runAction(name: string, args: Record<string, any>): string {
+      if (name === 'navigateToSection' && args.section) {
+        goToSection(args.section);
+        return `Scrolled to the ${args.section} section.`;
+      }
+      if (name === 'openProject' && args.slug) {
+        openProject(args.slug);
+        return `Opened the ${args.slug} project page.`;
+      }
+      return 'No action taken.';
+    }
+
     function scrollToBottom() {
       messagesEl!.scrollTop = messagesEl!.scrollHeight;
+    }
+
+    // Safety net: strip any markdown the model emits so the bubble shows clean
+    // plain text (the system prompt also forbids markdown, but models slip).
+    function stripMarkdown(text: string): string {
+      return text
+        .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, '').trim()) // fenced code
+        .replace(/`([^`]+)`/g, '$1') // inline code
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // images
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // links → just the text
+        .replace(/(\*\*|__)(.*?)\1/g, '$2') // bold
+        .replace(/(\*|_)(.*?)\1/g, '$2') // italic
+        .replace(/~~(.*?)~~/g, '$1') // strikethrough
+        .replace(/^\s{0,3}#{1,6}\s+/gm, '') // headings
+        .replace(/^\s{0,3}>\s?/gm, '') // blockquotes
+        .replace(/^\s*[-*+]\s+/gm, '') // bullet list markers
+        .replace(/^\s*\d+\.\s+/gm, '') // numbered list markers
+        .replace(/\n{3,}/g, '\n\n') // collapse extra blank lines
+        .trim();
     }
 
     function appendMessage(kind: 'user' | 'bot' | 'error', text: string) {
       const div = document.createElement('div');
       div.className = `msg msg-${kind}`;
-      div.textContent = text;
+      div.textContent = kind === 'bot' ? stripMarkdown(text) : text;
       messagesEl!.appendChild(div);
       scrollToBottom();
     }
@@ -414,6 +551,27 @@ ${Object.entries(stack)
       }
     }
 
+    // One request to OpenAI. Returns the assistant message, or null on error.
+    async function requestCompletion(): Promise<ChatMessage | null> {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'system', content: context }, ...history],
+          ...(tools.length ? { tools, tool_choice: 'auto' } : {}),
+          max_tokens: 180,
+          temperature: 0.6,
+        }),
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.choices?.[0]?.message ?? null;
+    }
+
     async function sendMessage(userText: string) {
       history.push({ role: 'user', content: userText });
       appendMessage('user', userText);
@@ -433,37 +591,60 @@ ${Object.entries(stack)
       }
 
       try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [{ role: 'system', content: context }, ...history],
-            max_tokens: 180,
-            temperature: 0.6,
-          }),
-        });
+        // Tool loop: the model may answer in text, request a navigation action,
+        // or both. When it only requests an action we run it, feed back the
+        // result, and loop once more so it produces the spoken reply. Capped to
+        // avoid runaway round-trips.
+        let spoke = false;
+        for (let turn = 0; turn < 3; turn++) {
+          const msg = await requestCompletion();
+          if (!msg) {
+            hideTyping();
+            appendMessage('error', 'Sorry — the assistant hit an error. Please try again in a moment.');
+            return;
+          }
 
-        hideTyping();
+          history.push({
+            role: 'assistant',
+            content: msg.content ?? null,
+            ...(msg.tool_calls ? { tool_calls: msg.tool_calls } : {}),
+          });
 
-        if (!response.ok) {
-          appendMessage('error', 'Sorry — the assistant hit an error. Please try again in a moment.');
-          busy = false;
-          if (sendBtn) sendBtn.disabled = false;
-          return;
+          if (msg.content) {
+            hideTyping();
+            appendMessage('bot', msg.content);
+            spoke = true;
+          }
+
+          const calls = msg.tool_calls ?? [];
+          if (!calls.length) break;
+
+          // Run each requested action and feed its result back to the model.
+          for (const call of calls) {
+            let parsed: Record<string, any> = {};
+            try {
+              parsed = JSON.parse(call.function?.arguments ?? '{}');
+            } catch {
+              /* malformed args — runAction will no-op */
+            }
+            const result = runAction(call.function?.name ?? '', parsed);
+            history.push({ role: 'tool', tool_call_id: call.id, content: result });
+          }
+
+          // If it already spoke alongside the action, no need to loop again.
+          if (spoke) break;
         }
 
-        const data = await response.json();
-        const botReply = data.choices?.[0]?.message?.content ?? 'Sorry, something went wrong.';
-        history.push({ role: 'assistant', content: botReply });
-        appendMessage('bot', botReply);
+        if (!spoke) {
+          // Loop ended without any text (e.g. model only ever called tools).
+          hideTyping();
+          appendMessage('bot', 'Done — take a look.');
+        }
       } catch (err) {
         hideTyping();
         appendMessage('error', 'Network error — please check your connection and try again.');
       } finally {
+        hideTyping();
         busy = false;
         if (sendBtn) sendBtn.disabled = false;
       }
