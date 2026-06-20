@@ -42,6 +42,13 @@ import { withBase } from '../scripts/paths';
       <span class="dock-tip" data-es={es.ui.nav.certifications}>Certifications</span>
     </a>
 
+    <a href={withBase('#education')} class="dock-item" data-nav-link aria-label="Education">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
+      </svg>
+      <span class="dock-tip" data-es={es.ui.nav.education}>Education</span>
+    </a>
+
     <a href={withBase('#contact')} class="dock-item" data-nav-link aria-label="Contact">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" />
@@ -115,6 +122,13 @@ import { withBase } from '../scripts/paths';
         <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
       </svg>
       <span data-es={es.ui.nav.certifications}>Certifications</span>
+    </a>
+
+    <a href={withBase('#education')} class="mobile-link" data-nav-link>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
+      </svg>
+      <span data-es={es.ui.nav.education}>Education</span>
     </a>
 
     <a href={withBase('#contact')} class="mobile-link" data-nav-link>
@@ -371,6 +385,14 @@ import { withBase } from '../scripts/paths';
     /* Push the chat + hamburger cluster to the right edge. */
     .dock .chat-toggle {
       margin-left: auto;
+      color: var(--color-text-secondary);
+    }
+    .dock .chat-toggle::before {
+      opacity: 0;
+      background: var(--color-surface-2);
+    }
+    .dock .chat-toggle:hover::before {
+      opacity: 1;
     }
     .menu-toggle { display: inline-flex; }
 
@@ -468,7 +490,8 @@ import { withBase } from '../scripts/paths';
     :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(3) { transition-delay: 120ms; }
     :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(4) { transition-delay: 160ms; }
     :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(5) { transition-delay: 200ms; }
-    :global(body.menu-open) .mobile-controls .mobile-link { transition-delay: 250ms; }
+    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(6) { transition-delay: 230ms; }
+    :global(body.menu-open) .mobile-controls .mobile-link { transition-delay: 270ms; }
 
     /* Horizontal divider mirroring the dock's vertical .dock-sep. */
     .mobile-sep {

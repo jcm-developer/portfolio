@@ -52,7 +52,7 @@ const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
       </ul>
     </div>
 
-    <div class="education reveal">
+    <div class="education reveal" id="education">
       <span class="education-label" data-es={es.ui.educationLabel}>Education &amp; Learning</span>
       <ul class="education-list">
         {education.map((e) => (
@@ -194,6 +194,7 @@ const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
     margin-top: var(--space-8);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);
+    scroll-margin-top: 88px;
   }
   .education-label {
     font-family: var(--font-mono);

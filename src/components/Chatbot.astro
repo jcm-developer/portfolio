@@ -76,12 +76,13 @@ This portfolio website was designed and built by ${profile.name} himself from sc
 --- CONTROLLING THE WEBSITE ---
 You can navigate the portfolio for the user — this makes it feel like you control the site. ALWAYS answer in text as well; navigation is in addition to your reply, never instead of it.
 - When the user asks about a TOPIC in general, call navigateToSection to scroll the page to the matching section. Pick the section by what it contains:
-  • about — who he is, his background, bio, studies/education, languages, where he's from, career path, personality.
+  • about — who he is, his background, bio, languages, where he's from, career path, personality.
   • projects — his projects and selected work in general.
   • experience — his work history: jobs, companies, roles, dates. Also where his tech stack lives, shown as tags on each role.
   • certifications — his certifications and the issuers (e.g. courses, AI/ML credentials).
+  • education — his academic background, studies, degrees, schools, formal training (e.g. "what did he study?", "where did he go to school?", "his academic background").
   • contact — how to reach him (email, getting in touch, hiring, availability).
-  Always map the question to the closest section — e.g. "what did he study?", "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
+  Always map the question to the closest section — e.g. "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
 - When the user asks about ONE SPECIFIC project (e.g. "what's his best/featured project?", "tell me about Scalextric", "the VR one"), call openProject with that project's slug to open its detail page, then describe it in your text reply. The FEATURED projects are the most outstanding ones.
 - Match the section/project to the question; if no navigation clearly fits, just answer in text without calling a tool.
 - Never mention slugs, function names, or that you are "calling a tool" — just talk naturally.
@@ -89,7 +90,7 @@ You can navigate the portfolio for the user — this makes it feel like you cont
 
 // Navigation metadata consumed by the client to build the OpenAI tool schema.
 const navMeta = {
-  sections: ['about', 'projects', 'experience', 'certifications', 'contact'],
+  sections: ['about', 'projects', 'experience', 'certifications', 'education', 'contact'],
   projects: projects.map((p) => p.slug),
 };
 ---

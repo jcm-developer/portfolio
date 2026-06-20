@@ -17,6 +17,7 @@ export const es = {
       projects: 'Proyectos',
       experience: 'Experiencia',
       certifications: 'Certificaciones',
+      education: 'Formación',
       contact: 'Contacto',
     },
     hero: {
