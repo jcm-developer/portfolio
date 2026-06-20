@@ -62,6 +62,13 @@ import { withBase } from '../scripts/paths';
       </svg>
     </button>
 
+    <button type="button" class="dock-item chat-toggle" data-chat-toggle aria-label="Abrir asistente" aria-expanded="false" aria-controls="chat-window">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" />
+      </svg>
+      <span class="dock-tip" data-es={es.ui.chatbot.assistant}>Assistant</span>
+    </button>
+
     <button type="button" class="dock-item menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
       <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 6h16M4 12h16M4 18h16" />
@@ -229,6 +236,14 @@ import { withBase } from '../scripts/paths';
     letter-spacing: 0.02em;
   }
 
+  /* While the docked chat panel is open the trigger reads as "active". */
+  :global(body.chat-open) .chat-toggle {
+    color: var(--color-accent);
+  }
+  :global(body.chat-open) .chat-toggle::before {
+    opacity: 1;
+  }
+
   /* Tooltip label BELOW each item — the dock sits at the top of the viewport,
      so labels drop downward (opposite of a bottom-anchored macOS dock). */
   .dock-tip {
@@ -329,13 +344,18 @@ import { withBase } from '../scripts/paths';
       margin-left: 6px;
     }
 
-    /* On mobile the dock holds only the logo (left) and the hamburger (right);
-       the section links AND the lang/theme toggles move into the drop-down. */
+    /* On mobile the dock holds the logo (left) plus the chat + hamburger
+       buttons (right); the section links AND the lang/theme toggles move
+       into the drop-down. The chat trigger stays one tap away. */
     .dock a.dock-item[data-nav-link]:not(.dock-logo),
     .dock-sep,
     .dock .lang-toggle,
     .dock .theme-toggle {
       display: none;
+    }
+    /* Push the chat + hamburger cluster to the right edge. */
+    .dock .chat-toggle {
+      margin-left: auto;
     }
     .menu-toggle { display: inline-flex; }
 
@@ -599,6 +619,15 @@ import { withBase } from '../scripts/paths';
       // Tap outside the panel (the transparent area of the overlay) closes it.
       if (el.closest('#mobile-menu') && !el.closest('.mobile-menu-panel')) {
         closeMenu();
+        return;
+      }
+
+      // Chat trigger — hand off to the persisted Chatbot component, which owns
+      // the docked panel's open/close state, and collapse the mobile menu.
+      if (el.closest('.chat-toggle')) {
+        e.preventDefault();
+        closeMenu();
+        document.dispatchEvent(new CustomEvent('chatbot:toggle'));
         return;
       }
 

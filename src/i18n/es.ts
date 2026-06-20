@@ -51,6 +51,7 @@ export const es = {
       liveDemo: 'Demo en vivo',
     },
     chatbot: {
+      assistant: 'Asistente',
       title: 'Pregúntame lo que quieras',
       about: 'sobre Jaume Cortés',
       greeting:
