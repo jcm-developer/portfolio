@@ -95,9 +95,12 @@ export function applyLang(lang: Lang): void {
     el.setAttribute('download', lang === 'es' ? 'Jaume-Cortes-CV-ES.pdf' : 'Jaume-Cortes-CV-EN.pdf');
   });
 
-  // Refresh the toggle button label + accessible name.
+  // Refresh the toggle button label + accessible name. Write the code into the
+  // `.lang-code` element when present (the mobile menu toggle wraps it alongside
+  // a text label) and fall back to the button itself (the desktop dock toggle).
   document.querySelectorAll<HTMLElement>('.lang-toggle').forEach((btn) => {
-    btn.textContent = lang === 'es' ? 'EN' : 'ES';
+    const codeEl = btn.querySelector<HTMLElement>('.lang-code') ?? btn;
+    codeEl.textContent = lang === 'es' ? 'EN' : 'ES';
     btn.setAttribute('aria-label', lang === 'es' ? 'Switch to English' : 'Cambiar a español');
   });
 }
