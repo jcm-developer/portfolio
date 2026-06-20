@@ -17,6 +17,7 @@ export interface Profile {
   linkedin: string;
   github: string;
   tagline: string;
+  subline: string; // one-line hero subtitle, shown under the tagline
   bio: {
     p1: string;
     p2: string;
@@ -77,7 +78,8 @@ export const profile: Profile = {
   phone: '+34 615 163 612',
   linkedin: 'https://www.linkedin.com/in/jaume-cortes-monzon-developer/',
   github: 'https://github.com/jcm-developer',
-  tagline: 'I build AI-powered automation, integrations, and immersive software for production.',
+  tagline: 'I build AI agents and end-to-end software, tailored to each client.',
+  subline: 'I turn Machine Learning models into scalable, production-ready products that deliver real user impact.',
   bio: {
     p1: "AI Engineer focused on transforming Machine Learning models into scalable, production-ready products that deliver direct user impact.",
     p2: 'My expertise spans Machine Learning, Deep Learning, Computer Vision, and NLP (certified by Google AI and Anthropic). I manage the entire product lifecycle: from designing and training models in Python and TensorFlow, to seamlessly integrating them into the development stack using React, Vue.js, and Node.js.',

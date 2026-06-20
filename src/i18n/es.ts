@@ -67,9 +67,9 @@ export const es = {
   // --- Profile content ---
   role: 'Ingeniero de IA',
   location: 'Valencia, España',
-  tagline: 'Construyo automatización con IA, integraciones y software inmersivo para producción.',
-  // First sentence of bio.p1, used as the hero subline.
-  subline: 'Ingeniero de IA enfocado en transformar modelos de Machine Learning en productos escalables y listos para producción que generan un impacto directo en el usuario.',
+  tagline: 'Construyo agentes de IA y software de principio a fin, a medida de cada cliente.',
+  // One-line hero subtitle (mirrors profile.subline).
+  subline: 'Convierto modelos de Machine Learning en productos escalables y listos para producción que generan un impacto real en el usuario.',
   availability: 'Abierto a la oportunidad adecuada',
   bio: {
     p1: 'Ingeniero de IA enfocado en transformar modelos de Machine Learning en productos escalables y listos para producción que generan un impacto directo en el usuario.',

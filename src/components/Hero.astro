@@ -8,11 +8,6 @@ import { withBase } from '../scripts/paths';
 
 // Split the tagline into words for the GSAP stagger reveal.
 const taglineWords = profile.tagline.split(' ');
-// One-sentence subline derived from the bio (first sentence of p1).
-// Only re-append the period when the split actually trimmed a following
-// sentence — otherwise a single-sentence p1 would end up with "..".
-const firstSentence = profile.bio.p1.split('. ')[0];
-const subline = firstSentence.endsWith('.') ? firstSentence : `${firstSentence}.`;
 ---
 
 <section id="top" class="hero">
@@ -30,7 +25,7 @@ const subline = firstSentence.endsWith('.') ? firstSentence : `${firstSentence}.
       </span>
     </h1>
 
-    <p class="hero-subline hero-word" data-es={es.subline}>{subline}</p>
+    <p class="hero-subline hero-word" data-es={es.subline}>{profile.subline}</p>
 
     <div class="hero-cta hero-word">
       <a href={withBase('#projects')} class="btn-primary" data-nav-link data-es={es.ui.hero.viewProjects}>View Projects</a>
