@@ -1,7 +1,14 @@
 ---
-import { experience, education } from '../data/profile';
+import { experience, certifications, education } from '../data/profile';
 import { es, esDate } from '../i18n/es';
+import { withBase } from '../scripts/paths';
+import CertCard from './CertCard.astro';
 const sorted = [...experience].sort((a, b) => a.order - b.order);
+const sortedCerts = [...certifications].sort((a, b) => a.order - b.order);
+// On the home page we preview the first few; the full list lives on /certifications.
+const CERTS_PREVIEW = 3;
+const previewCerts = sortedCerts.slice(0, CERTS_PREVIEW);
+const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
 ---
 
 <section id="experience" class="section">
@@ -25,6 +32,24 @@ const sorted = [...experience].sort((a, b) => a.order - b.order);
           </div>
         </article>
       ))}
+    </div>
+
+    <div class="certifications reveal" id="certifications">
+      <span class="education-label" data-es={es.ui.certificationsLabel}>Certifications</span>
+      <ul class="certs-list">
+        {previewCerts.map((c) => <CertCard cert={c} />)}
+
+        {hasMoreCerts && (
+          <li class="cert-more">
+            <a class="cert-more-link" href={withBase('certifications')} data-nav-link>
+              <span class="cert-more-count">{sortedCerts.length}</span>
+              <span class="cert-more-text" data-es="Ver todas las certificaciones →">
+                View all certifications →
+              </span>
+            </a>
+          </li>
+        )}
+      </ul>
     </div>
 
     <div class="education reveal">
@@ -108,6 +133,61 @@ const sorted = [...experience].sort((a, b) => a.order - b.order);
     gap: 6px;
     list-style: none;
     margin-top: var(--space-2);
+  }
+
+  .certifications {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    scroll-margin-top: 88px;
+  }
+  .certs-list {
+    list-style: none;
+    margin-top: var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-auto-rows: 1fr; /* every row the same height → all cards match */
+    gap: var(--space-2);
+  }
+  /* Prominent "View all" card — an accent-filled tile that stands out from
+     the neutral certification cards and links to the full /certifications page. */
+  .cert-more {
+    list-style: none;
+  }
+  .cert-more-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 100%;
+    min-height: 96px;
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    text-align: center;
+    transition: border-color 200ms ease, background 200ms ease, color 200ms ease, transform 200ms ease;
+  }
+  .cert-more-link:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-glow);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .cert-more-count {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+  .cert-more-text {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
 
   .education {

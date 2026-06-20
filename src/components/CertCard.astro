@@ -1,0 +1,95 @@
+---
+// A single certification card, shared by the home Certifications strip and the
+// full /certifications page. When the cert has a credentialUrl the whole card
+// is an external link; otherwise it renders as a static card.
+import type { Certification } from '../data/profile';
+import { es } from '../i18n/es';
+
+interface Props {
+  cert: Certification;
+}
+
+const { cert } = Astro.props;
+const t = es.certifications[cert.name];
+const isLink = Boolean(cert.credentialUrl);
+const Tag = isLink ? 'a' : 'div';
+---
+
+<li class="cert-item">
+  <Tag
+    class="cert-inner"
+    {...(isLink ? { href: cert.credentialUrl, target: '_blank', rel: 'noopener noreferrer' } : {})}
+  >
+    <div class="cert-top">
+      <span class="cert-name" data-es={t?.name ?? cert.name}>{cert.name}</span>
+      {cert.year && <span class="cert-year">{cert.year}</span>}
+    </div>
+    <span class="cert-issuer">
+      <span data-es={t?.issuer ?? cert.issuer}>{cert.issuer}</span>
+      {isLink && <span class="cert-ext" aria-hidden="true">↗</span>}
+    </span>
+    <ul class="entry-tags">
+      {cert.stack.map((s) => <li class="tag-chip">{s}</li>)}
+    </ul>
+  </Tag>
+</li>
+
+<style>
+  .cert-item {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+  .cert-item:has(a.cert-inner:hover) {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .cert-inner {
+    display: block;
+    padding: var(--space-3);
+    color: inherit;
+  }
+  .cert-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .cert-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+  .cert-year {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    flex: none;
+  }
+  .cert-issuer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    margin-top: 2px;
+  }
+  .cert-ext {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    transition: color 200ms ease;
+  }
+  .cert-item:has(a.cert-inner:hover) .cert-ext {
+    color: var(--color-accent);
+  }
+  .cert-item .entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin-top: var(--space-2);
+  }
+</style>

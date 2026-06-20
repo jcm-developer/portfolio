@@ -17,7 +17,7 @@ function prefersReducedMotion(): boolean {
 export function initAnimations(): void {
   if (prefersReducedMotion()) {
     // Make sure nothing is left hidden when motion is disabled.
-    gsap.set('.hero-word, .reveal, .project-card, .stack-pill, .timeline-entry', {
+    gsap.set('.hero-word, .reveal, .project-card, .timeline-entry', {
       clearProps: 'all',
       opacity: 1,
       y: 0,
@@ -75,24 +75,6 @@ export function initAnimations(): void {
       scrollTrigger: {
         trigger: '.projects-grid',
         start: 'top 80%',
-        once: true,
-      },
-    });
-  }
-
-  // Stack pill cascade
-  const pills = gsap.utils.toArray<HTMLElement>('.stack-pill');
-  if (pills.length) {
-    gsap.from(pills, {
-      opacity: 0,
-      scale: 0.85,
-      duration: 0.4,
-      stagger: 0.03,
-      ease: 'back.out(1.4)',
-      force3D: true,
-      scrollTrigger: {
-        trigger: '.stack-grid',
-        start: 'top 85%',
         once: true,
       },
     });

@@ -1,5 +1,5 @@
 ---
-import { profile, projects, experience, stack } from '../data/profile';
+import { profile, projects, experience, certifications, stack } from '../data/profile';
 import { es } from '../i18n/es';
 
 const chatbotContext = `
@@ -12,6 +12,8 @@ Name: ${profile.name}
 Role: ${profile.role}
 Location: ${profile.location}
 Email: ${profile.email}
+LinkedIn: ${profile.linkedin}
+GitHub: ${profile.github}
 Availability: ${profile.availability}
 Languages: ${profile.languages.join(', ')}
 
@@ -45,6 +47,11 @@ ${experience
   )
   .join('\n')}
 
+--- CERTIFICATIONS ---
+${certifications
+  .map((c) => `• ${c.name} — ${c.issuer}${c.year ? ` (${c.year})` : ''} [${c.stack.join(', ')}]`)
+  .join('\n')}
+
 --- TECH STACK ---
 ${Object.entries(stack)
   .map(([cat, items]) => `${cat}: ${items.join(', ')}`)
@@ -65,8 +72,8 @@ You can navigate the portfolio for the user — this makes it feel like you cont
 - When the user asks about a TOPIC in general, call navigateToSection to scroll the page to the matching section. Pick the section by what it contains:
   • about — who he is, his background, bio, studies/education, languages, where he's from, career path, personality.
   • projects — his projects and selected work in general.
-  • stack — the technologies, tools, frameworks and languages he uses.
-  • experience — his work history: jobs, companies, roles, dates.
+  • experience — his work history: jobs, companies, roles, dates. Also where his tech stack lives, shown as tags on each role.
+  • certifications — his certifications and the issuers (e.g. courses, AI/ML credentials).
   • contact — how to reach him (email, getting in touch, hiring, availability).
   Always map the question to the closest section — e.g. "what did he study?", "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
 - When the user asks about ONE SPECIFIC project (e.g. "what's his best/featured project?", "tell me about Scalextric", "the VR one"), call openProject with that project's slug to open its detail page, then describe it in your text reply. The FEATURED projects are the most outstanding ones.
@@ -78,7 +85,7 @@ You can navigate the portfolio for the user — this makes it feel like you cont
 // Keeping the slug/section enums server-rendered guarantees the model can only
 // ever navigate to targets that actually exist.
 const navMeta = {
-  sections: ['about', 'projects', 'stack', 'experience', 'contact'],
+  sections: ['about', 'projects', 'experience', 'certifications', 'contact'],
   projects: projects.map((p) => p.slug),
 };
 ---

@@ -15,8 +15,8 @@ export const es = {
     nav: {
       about: 'Sobre mí',
       projects: 'Proyectos',
-      stack: 'Stack',
       experience: 'Experiencia',
+      certifications: 'Certificaciones',
       contact: 'Contacto',
     },
     hero: {
@@ -26,8 +26,10 @@ export const es = {
     },
     aboutHeading: 'Sobre mí',
     projectsHeading: 'Trabajo seleccionado',
-    stackHeading: 'Stack y herramientas',
     experienceHeading: 'Experiencia',
+    certificationsLabel: 'Certificaciones',
+    certificationsLead: 'Todas mis certificaciones y formaciones. Haz clic en cualquiera para ver la credencial.',
+    certificationsBack: '← Volver',
     educationLabel: 'Formación y aprendizaje',
     contact: {
       heading: 'Construyamos algo',
@@ -67,12 +69,12 @@ export const es = {
   location: 'Valencia, España',
   tagline: 'Construyo automatización con IA, integraciones y software inmersivo para producción.',
   // First sentence of bio.p1, used as the hero subline.
-  subline: 'Soy un desarrollador de Valencia, España.',
-  availability: 'Abierto a nuevas oportunidades',
+  subline: 'Ingeniero de IA enfocado en transformar modelos de Machine Learning en productos escalables y listos para producción que generan un impacto directo en el usuario.',
+  availability: 'Abierto a la oportunidad adecuada',
   bio: {
-    p1: 'Soy un desarrollador de Valencia, España. Vengo del desarrollo de aplicaciones web y multiplataforma, y lo complementé con formación reglada, desde sistemas microinformáticos y redes hasta ingeniería informática en la Universidad Internacional de Valencia.',
-    p2: 'Hoy mi foco es la IA y la automatización. En Dare Planet Shuttle diseño y despliego automatizaciones e integraciones con IA — conectando modelos a sistemas de negocio reales — junto con el software que las rodea. Profundicé en la parte de ML con formación dedicada en Machine Learning y Deep Learning.',
-    p3: 'Me gustan los problemas que se sitúan entre disciplinas: IA, la web, el 3D y la tecnología inmersiva. Trabajo mejor en equipos pequeños donde puedo asumir un problema de principio a fin, desde el primer prototipo hasta algo funcionando en producción.',
+    p1: 'Ingeniero de IA enfocado en transformar modelos de Machine Learning en productos escalables y listos para producción que generan un impacto directo en el usuario.',
+    p2: 'Mi experiencia abarca Machine Learning, Deep Learning, Visión por Computador y PLN (con certificación de Google AI y Anthropic). Gestiono todo el ciclo de vida del producto: desde el diseño y entrenamiento de modelos en Python y TensorFlow, hasta su integración fluida en el stack de desarrollo con React, Vue.js y Node.js.',
+    p3: 'A lo largo de mi carrera, he liderado la integración de IA, automatización y entornos de RA/RV para empresas de primer nivel como Scalextric, Bosch y Grupo Yara Construcciones.',
   },
 
   // Stat labels, keyed by the English label.
@@ -80,15 +82,6 @@ export const es = {
     'Years building': 'Años programando',
     'Projects shipped': 'Proyectos entregados',
     'Technologies': 'Tecnologías',
-  } as Record<string, string>,
-
-  // Stack category names, keyed by the English category.
-  stackCategories: {
-    'AI / ML': 'IA / ML',
-    'Languages': 'Lenguajes',
-    'Frameworks': 'Frameworks',
-    'Data & Infra': 'Datos e infra',
-    'Tools & 3D': 'Herramientas y 3D',
   } as Record<string, string>,
 
   // Projects, keyed by slug.
@@ -126,10 +119,10 @@ export const es = {
 
   // Experience entries, keyed by company.
   experience: {
-    'Dare Planet Shuttle': {
-      role: 'Desarrollador de Software — Automatizaciones e integraciones de IA',
+    'Codegenia': {
+      role: 'Ingeniero de IA',
       description:
-        'Construyendo automatizaciones e integraciones con IA que conectan modelos a sistemas de negocio reales, además del software que se entrega a su alrededor.',
+        'Actualmente conecto las necesidades de los clientes con soluciones técnicas a medida. Especializado en Agentes de IA (Google Cloud) e implementación avanzada de modelos, sigo liderando el desarrollo de aplicaciones multiplataforma de principio a fin.',
     },
     'Dare Planet Technology': {
       role: 'Desarrollador de Software',
@@ -141,6 +134,16 @@ export const es = {
         'Desarrollé una aplicación web corporativa dentro de un grupo de investigación centrado en tecnologías para la salud y el bienestar.',
     },
   } as Record<string, { role: string; description: string }>,
+
+  // Certifications, keyed by the English certificate name. Only entries whose
+  // name actually differs in Spanish need translating; issuers are proper nouns
+  // and missing keys fall back to the English source.
+  certifications: {
+    'Machine Learning & Deep Learning': {
+      name: 'Machine Learning y Deep Learning',
+      issuer: 'Zero To Mastery Academy',
+    },
+  } as Record<string, { name: string; issuer: string }>,
 
   // Education fields, keyed by school.
   education: {

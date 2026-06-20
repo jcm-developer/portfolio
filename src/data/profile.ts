@@ -54,6 +54,15 @@ export interface Experience {
   order: number;
 }
 
+export interface Certification {
+  name: string;
+  issuer: string;
+  year: string;
+  credentialUrl: string; // empty when there is no public credential link
+  stack: string[];
+  order: number;
+}
+
 export interface Education {
   school: string;
   field: string;
@@ -66,18 +75,18 @@ export const profile: Profile = {
   location: 'Valencia, Spain',
   email: 'jaumecortesmonzon@gmail.com',
   phone: '+34 615 163 612',
-  linkedin: '', // TODO: not present in CV — add full LinkedIn URL if available
-  github: '', // TODO: not present in CV — add full GitHub URL if available
+  linkedin: 'https://www.linkedin.com/in/jaume-cortes-monzon-developer/',
+  github: 'https://github.com/jcm-developer',
   tagline: 'I build AI-powered automation, integrations, and immersive software for production.',
   bio: {
-    p1: "I'm a developer from Valencia, Spain. I came up through web and cross-platform application development, and rounded it out with formal study from microcomputer systems and networks all the way to computer engineering at Valencian International University.",
-    p2: 'Today my focus is AI and automation. At Dare Planet Shuttle I design and ship AI-powered automations and integrations — wiring models into real business systems — alongside the software that surrounds them. I deepened the ML side through dedicated Machine Learning and Deep Learning training.',
-    p3: 'I like problems that sit between disciplines: AI, the web, 3D, and immersive tech. I work best in small teams where I can own a problem end to end, from the first prototype to something running in production.',
+    p1: "AI Engineer focused on transforming Machine Learning models into scalable, production-ready products that deliver direct user impact.",
+    p2: 'My expertise spans Machine Learning, Deep Learning, Computer Vision, and NLP (certified by Google AI and Anthropic). I manage the entire product lifecycle: from designing and training models in Python and TensorFlow, to seamlessly integrating them into the development stack using React, Vue.js, and Node.js.',
+    p3: 'Throughout my career, I have led the integration of AI, automation, and AR/VR environments for top-tier companies such as Scalextric, Bosch, and Grupo Yara Construcciones.',
   },
-  availability: 'Open to new opportunities',
+  availability: 'Open to the right opportunity',
   languages: ['Spanish — Native', 'Catalan — Native', 'English — B2'],
   stats: [
-    { label: 'Years building', value: '5+' },
+    { label: 'Years building', value: '3+' },
     { label: 'Projects shipped', value: '6+' },
     { label: 'Technologies', value: '20+' },
   ],
@@ -163,13 +172,13 @@ export const projects: Project[] = [
 
 export const experience: Experience[] = [
   {
-    company: 'Dare Planet Shuttle',
-    role: 'Software Developer — AI Automations & Integrations',
+    company: 'Codegenia',
+    role: 'AI Engineer',
     startDate: '2023',
     endDate: 'Present',
     current: true,
     description:
-      'Building AI-powered automations and integrations that connect models to real business systems, plus the software that ships around them.',
+      'Currently, I bridge the gap between client needs and tailored technical solutions. Specializing in AI Agents (Google Cloud) and advanced model implementation, I continue to lead the end-to-end development of multiplatform applications.',
     impact: '',
     stack: ['Python', 'AI Automations', 'Integrations', 'APIs'],
     order: 1,
@@ -187,7 +196,7 @@ export const experience: Experience[] = [
   },
   {
     company: 'ITACA-SABIEN',
-    role: 'Software Developer — Health & Well-being Technologies',
+    role: 'Software Developer',
     startDate: '2020',
     endDate: '2020',
     current: false,
@@ -196,6 +205,121 @@ export const experience: Experience[] = [
     impact: '',
     stack: ['JavaScript', 'PHP', 'PostgreSQL'],
     order: 3,
+  },
+];
+
+export const certifications: Certification[] = [
+  {
+    name: 'Google AI',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/specialization/9XS1I3K8D98L',
+    stack: ['Generative AI', 'Machine Learning', 'Prompt Engineering'],
+    order: 1,
+  },
+  {
+    name: 'Claude 101',
+    issuer: 'Anthropic',
+    year: '2026',
+    credentialUrl: 'https://verify.skilljar.com/c/oy3bq6i4riau',
+    stack: ['Claude', 'LLMs', 'Prompt Engineering'],
+    order: 2,
+  },
+  {
+    name: 'Machine Learning & Deep Learning',
+    issuer: 'Zero To Mastery Academy',
+    year: '2025',
+    credentialUrl: 'https://www.udemy.com/certificate/UC-a1a2a7e4-0149-474a-88db-f7ae7617f30a/',
+    stack: ['Machine Learning', 'Deep Learning', 'Python', 'TensorFlow'],
+    order: 3,
+  },
+  {
+    name: 'AI for Content Creation',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/MUSRDYCVBI5V',
+    stack: ['Generative AI', 'Content Creation', 'Prompt Engineering'],
+    order: 4,
+  },
+  {
+    name: 'AI for Data Analysis',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/H1DUAVZ9I3ML',
+    stack: ['Generative AI', 'Data Analysis', 'Prompt Engineering'],
+    order: 5,
+  },
+  {
+    name: 'AI for App Building',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/6AYAHK62N507',
+    stack: ['Generative AI', 'App Building', 'Prompt Engineering'],
+    order: 6,
+  },
+  {
+    name: 'AI for Writing and Communicating',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/ZOAHOPT3GBZR',
+    stack: ['Generative AI', 'Writing', 'Communication'],
+    order: 7,
+  },
+  {
+    name: 'AI for Research and Insights',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/YXEPFNFO03A0',
+    stack: ['Generative AI', 'Research', 'Prompt Engineering'],
+    order: 8,
+  },
+  {
+    name: 'AI for Brainstorming and Planning',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/0ROW74MEWVJU',
+    stack: ['Generative AI', 'Brainstorming', 'Planning'],
+    order: 9,
+  },
+  {
+    name: 'AI Fundamentals',
+    issuer: 'Google',
+    year: '2026',
+    credentialUrl: 'https://www.coursera.org/account/accomplishments/verify/AVBND0P6UGWU',
+    stack: ['Generative AI', 'AI Fundamentals', 'Prompt Engineering'],
+    order: 10,
+  },
+  {
+    name: 'Building with the Claude API',
+    issuer: 'Anthropic',
+    year: '2026',
+    credentialUrl: 'https://verify.skilljar.com/c/z7tacg5vi9mh',
+    stack: ['Claude API', 'LLMs', 'Python'],
+    order: 11,
+  },
+  {
+    name: 'Claude Code in Action',
+    issuer: 'Anthropic',
+    year: '2026',
+    credentialUrl: 'https://verify.skilljar.com/c/qgj5eyfg83xo',
+    stack: ['Claude Code', 'AI Agents', 'Developer Tools'],
+    order: 12,
+  },
+  {
+    name: 'Introduction to Model Context Protocol',
+    issuer: 'Anthropic',
+    year: '2026',
+    credentialUrl: 'https://verify.skilljar.com/c/hd359tt7mt6y',
+    stack: ['MCP', 'LLMs', 'Integrations'],
+    order: 13,
+  },
+  {
+    name: 'Model Context Protocol: Advanced Topics',
+    issuer: 'Anthropic',
+    year: '2026',
+    credentialUrl: 'https://verify.skilljar.com/c/3i9ttdxjvbpe',
+    stack: ['MCP', 'Tool Use', 'Integrations'],
+    order: 14,
   },
 ];
 
