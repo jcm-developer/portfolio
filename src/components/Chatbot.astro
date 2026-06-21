@@ -127,10 +127,22 @@ const navMeta = {
     </div>
 
     <div id="chat-suggestions" class="chat-suggestions" aria-label="Suggested questions">
-      <button class="suggestion-chip" type="button">What's his tech stack?</button>
-      <button class="suggestion-chip" type="button">Is he available?</button>
-      <button class="suggestion-chip" type="button">Show me his projects</button>
-      <button class="suggestion-chip" type="button">How to contact him?</button>
+      <button class="suggestion-chip" type="button">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span data-es={es.ui.chatbot.chipStack}>What's his tech stack?</span>
+      </button>
+      <button class="suggestion-chip" type="button">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span data-es={es.ui.chatbot.chipAvailable}>Is he available?</span>
+      </button>
+      <button class="suggestion-chip" type="button">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span data-es={es.ui.chatbot.chipProjects}>Show me his projects</span>
+      </button>
+      <button class="suggestion-chip" type="button">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span data-es={es.ui.chatbot.chipContact}>How to contact him?</span>
+      </button>
     </div>
 
     <form id="chat-form" class="chat-input-row" autocomplete="off">
@@ -442,10 +454,9 @@ const navMeta = {
   }
 
   /* ── Suggestion chips ─────────────────────────────────────────────────── */
-  /* Pill-style quick-question chips — match stack-pill from global.css */
   .chat-suggestions {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 6px;
     padding: 0 14px 14px;
     background: var(--color-bg);
@@ -454,24 +465,41 @@ const navMeta = {
     display: none;
   }
   .suggestion-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     font-weight: 500;
-    padding: 5px 12px;
+    padding: 6px 11px;
     border-radius: var(--radius-pill);
     border: 1px solid var(--color-border);
-    background: transparent;
+    background: var(--color-surface);
     color: var(--color-text-secondary);
     cursor: pointer;
-    white-space: nowrap;
-    transition: border-color 200ms ease, color 200ms ease, background 200ms ease, transform 150ms ease;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    transition: border-color 200ms ease, color 200ms ease, background 200ms ease,
+      box-shadow 200ms ease, transform 150ms ease;
     will-change: transform;
   }
+  .suggestion-chip svg {
+    flex: none;
+    opacity: 0.7;
+    transition: opacity 200ms ease;
+  }
   .suggestion-chip:hover {
-    border-color: var(--color-accent);
+    border-color: rgba(124, 111, 247, 0.5);
     color: var(--color-accent);
     background: var(--color-accent-glow);
+    box-shadow: 0 1px 8px rgba(124, 111, 247, 0.12);
     transform: translateY(-1px);
+  }
+  .suggestion-chip:hover svg {
+    opacity: 1;
+  }
+  :global(html[data-theme='light']) .suggestion-chip {
+    box-shadow: 0 1px 3px rgba(20, 20, 50, 0.08);
   }
 
   /* ── Input row ────────────────────────────────────────────────────────── */
@@ -955,7 +983,7 @@ const navMeta = {
     // Suggestion chip click handlers
     suggestionsEl?.querySelectorAll('.suggestion-chip').forEach((chip) => {
       chip.addEventListener('click', () => {
-        const text = chip.textContent?.trim() ?? '';
+        const text = (chip.querySelector('span') ?? chip).textContent?.trim() ?? '';
         if (!text || busy) return;
         sendMessage(text);
       });
