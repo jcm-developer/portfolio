@@ -22,9 +22,16 @@ const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
           <div class="entry-body">
             <span class="entry-dates" data-es={esDate(`${job.startDate} – ${job.endDate}`)}>{job.startDate} – {job.endDate}</span>
             <h3 class="entry-title">
-              {job.company} <span class="entry-role">— <span data-es={es.experience[job.company]?.role ?? job.role}>{job.role}</span></span>
+              {job.company} <span class="entry-role">· <span data-es={es.experience[job.company]?.role ?? job.role}>{job.role}</span></span>
             </h3>
             <p class="entry-desc" data-es={es.experience[job.company]?.description ?? job.description}>{job.description}</p>
+            {job.highlights.length > 0 && (
+              <ul class="entry-highlights">
+                {job.highlights.map((h, i) => (
+                  <li data-es={es.experience[job.company]?.highlights?.[i] ?? h}>{h}</li>
+                ))}
+              </ul>
+            )}
             {job.impact && <p class="entry-impact">{job.impact}</p>}
             <ul class="entry-tags">
               {job.stack.map((t) => <li class="tag-chip">{t}</li>)}
@@ -122,6 +129,34 @@ const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
     color: var(--color-text-secondary);
     max-width: 65ch;
   }
+  /* Achievement bullets: custom accent markers echoing the timeline dots. */
+  .entry-highlights {
+    list-style: none;
+    margin-top: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 68ch;
+  }
+  .entry-highlights li {
+    position: relative;
+    padding-left: var(--space-3);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+  .entry-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 0.62em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    opacity: 0.75;
+  }
+
   .entry-impact {
     font-size: 0.9375rem;
     color: var(--color-accent-2);
@@ -149,7 +184,7 @@ const hasMoreCerts = sortedCerts.length > CERTS_PREVIEW;
     grid-auto-rows: 1fr; /* every row the same height → all cards match */
     gap: var(--space-2);
   }
-  /* Prominent "View all" card — an accent-filled tile that stands out from
+  /* Prominent "View all" card: an accent-filled tile that stands out from
      the neutral certification cards and links to the full /certifications page. */
   .cert-more {
     list-style: none;

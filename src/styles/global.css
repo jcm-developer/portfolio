@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Theme tokens — mapped from DESIGN.md §2, §3, §4
+   Theme tokens: mapped from DESIGN.md §2, §3, §4
    ============================================================ */
 @theme {
   /* Colors */
@@ -58,7 +58,7 @@
 }
 
 /* ============================================================
-   Light theme — overrides the dark tokens above when the user
+   Light theme: overrides the dark tokens above when the user
    toggles light mode (data-theme="light" on <html>).
    Higher specificity than @theme's :root, so these win.
    ============================================================ */
@@ -103,7 +103,7 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* Hide the native scrollbar site-wide — Lenis drives scrolling, the wheel /
+/* Hide the native scrollbar site-wide: Lenis drives scrolling, the wheel /
    touch / keyboard still work; only the visual bar is removed. */
 html {
   scrollbar-width: none;        /* Firefox */
@@ -286,7 +286,7 @@ button {
 }
 
 /* ============================================================
-   Docked chat assistant — when open it reflows the page into the
+   Docked chat assistant: when open it reflows the page into the
    remaining space (desktop only). On smaller screens the panel
    overlays instead (handled in Chatbot.astro), so no reflow here.
    ============================================================ */

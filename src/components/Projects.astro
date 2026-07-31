@@ -8,8 +8,10 @@ const sorted = [...projects].sort((a, b) => {
   return a.order - b.order;
 });
 
-const featured = sorted.filter((p) => p.featured);
-const rest = sorted.filter((p) => !p.featured);
+// One flagship project gets the full-width hero card (Elecnor, the first
+// featured entry by `order`); every other project sits in the grid below.
+const hero = sorted.find((p) => p.featured) ?? sorted[0];
+const rest = sorted.filter((p) => p !== hero);
 ---
 
 <section id="projects" class="section">
@@ -17,11 +19,7 @@ const rest = sorted.filter((p) => !p.featured);
     <h2 class="section-heading reveal"><span data-es={es.ui.projectsHeading}>Selected Work</span><span class="dot">.</span></h2>
 
     <div class="projects-grid">
-      <div class="featured-row">
-        {featured.map((p) => (
-          <ProjectCard project={p} featured={true} />
-        ))}
-      </div>
+      <ProjectCard project={hero} featured={true} />
 
       <div class="rest-grid">
         {rest.map((p) => (
@@ -36,12 +34,6 @@ const rest = sorted.filter((p) => !p.featured);
   .projects-grid {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .featured-row {
-    display: grid;
-    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 

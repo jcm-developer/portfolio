@@ -41,6 +41,7 @@ ${experience
     (e) => `
 • ${e.role} at ${e.company} (${e.startDate} – ${e.endDate || 'Present'})
   ${e.description}
+${e.highlights.map((h) => `  - ${h}`).join('\n')}
   ${e.impact ? `Impact: ${e.impact}` : ''}
   Stack: ${e.stack.join(', ')}
 `
@@ -48,11 +49,11 @@ ${experience
   .join('\n')}
 
 --- EDUCATION ---
-${education.map((e) => `• ${e.field} — ${e.school}${e.year ? ` (${e.year})` : ''}`).join('\n')}
+${education.map((e) => `• ${e.field}, ${e.school}${e.year ? ` (${e.year})` : ''}`).join('\n')}
 
 --- CERTIFICATIONS ---
 ${certifications
-  .map((c) => `• ${c.name} — ${c.issuer}${c.year ? ` (${c.year})` : ''} [${c.stack.join(', ')}]`)
+  .map((c) => `• ${c.name}, ${c.issuer}${c.year ? ` (${c.year})` : ''} [${c.stack.join(', ')}]`)
   .join('\n')}
 
 --- TECH STACK ---
@@ -67,25 +68,25 @@ This portfolio website was designed and built by ${profile.name} himself from sc
 - Never invent data not present above.
 - If asked for the email, provide it.
 - If asked about salary expectations or confidential info, politely decline.
-- Keep answers SHORT and CLEAR: 1–3 sentences, ideally under 50 words. Get straight to the point — no filler or preamble.
+- Keep answers SHORT and CLEAR: 1–3 sentences, ideally under 50 words. Get straight to the point: no filler or preamble.
 - Reply in PLAIN TEXT only. Never use markdown: no asterisks for bold/italic, no "#" headings, no "-"/"*"/"•" bullet points or numbered lists. If you must list a few things, write them in a sentence separated by commas.
 - Only elaborate further if the user explicitly asks for more detail.
 - Reply in the same language the user writes in.
 - If asked something unrelated to ${profile.name}, redirect politely in one sentence.
 
 --- CONTROLLING THE WEBSITE ---
-You can navigate the portfolio for the user — this makes it feel like you control the site. ALWAYS answer in text as well; navigation is in addition to your reply, never instead of it.
+You can navigate the portfolio for the user; this makes it feel like you control the site. ALWAYS answer in text as well; navigation is in addition to your reply, never instead of it.
 - When the user asks about a TOPIC in general, call navigateToSection to scroll the page to the matching section. Pick the section by what it contains:
-  • about — who he is, his background, bio, languages, where he's from, career path, personality.
-  • projects — his projects and selected work in general.
-  • experience — his work history: jobs, companies, roles, dates. Also where his tech stack lives, shown as tags on each role.
-  • certifications — his certifications and the issuers (e.g. courses, AI/ML credentials).
-  • education — his academic background, studies, degrees, schools, formal training (e.g. "what did he study?", "where did he go to school?", "his academic background").
-  • contact — how to reach him (email, getting in touch, hiring, availability).
-  Always map the question to the closest section — e.g. "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
+  • about: who he is, his background, bio, languages, where he's from, career path, personality.
+  • projects: his projects and selected work in general.
+  • experience: his work history (jobs, companies, roles, dates). Also where his tech stack lives, shown as tags on each role.
+  • certifications: his certifications and the issuers (e.g. courses, AI/ML credentials).
+  • education: his academic background, studies, degrees, schools, formal training (e.g. "what did he study?", "where did he go to school?", "his academic background").
+  • contact: how to reach him (email, getting in touch, hiring, availability).
+  Always map the question to the closest section, e.g. "what languages does he speak?", "where is he from?" → about. If truly nothing fits, just answer in text.
 - When the user asks about ONE SPECIFIC project (e.g. "what's his best/featured project?", "tell me about Scalextric", "the VR one"), call openProject with that project's slug to open its detail page, then describe it in your text reply. The FEATURED projects are the most outstanding ones.
 - Match the section/project to the question; if no navigation clearly fits, just answer in text without calling a tool.
-- Never mention slugs, function names, or that you are "calling a tool" — just talk naturally.
+- Never mention slugs, function names, or that you are "calling a tool"; just talk naturally.
 `.trim();
 
 // Navigation metadata consumed by the client to build the OpenAI tool schema.
@@ -123,7 +124,7 @@ const navMeta = {
     </header>
 
     <div id="chat-messages" class="chat-messages" data-lenis-prevent>
-      <div class="msg msg-bot" data-es={es.ui.chatbot.greeting}>{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack — or whether he's available for work.`}</div>
+      <div class="msg msg-bot" data-es={es.ui.chatbot.greeting}>{`Hi! I'm ${profile.name.split(' ')[0]}'s assistant. Ask me about his projects, experience, or stack, or whether he's available for work.`}</div>
     </div>
 
     <div id="chat-suggestions" class="chat-suggestions" aria-label="Suggested questions">
@@ -258,7 +259,7 @@ const navMeta = {
     background: rgba(255, 255, 255, 0.72);
   }
 
-  /* Avatar — rounded square with accent glow, matching dock item aesthetic */
+  /* Avatar: rounded square with accent glow, matching dock item aesthetic */
   .chat-avatar-wrap {
     position: relative;
     flex: none;
@@ -277,7 +278,7 @@ const navMeta = {
     flex: none;
   }
 
-  /* Teal online dot — mirrors the availability badge in Contact section */
+  /* Teal online dot: mirrors the availability badge in Contact section */
   .chat-online-dot {
     position: absolute;
     bottom: -2px;
@@ -359,7 +360,7 @@ const navMeta = {
     display: none;
   }
 
-  /* Shared message shell — globally scoped for runtime-created nodes */
+  /* Shared message shell: globally scoped for runtime-created nodes */
   :global(.msg) {
     max-width: 86%;
     padding: 10px 14px;
@@ -399,7 +400,7 @@ const navMeta = {
     border-bottom-left-radius: 4px;
   }
 
-  /* Action pill — left-aligned in the thread, signals navigation */
+  /* Action pill: left-aligned in the thread, signals navigation */
   :global(.msg-action) {
     align-self: flex-start;
     display: inline-flex;
@@ -426,7 +427,7 @@ const navMeta = {
     to   { opacity: 1; transform: scale(1); }
   }
 
-  /* Typing indicator — matches bot message card style */
+  /* Typing indicator: matches bot message card style */
   :global(.typing) {
     align-self: flex-start;
     display: inline-flex;
@@ -532,7 +533,7 @@ const navMeta = {
     color: var(--color-text-muted);
   }
 
-  /* Send button — matches .btn-primary from global.css */
+  /* Send button: matches .btn-primary from global.css */
   .chat-send {
     display: inline-flex;
     align-items: center;
@@ -702,7 +703,7 @@ const navMeta = {
         openProject(args.slug);
         const label = args.slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
         triggerNavGlow();
-        appendMessage('action', `Opening project — ${label}`);
+        appendMessage('action', `Opening project: ${label}`);
         return `Opened the ${args.slug} project page.`;
       }
       return 'No action taken.';
@@ -932,7 +933,7 @@ const navMeta = {
 
           if (!msg) {
             hideTyping();
-            appendMessage('error', 'Sorry — the assistant hit an error. Please try again in a moment.');
+            appendMessage('error', 'Sorry, the assistant hit an error. Please try again in a moment.');
             return;
           }
 
@@ -957,7 +958,7 @@ const navMeta = {
             try {
               parsed = JSON.parse(call.function?.arguments ?? '{}');
             } catch {
-              /* malformed args — runAction will no-op */
+              /* malformed args: runAction will no-op */
             }
             const result = runAction(call.function?.name ?? '', parsed);
             history.push({ role: 'tool', tool_call_id: call.id, content: result });
@@ -968,11 +969,11 @@ const navMeta = {
 
         if (!spoke) {
           hideTyping();
-          appendMessage('bot', 'Done — take a look.');
+          appendMessage('bot', 'Done, take a look.');
         }
       } catch (err) {
         hideTyping();
-        appendMessage('error', 'Network error — please check your connection and try again.');
+        appendMessage('error', 'Network error: please check your connection and try again.');
       } finally {
         hideTyping();
         busy = false;

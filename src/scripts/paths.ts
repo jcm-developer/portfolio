@@ -1,6 +1,6 @@
 // Base-path helpers. Astro replaces `import.meta.env.BASE_URL` at build time
 // with the configured `base` (e.g. "/portfolio" on a GitHub Pages project
-// site, or "/" at root). Every author-written link must go through here —
+// site, or "/" at root). Every author-written link must go through here:
 // Astro only auto-prefixes its own bundled assets, not hardcoded hrefs.
 //
 // Note: BASE_URL may or may not carry a trailing slash depending on config,

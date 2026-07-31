@@ -58,7 +58,7 @@ export const es = {
       title: 'Pregúntame lo que quieras',
       about: 'sobre Jaume Cortés',
       greeting:
-        '¡Hola! Soy el asistente de Jaume. Pregúntame sobre sus proyectos, experiencia o stack — o si está disponible para trabajar.',
+        '¡Hola! Soy el asistente de Jaume. Pregúntame sobre sus proyectos, experiencia o stack, o si está disponible para trabajar.',
       placeholder: 'Escribe una pregunta…',
       chipStack: 'Tech Stack',
       chipAvailable: 'Disponibilidad',
@@ -77,12 +77,12 @@ export const es = {
   location: 'Valencia, España',
   tagline: 'Construyo agentes de IA y software de principio a fin, a medida de cada cliente.',
   // One-line hero subtitle (mirrors profile.subline).
-  subline: 'Convierto modelos de Machine Learning en productos escalables y listos para producción que generan un impacto real en el usuario.',
+  subline: 'Llevo la IA del prototipo a producción: agentes, automatizaciones y el software que los sostiene.',
   availability: 'Abierto a la oportunidad adecuada',
   bio: {
-    p1: 'Ingeniero de IA enfocado en transformar modelos de Machine Learning en productos escalables y listos para producción que generan un impacto directo en el usuario.',
-    p2: 'Mi experiencia abarca Machine Learning, Deep Learning, Visión por Computador y PLN (con certificación de Google AI y Anthropic). Gestiono todo el ciclo de vida del producto: desde el diseño y entrenamiento de modelos en Python y TensorFlow, hasta su integración fluida en el stack de desarrollo con React, Vue.js y Node.js.',
-    p3: 'A lo largo de mi carrera, he liderado la integración de IA, automatización y entornos de RA/RV para empresas de primer nivel como Scalextric, Bosch y Grupo Yara Construcciones.',
+    p1: 'Ingeniero de IA especializado en diseñar y poner en producción agentes de IA y sistemas automatizados que resuelven problemas reales de negocio.',
+    p2: 'Actualmente en CodeGenia traduzco necesidades de cliente en soluciones técnicas a medida: agentes conversacionales y de tarea sobre Google Cloud Vertex AI, integraciones entre APIs y modelos, y el software que los rodea de extremo a extremo, desde la arquitectura hasta el frontend en React, Vue.js y Node.js.',
+    p3: 'He construido la capa de agentes de IA de la plataforma global de Elecnor, trabajando con sus equipos de Estados Unidos y España. Otros trabajos me han llevado de la detección con redes neuronales convolucionales (CNN) para Scalextric a la visualización en RA/RV para Grupo Yara Construcciones y al software móvil para Bosch.',
   },
 
   // Stat labels, keyed by the English label.
@@ -94,8 +94,20 @@ export const es = {
 
   // Projects, keyed by slug.
   projects: {
+    'elecnor-intelligence-now-platform': {
+      title: 'Elecnor · Plataforma global Intelligence Now',
+      description:
+        'Una plataforma corporativa global para Elecnor impulsada por agentes de IA sobre Google Cloud Vertex AI, construida junto a sus equipos de Estados Unidos y España.',
+      body: 'Elecnor es una multinacional líder en infraestructuras y energía con operaciones en América y Europa. He contribuido al desarrollo de su plataforma global Intelligence Now, centrándome en la capa de agentes de IA construida sobre Google Cloud Vertex AI, y trabajando directamente con sus equipos de Estados Unidos y España. El trabajo incluyó diseñar e integrar agentes conversacionales y de tarea que automatizan flujos de negocio, extraen información de los datos internos y apoyan la toma de decisiones a escala en ambas regiones.',
+    },
+    'vestor': {
+      title: 'Vestor · Gestión de carteras y planificación financiera',
+      description:
+        'Plataforma moderna de seguimiento de carteras y planificación financiera, pensada para inversores a largo plazo.',
+      body: 'Vestor es un proyecto personal que construí desde cero: una plataforma moderna para seguir carteras de inversión y planificar objetivos financieros a largo plazo. Maneja datos reales de cartera con una interfaz limpia y enfocada, diseñada para inversores que piensan en años, no en minutos. Construida con React en el frontend y Convex como capa de base de datos en tiempo real y autenticación.',
+    },
     'scalextric-ai-detection': {
-      title: 'Scalextric — Detección de objetos con IA y web 3D',
+      title: 'Scalextric · Detección de objetos con IA y web 3D',
       description:
         'Detección de objetos en tiempo real sobre un circuito de Scalextric, junto a una representación 3D de los coches y el circuito ejecutándose en el navegador.',
       body: 'Un proyecto que combina visión por computador y la web: un modelo de IA detecta y rastrea los coches en un circuito físico de Scalextric en tiempo real, mientras una representación 3D en la web refleja la acción en vivo en el navegador. Reúne detección de objetos, datos en tiempo real y gráficos 3D interactivos en una sola experiencia.',
@@ -104,44 +116,60 @@ export const es = {
       title: 'Sistemas automatizados e integraciones de IA',
       description:
         'Un cuerpo de trabajo continuo automatizando procesos de negocio y conectando modelos de IA con software y herramientas existentes.',
-      body: 'Mi foco actual en Dare Planet Shuttle: construir sistemas y procesos automatizados, integrar modelos de IA en productos existentes y desarrollar el software a su alrededor. El trabajo abarca conectar APIs, eliminar pasos manuales de las operaciones del día a día y entregar integraciones que aguantan en producción.',
+      body: 'Mi foco actual en CodeGenia: construir sistemas y procesos automatizados, integrar modelos de IA en productos existentes y desarrollar el software a su alrededor. El trabajo abarca conectar APIs, eliminar pasos manuales de las operaciones del día a día y entregar integraciones que aguantan en producción.',
     },
     'yara-vr-ar': {
-      title: 'Grupo Yara — Visualización de pisos en RV y RA',
+      title: 'Grupo Yara · Visualización de pisos en RV y RA',
       description:
         'Herramientas de realidad virtual y aumentada que permiten a los compradores recorrer pisos antes de que estén construidos.',
-      body: 'Para Grupo Yara Construcciones desarrollé funcionalidades de realidad virtual y aumentada para visualizar pisos. Los posibles compradores pueden explorar los espacios de forma inmersiva — recorriendo distribuciones y acabados antes de la construcción — convirtiendo los planos arquitectónicos en algo por lo que puedes caminar de verdad.',
+      body: 'Para Grupo Yara Construcciones desarrollé funcionalidades de realidad virtual y aumentada para visualizar pisos. Los posibles compradores pueden explorar los espacios de forma inmersiva (recorriendo distribuciones y acabados antes de la construcción), convirtiendo los planos arquitectónicos en algo por lo que puedes caminar de verdad.',
     },
     'bosch-repair-app': {
-      title: 'Bosch — App del servicio técnico de reparaciones',
+      title: 'Bosch · App del servicio técnico de reparaciones',
       description: 'Una aplicación móvil que da soporte al flujo de trabajo del servicio técnico de reparaciones de Bosch.',
       body: 'Una aplicación móvil creada para dar soporte al servicio técnico de reparaciones de Bosch. Agiliza el flujo de trabajo de reparación para los técnicos, reuniendo los pasos de un servicio en una experiencia móvil única y enfocada.',
     },
     'itaca-sabien-web': {
-      title: 'ITACA-SABIEN — App web de tecnología sanitaria',
+      title: 'ITACA-SABIEN · App web de tecnología sanitaria',
       description:
         'Una aplicación web corporativa desarrollada dentro de un grupo de investigación centrado en tecnologías para la salud y el bienestar.',
-      body: 'Desarrollada dentro del grupo de investigación ITACA-SABIEN, centrado en tecnologías para la salud y el bienestar. El proyecto fue una aplicación web corporativa — mi primer trabajo práctico construyendo software real de pila completa en un entorno orientado a la investigación.',
+      body: 'Desarrollada dentro del grupo de investigación ITACA-SABIEN, centrado en tecnologías para la salud y el bienestar. El proyecto fue una aplicación web corporativa: mi primer trabajo práctico construyendo software real de pila completa en un entorno orientado a la investigación.',
     },
   } as Record<string, { title: string; description: string; body: string }>,
 
   // Experience entries, keyed by company.
   experience: {
-    'Codegenia': {
+    'CodeGenia': {
       role: 'Ingeniero de IA',
       description:
-        'Actualmente conecto las necesidades de los clientes con soluciones técnicas a medida. Especializado en Agentes de IA (Google Cloud) e implementación avanzada de modelos, sigo liderando el desarrollo de aplicaciones multiplataforma de principio a fin.',
+        'CodeGenia construye soluciones de IA y software a medida para sus clientes. Como Ingeniero de IA conecto las necesidades del cliente con la entrega técnica: diseño agentes de IA sobre Google Cloud Vertex AI, automatizo procesos de negocio y lidero el desarrollo de aplicaciones multiplataforma de principio a fin.',
+      highlights: [
+        'He construido la capa de agentes de IA de la plataforma global Intelligence Now de Elecnor sobre Google Cloud Vertex AI, trabajando directamente con sus equipos de Estados Unidos y España.',
+        'He diseñado agentes conversacionales y de tarea que automatizan flujos de negocio y extraen información de los datos internos para apoyar la toma de decisiones a escala.',
+        'He construido sistemas automatizados e integraciones que conectan modelos de IA y APIs con productos existentes, eliminando pasos manuales de las operaciones del día a día.',
+        'He entrenado y desplegado un modelo de detección de objetos en tiempo real para Scalextric, reflejado en vivo por una representación 3D del circuito en el navegador.',
+        'He desarrollado la visualización de pisos en RV y RA para Grupo Yara Construcciones, permitiendo a los compradores recorrer distribuciones y acabados antes de la construcción.',
+      ],
     },
     'Dare Planet Technology': {
       role: 'Desarrollador de Software',
-      description: 'Desarrollo de software full-stack en proyectos web y multiplataforma.',
+      description:
+        'Dare Planet Technology es un estudio de software que entrega productos web y multiplataforma para empresas cliente. Trabajé en toda la pila, llevando funcionalidades desde el modelo de datos hasta la interfaz: UIs web, servicios en Node.js y pantallas móviles nativas para proyectos de cliente.',
+      highlights: [
+        'Desarrollé la aplicación móvil del servicio técnico de reparaciones de Bosch en Kotlin, reuniendo los pasos de un servicio en un flujo único y enfocado para los técnicos de campo.',
+        'Construí y mantuve funcionalidades full-stack en proyectos web y multiplataforma, trabajando directamente contra los requisitos del cliente.',
+      ],
     },
     'ITACA-SABIEN': {
-      role: 'Desarrollador de Software — Tecnologías para la salud y el bienestar',
+      role: 'Desarrollador de Software (Tecnologías para la salud y el bienestar)',
       description:
-        'Desarrollé una aplicación web corporativa dentro de un grupo de investigación centrado en tecnologías para la salud y el bienestar.',
+        'ITACA-SABIEN es un grupo de investigación centrado en tecnologías para la salud y el bienestar. Desarrollé una aplicación web corporativa de principio a fin en un entorno orientado a la investigación: mi primera experiencia profesional entregando software real de pila completa, desde el modelo de datos hasta la interfaz.',
+      highlights: [
+        'Desarrollé una aplicación web corporativa cubriendo base de datos, backend e interfaz.',
+        'Trabajé dentro de un equipo de investigación, traduciendo requisitos de un dominio no informático en un producto funcional.',
+      ],
     },
-  } as Record<string, { role: string; description: string }>,
+  } as Record<string, { role: string; description: string; highlights: string[] }>,
 
   // Certifications, keyed by the English certificate name. Only entries whose
   // name actually differs in Spanish need translating; issuers are proper nouns

@@ -7,7 +7,7 @@ import { withBase } from '../scripts/paths';
 
 <nav id="main-nav">
   <div class="dock" id="nav-dock">
-    <a href={withBase('#top')} class="dock-item dock-logo" data-nav-link aria-label={`${profile.name} — home`}>
+    <a href={withBase('#top')} class="dock-item dock-logo" data-nav-link aria-label={`${profile.name}, home`}>
       <Logo />
       <span class="dock-tip" data-es="Inicio">Home</span>
     </a>
@@ -88,7 +88,7 @@ import { withBase } from '../scripts/paths';
   </div>
 </nav>
 
-<!-- Drop-down menu for small screens — a glass panel mirroring the dock,
+<!-- Drop-down menu for small screens: a glass panel mirroring the dock,
      separated from it by a gap. The section links are duplicated here (rather
      than moved) so the desktop dock keeps its own copy; the lang/theme toggles
      live here on mobile. Everything carries data-es so i18n translates it; the
@@ -174,7 +174,7 @@ import { withBase } from '../scripts/paths';
     pointer-events: none; /* only the dock itself is interactive */
   }
 
-  /* The floating glass dock — a contained pill, not a full-width bar. */
+  /* The floating glass dock: a contained pill, not a full-width bar. */
   .dock {
     pointer-events: auto;
     display: flex;
@@ -197,7 +197,7 @@ import { withBase } from '../scripts/paths';
     border-color: rgba(255, 255, 255, 0.12);
   }
 
-  /* Dock items — rounded squares that magnify on hover (see script). */
+  /* Dock items: rounded squares that magnify on hover (see script). */
   .dock-item {
     position: relative;
     display: inline-flex;
@@ -251,7 +251,7 @@ import { withBase } from '../scripts/paths';
     letter-spacing: 0.02em;
   }
 
-  /* Chat toggle — subtly highlighted by default to draw attention. */
+  /* Chat toggle: subtly highlighted by default to draw attention. */
   .chat-toggle {
     color: var(--color-accent);
   }
@@ -273,7 +273,7 @@ import { withBase } from '../scripts/paths';
     background: var(--color-accent);
   }
 
-  /* Tooltip label BELOW each item — the dock sits at the top of the viewport,
+  /* Tooltip label BELOW each item: the dock sits at the top of the viewport,
      so labels drop downward (opposite of a bottom-anchored macOS dock). */
   .dock-tip {
     position: absolute;
@@ -322,7 +322,7 @@ import { withBase } from '../scripts/paths';
     background: var(--color-border-glow);
   }
 
-  /* Hamburger is a mobile-only affordance — hidden on desktop where the full
+  /* Hamburger is a mobile-only affordance: hidden on desktop where the full
      dock is shown. The close (X) icon only appears while the menu is open. */
   .menu-toggle { display: none; }
   .menu-toggle .icon-close { display: none; }
@@ -451,7 +451,7 @@ import { withBase } from '../scripts/paths';
         inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
 
-    /* Rows inside the panel — icon + label, full width, tappable. */
+    /* Rows inside the panel: icon + label, full width, tappable. */
     .mobile-link {
       display: flex;
       align-items: center;
@@ -642,7 +642,7 @@ import { withBase } from '../scripts/paths';
 
   // Delegated handlers survive View Transition DOM swaps.
   // Capture phase + stopPropagation so this runs BEFORE Astro's ClientRouter
-  // link interception — otherwise the router jumps to the anchor instantly
+  // link interception: otherwise the router jumps to the anchor instantly
   // and Lenis never gets to animate the scroll.
   document.addEventListener(
     'click',
@@ -660,7 +660,7 @@ import { withBase } from '../scripts/paths';
         return;
       }
 
-      // Chat trigger — hand off to the persisted Chatbot component, which owns
+      // Chat trigger: hand off to the persisted Chatbot component, which owns
       // the docked panel's open/close state, and collapse the mobile menu.
       if (el.closest('.chat-toggle')) {
         e.preventDefault();
@@ -683,7 +683,7 @@ import { withBase } from '../scripts/paths';
       const link = el.closest('[data-nav-link]') as HTMLAnchorElement | null;
       if (!link) return;
 
-      // A section link was tapped — collapse the menu (no-op if already closed).
+      // A section link was tapped: collapse the menu (no-op if already closed).
       closeMenu();
 
       const href = link.getAttribute('href') ?? '';
@@ -706,7 +706,7 @@ import { withBase } from '../scripts/paths';
   // When landing on the home page with a hash (e.g. navigating back from a
   // project page via "/#projects"), smooth-scroll to it once Lenis is ready.
   document.addEventListener('astro:page-load', () => {
-    // The page content is swapped on navigation — re-translate + re-theme it.
+    // The page content is swapped on navigation: re-translate + re-theme it.
     syncPreferences();
     initDock();
     closeMenu();

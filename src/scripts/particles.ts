@@ -11,8 +11,8 @@ interface Particle {
   r: number;
 }
 
-const ACCENT_DARK = '124, 111, 247'; // #7C6FF7 — accent on the dark theme
-const ACCENT_LIGHT = '91, 79, 214'; //  #5B4FD6 — accent on the light theme
+const ACCENT_DARK = '124, 111, 247'; // #7C6FF7: accent on the dark theme
+const ACCENT_LIGHT = '91, 79, 214'; //  #5B4FD6: accent on the light theme
 const LINK_DISTANCE = 120;
 const MOUSE_RADIUS = 150;
 

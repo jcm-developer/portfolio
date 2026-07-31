@@ -1,7 +1,7 @@
 // src/data/profile.ts
 // SINGLE SOURCE OF TRUTH for all personal content.
 // Every value here is extracted from the CV at src/assets/cv/cv_en.pdf.
-// Never hardcode personal data anywhere else in the codebase — import from here.
+// Never hardcode personal data anywhere else in the codebase: import from here.
 
 export interface Stat {
   label: string;
@@ -31,6 +31,7 @@ export interface Profile {
 export interface Project {
   slug: string;
   title: string;
+  type: 'company' | 'personal';
   description: string;
   body: string;
   stack: string[];
@@ -50,6 +51,7 @@ export interface Experience {
   endDate: string;
   current: boolean;
   description: string;
+  highlights: string[]; // achievement bullets, rendered under the description
   impact: string;
   stack: string[];
   order: number;
@@ -79,14 +81,14 @@ export const profile: Profile = {
   linkedin: 'https://www.linkedin.com/in/jaume-cortes-monzon-developer/',
   github: 'https://github.com/jcm-developer',
   tagline: 'I build AI agents and end-to-end software, tailored to each client.',
-  subline: 'I turn Machine Learning models into scalable, production-ready products that deliver real user impact.',
+  subline: 'I take AI from prototype to production: agents, automations, and the software that holds them together.',
   bio: {
-    p1: "AI Engineer focused on transforming Machine Learning models into scalable, production-ready products that deliver direct user impact.",
-    p2: 'My expertise spans Machine Learning, Deep Learning, Computer Vision, and NLP (certified by Google AI and Anthropic). I manage the entire product lifecycle: from designing and training models in Python and TensorFlow, to seamlessly integrating them into the development stack using React, Vue.js, and Node.js.',
-    p3: 'Throughout my career, I have led the integration of AI, automation, and AR/VR environments for top-tier companies such as Scalextric, Bosch, and Grupo Yara Construcciones.',
+    p1: 'AI Engineer specialized in designing and shipping AI agents and automated systems that solve real business problems.',
+    p2: 'Currently at CodeGenia, I translate client needs into tailored technical solutions: conversational and task-based agents on Google Cloud Vertex AI, integrations between APIs and models, and the end-to-end software around them, from architecture to the frontend in React, Vue.js, and Node.js.',
+    p3: 'I have built the AI agents layer of Elecnor’s global platform, working with their teams in the United States and Spain. Other work has taken me from convolutional neural network (CNN) detection for Scalextric to AR/VR visualization for Grupo Yara Construcciones and mobile software for Bosch.',
   },
   availability: 'Open to the right opportunity',
-  languages: ['Spanish — Native', 'Catalan — Native', 'English — B2'],
+  languages: ['Spanish (Native)', 'Catalan (Native)', 'English (B2)'],
   stats: [
     { label: 'Years building', value: '3+' },
     { label: 'Projects shipped', value: '6+' },
@@ -96,93 +98,149 @@ export const profile: Profile = {
 
 export const projects: Project[] = [
   {
-    slug: 'scalextric-ai-detection',
-    title: 'Scalextric — AI Object Detection & 3D Web',
+    slug: "elecnor-intelligence-now-platform",
+    title: "Elecnor · Intelligence Now Global Platform",
+    type: "company",
     description:
-      'Real-time object detection on a Scalextric race track, paired with a 3D rendering of the cars and circuit running in the browser.',
-    body: 'A project combining computer vision and the web: an AI model detects and tracks the cars on a physical Scalextric track in real time, while a 3D web rendering mirrors the action live in the browser. It brings together object detection, real-time data, and interactive 3D graphics in a single experience.',
-    stack: ['Python', 'Object Detection', 'Machine Learning', 'Web 3D'],
+      "A global enterprise platform for Elecnor powered by AI agents built on Google Cloud Vertex AI, built alongside their teams in the United States and Spain.",
+    body: "Elecnor is a leading multinational infrastructure and energy company with operations across the Americas and Europe. I contributed to the development of their global Intelligence Now platform, focusing on the AI agents layer built on Google Cloud Vertex AI, and worked directly with their teams in the United States and Spain. The work involved designing and integrating conversational and task-based agents that automate business workflows, surface insights from internal data, and support decision-making at scale across both regions.",
+    stack: ["Google Cloud", "Vertex AI", "AI Agents", "Python"],
     featured: true,
-    metrics: '', // not present in CV
-    year: '2023',
-    github: '',
-    demo: '',
-    image: '', // styled placeholder rendered when empty
+    metrics: "",
+    year: "2026 – Present",
+    github: "",
+    demo: "",
+    image: "/elecnor.png",
     order: 1,
   },
   {
-    slug: 'automated-systems',
-    title: 'Automated Systems & AI Integrations',
+    slug: "vestor",
+    title: "Vestor · Portfolio & Financial Planning",
+    type: "personal",
     description:
-      'An ongoing body of work automating business processes and wiring AI models into existing software and tooling.',
-    body: 'My current focus at Dare Planet Shuttle: building automated systems and processes, integrating AI models into existing products, and developing the software around them. The work spans connecting APIs, removing manual steps from day-to-day operations, and shipping integrations that hold up in production.',
-    stack: ['Python', 'AI Automations', 'Integrations', 'APIs'],
+      "Modern portfolio tracking and financial planning platform built for long-term investors.",
+    body: "Vestor is a personal project I built from scratch: a modern platform for tracking investment portfolios and planning long-term financial goals. It handles real portfolio data with a clean, focused interface designed for investors who think in years, not minutes. Built with React on the frontend and Convex for the real-time database and authentication layer.",
+    stack: ["React", "Convex", "TypeScript"],
     featured: true,
-    metrics: '',
-    year: '2024 – Present',
-    github: '',
-    demo: '',
-    image: '',
+    metrics: "",
+    year: "2025",
+    github: "https://github.com/jcm-developer/vestor-max",
+    demo: "",
+    image: "/vestor.png",
     order: 2,
   },
   {
-    slug: 'yara-vr-ar',
-    title: 'Grupo Yara — VR & AR Apartment Visualization',
+    slug: "scalextric-ai-detection",
+    title: "Scalextric · AI Object Detection & 3D Web",
+    type: "company",
     description:
-      'Virtual and augmented reality tools that let buyers walk through apartments before they are built.',
-    body: 'For Grupo Yara Construcciones I built virtual and augmented reality features for visualizing apartments. Prospective buyers can explore spaces immersively — touring layouts and finishes ahead of construction — turning architectural plans into something you can actually walk through.',
-    stack: ['C#', 'VR', 'AR', 'Blender'],
-    featured: false,
-    metrics: '',
-    year: '2024',
-    github: '',
-    demo: '',
-    image: '',
+      "Real-time object detection on a Scalextric race track, paired with a 3D rendering of the cars and circuit running in the browser.",
+    body: "A project combining computer vision and the web: an AI model detects and tracks the cars on a physical Scalextric track in real time, while a 3D web rendering mirrors the action live in the browser. It brings together object detection, real-time data, and interactive 3D graphics in a single experience.",
+    stack: ["Python", "Object Detection", "Machine Learning", "Web 3D"],
+    featured: true,
+    metrics: "",
+    year: "2023",
+    github: "",
+    demo: "",
+    image: "/scalextric.png",
     order: 3,
   },
   {
-    slug: 'bosch-repair-app',
-    title: 'Bosch — Technical Repair Service App',
+    slug: "automated-systems",
+    title: "Automated Systems & AI Integrations",
+    type: "company",
     description:
-      'A mobile application supporting the workflow of Bosch’s technical repair service.',
-    body: 'A mobile application built to support Bosch’s technical repair service. It streamlines the repair workflow for technicians, bringing the steps of a service job into a single, focused mobile experience.',
-    stack: ['Kotlin', 'Mobile', 'REST APIs'],
-    featured: false,
-    metrics: '',
-    year: '2022',
-    github: '',
-    demo: '',
-    image: '',
+      "An ongoing body of work automating business processes and wiring AI models into existing software and tooling.",
+    body: "My current focus at CodeGenia: building automated systems and processes, integrating AI models into existing products, and developing the software around them. The work spans connecting APIs, removing manual steps from day-to-day operations, and shipping integrations that hold up in production.",
+    stack: ["Python", "AI Automations", "Integrations", "APIs"],
+    featured: true,
+    metrics: "",
+    year: "2024 – Present",
+    github: "",
+    demo: "",
+    image: "/automation.png",
     order: 4,
   },
   {
-    slug: 'itaca-sabien-web',
-    title: 'ITACA-SABIEN — Health Tech Web App',
+    slug: "yara-vr-ar",
+    title: "Grupo Yara · VR & AR Apartment Visualization",
+    type: "company",
     description:
-      'A company web application built within a research group working on health and well-being technologies.',
-    body: 'Developed within the ITACA-SABIEN research group, which focuses on health and well-being technologies. The project was a company web application — my early hands-on work building real, full-stack software in a research-driven environment.',
-    stack: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
+      "Virtual and augmented reality tools that let buyers walk through apartments before they are built.",
+    body: "For Grupo Yara Construcciones I built virtual and augmented reality features for visualizing apartments. Prospective buyers can explore spaces immersively (touring layouts and finishes ahead of construction), turning architectural plans into something you can actually walk through.",
+    stack: ["C#", "VR", "AR", "Blender"],
     featured: false,
-    metrics: '',
-    year: '2020',
-    github: '',
-    demo: '',
-    image: '',
+    metrics: "",
+    year: "2024",
+    github: "",
+    demo: "",
+    image: "/yara.png",
     order: 5,
+  },
+  {
+    slug: "bosch-repair-app",
+    title: "Bosch · Technical Repair Service App",
+    type: "company",
+    description:
+      "A mobile application supporting the workflow of Bosch’s technical repair service.",
+    body: "A mobile application built to support Bosch’s technical repair service. It streamlines the repair workflow for technicians, bringing the steps of a service job into a single, focused mobile experience.",
+    stack: ["Kotlin", "Mobile", "REST APIs"],
+    featured: false,
+    metrics: "",
+    year: "2022",
+    github: "",
+    demo: "",
+    image: "/bosch.png",
+    order: 6,
+  },
+  {
+    slug: "itaca-sabien-web",
+    title: "ITACA-SABIEN · Health Tech Web App",
+    type: "company",
+    description:
+      "A company web application built within a research group working on health and well-being technologies.",
+    body: "Developed within the ITACA-SABIEN research group, which focuses on health and well-being technologies. The project was a company web application: my early hands-on work building real, full-stack software in a research-driven environment.",
+    stack: ["JavaScript", "Vue.js", "Node.js", "PostgreSQL"],
+    featured: false,
+    metrics: "",
+    year: "2020",
+    github: "",
+    demo: "",
+    image: "/itaca-sabien.png",
+    order: 7,
   },
 ];
 
 export const experience: Experience[] = [
   {
-    company: 'Codegenia',
+    company: 'CodeGenia',
     role: 'AI Engineer',
     startDate: '2023',
     endDate: 'Present',
     current: true,
     description:
-      'Currently, I bridge the gap between client needs and tailored technical solutions. Specializing in AI Agents (Google Cloud) and advanced model implementation, I continue to lead the end-to-end development of multiplatform applications.',
+      'CodeGenia builds tailored AI and software solutions for its clients. As an AI Engineer I bridge client needs and technical delivery: designing AI agents on Google Cloud Vertex AI, automating business processes, and leading the end-to-end development of multiplatform applications.',
+    highlights: [
+      'Built the AI agents layer of Elecnor’s global Intelligence Now platform on Google Cloud Vertex AI, working directly with their teams in the United States and Spain.',
+      'Designed conversational and task-based agents that automate business workflows and surface insights from internal data to support decision-making at scale.',
+      'Built automated systems and integrations that wire AI models and APIs into existing products, removing manual steps from day-to-day operations.',
+      'Trained and deployed a real-time object detection model for Scalextric, mirrored live by a 3D rendering of the track in the browser.',
+      'Developed VR and AR apartment visualization for Grupo Yara Construcciones, letting buyers tour layouts and finishes before construction.',
+    ],
     impact: '',
-    stack: ['Python', 'AI Automations', 'Integrations', 'APIs'],
+    stack: [
+      'Python',
+      'Google Cloud',
+      'Vertex AI',
+      'AI Agents',
+      'Machine Learning',
+      'Object Detection',
+      'AI Automations',
+      'APIs',
+      'React',
+      'Node.js',
+      'C#',
+    ],
     order: 1,
   },
   {
@@ -191,9 +249,14 @@ export const experience: Experience[] = [
     startDate: '2022',
     endDate: '2022',
     current: false,
-    description: 'Full-stack software development across web and cross-platform projects.',
+    description:
+      'Dare Planet Technology is a software studio delivering web and cross-platform products for client companies. I worked across the full stack, taking features from the data model up to the interface: web UIs, services in Node.js, and native mobile screens for client projects.',
+    highlights: [
+      'Developed the technical repair service mobile app for Bosch in Kotlin, bringing the steps of a service job into a single focused workflow for field technicians.',
+      'Built and maintained full-stack features across web and cross-platform projects, working directly against client requirements.',
+    ],
     impact: '',
-    stack: ['JavaScript', 'Vue.js', 'Node.js'],
+    stack: ['JavaScript', 'Vue.js', 'Node.js', 'Kotlin', 'REST APIs'],
     order: 2,
   },
   {
@@ -203,7 +266,11 @@ export const experience: Experience[] = [
     endDate: '2020',
     current: false,
     description:
-      'Built a company web application within a research group focused on health and well-being technologies.',
+      'ITACA-SABIEN is a research group working on health and well-being technologies. I built a company web application end to end in a research-driven environment: my first professional experience shipping real full-stack software, from the data model up to the interface.',
+    highlights: [
+      'Developed a company web application covering database, backend and interface.',
+      'Worked inside a research team, turning requirements from a non-software domain into a working product.',
+    ],
     impact: '',
     stack: ['JavaScript', 'PHP', 'PostgreSQL'],
     order: 3,
@@ -333,11 +400,30 @@ export const education: Education[] = [
   { school: 'Centro de FP SOLVAM', field: 'Microcomputer Systems and Networks', year: '2018' },
 ];
 
-// Tech stack grouped by category. Only technologies present in the CV are listed.
+// Tech stack grouped by category. Every entry must be backed by a project,
+// an experience entry, or a certification listed above — this list is what the
+// chatbot answers "what does he work with?" from.
 export const stack: Record<string, string[]> = {
-  'AI / ML': ['Machine Learning', 'Deep Learning', 'Object Detection', 'AI Automations'],
-  'Languages': ['Python', 'JavaScript', 'C#', 'Kotlin', 'PHP'],
-  'Frameworks': ['Vue.js', 'Node.js', 'React', 'Symfony', 'SASS'],
-  'Data & Infra': ['Docker', 'PostgreSQL', 'MySQL', 'MongoDB', 'Firebase', 'PowerBI'],
+  'AI / ML': [
+    'AI Agents',
+    'Machine Learning',
+    'Deep Learning',
+    'Object Detection',
+    'AI Automations',
+    'LLMs',
+    'MCP',
+  ],
+  'Languages': ['Python', 'TypeScript', 'JavaScript', 'C#', 'Kotlin', 'PHP'],
+  'Frameworks': ['React', 'Vue.js', 'Node.js', 'Convex', 'Symfony', 'SASS'],
+  'Data & Infra': [
+    'Google Cloud',
+    'Vertex AI',
+    'Docker',
+    'PostgreSQL',
+    'MySQL',
+    'MongoDB',
+    'Firebase',
+    'PowerBI',
+  ],
   'Tools & 3D': ['Git', 'GitHub', 'Postman', 'Figma', 'Blender'],
 };

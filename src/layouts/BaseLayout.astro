@@ -15,7 +15,7 @@ interface Props {
 const topSkills = Object.values(stack).flat().slice(0, 3).join(', ');
 
 const {
-  title = `${profile.name} — ${profile.role}`,
+  title = `${profile.name} · ${profile.role}`,
   description = `Portfolio of ${profile.name}, ${profile.role} specializing in ${topSkills}. Based in ${profile.location}.`,
 } = Astro.props;
 
@@ -104,7 +104,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 
       // Fires on first load and after every View Transition navigation.
       document.addEventListener('astro:page-load', setup);
-      // Fires before the DOM is swapped out — clean up GSAP + Lenis.
+      // Fires before the DOM is swapped out: clean up GSAP + Lenis.
       document.addEventListener('astro:before-swap', teardown);
     </script>
   </body>
