@@ -49,7 +49,7 @@ const links = [
 
       <div class="detail-visual" transition:name={`project-img-${project.slug}`}>
         {project.image
-          ? <img src={project.image} alt={project.title} class="detail-visual-img" />
+          ? <img src={withBase(project.image)} alt={project.title} class="detail-visual-img" />
           : <span class="detail-visual-mark" data-es={(esp?.title ?? project.title).split(' ')[0]}>{project.title.split(' ')[0]}</span>
         }
       </div>

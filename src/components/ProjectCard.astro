@@ -20,7 +20,7 @@ const esp = es.projects[project.slug];
     {project.metrics && <span class="metrics-badge">{project.metrics}</span>}
     <span class="card-visual-year" data-es={esDate(project.year)}>{project.year}</span>
     {project.image
-      ? <img src={project.image} alt={project.title} class="card-visual-img" />
+      ? <img src={withBase(project.image)} alt={project.title} class="card-visual-img" />
       : <span class="card-visual-mark" data-es={(esp?.title ?? project.title).split(' ')[0]}>{project.title.split(' ')[0]}</span>
     }
   </div>
