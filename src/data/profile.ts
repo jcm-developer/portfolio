@@ -99,11 +99,11 @@ export const profile: Profile = {
 export const projects: Project[] = [
   {
     slug: "elecnor-intelligence-now-platform",
-    title: "Elecnor · Intelligence Now Global Platform",
+    title: "Elecnor · Global Platform",
     type: "company",
     description:
       "A global enterprise platform for Elecnor powered by AI agents built on Google Cloud Vertex AI, built alongside their teams in the United States and Spain.",
-    body: "Elecnor is a leading multinational infrastructure and energy company with operations across the Americas and Europe. I contributed to the development of their global Intelligence Now platform, focusing on the AI agents layer built on Google Cloud Vertex AI, and worked directly with their teams in the United States and Spain. The work involved designing and integrating conversational and task-based agents that automate business workflows, surface insights from internal data, and support decision-making at scale across both regions.",
+    body: "Elecnor is a leading multinational infrastructure and energy company with operations across the Americas and Europe. I contributed to the development of their global platform, focusing on the AI agents layer built on Google Cloud Vertex AI, and worked directly with their teams in the United States and Spain. The work involved designing and integrating conversational and task-based agents that automate business workflows, surface insights from internal data, and support decision-making at scale across both regions.",
     stack: ["Google Cloud", "Vertex AI", "AI Agents", "Python"],
     featured: true,
     metrics: "",
@@ -221,7 +221,7 @@ export const experience: Experience[] = [
     description:
       'CodeGenia builds tailored AI and software solutions for its clients. As an AI Engineer I bridge client needs and technical delivery: designing AI agents on Google Cloud Vertex AI, automating business processes, and leading the end-to-end development of multiplatform applications.',
     highlights: [
-      'Built the AI agents layer of Elecnor’s global Intelligence Now platform on Google Cloud Vertex AI, working directly with their teams in the United States and Spain.',
+      'Built the AI agents layer of Elecnor’s global platform on Google Cloud Vertex AI, working directly with their teams in the United States and Spain.',
       'Designed conversational and task-based agents that automate business workflows and surface insights from internal data to support decision-making at scale.',
       'Built automated systems and integrations that wire AI models and APIs into existing products, removing manual steps from day-to-day operations.',
       'Trained and deployed a real-time object detection model for Scalextric, mirrored live by a 3D rendering of the track in the browser.',

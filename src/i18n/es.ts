@@ -95,10 +95,10 @@ export const es = {
   // Projects, keyed by slug.
   projects: {
     'elecnor-intelligence-now-platform': {
-      title: 'Elecnor · Plataforma global Intelligence Now',
+      title: 'Elecnor · Plataforma global',
       description:
         'Una plataforma corporativa global para Elecnor impulsada por agentes de IA sobre Google Cloud Vertex AI, construida junto a sus equipos de Estados Unidos y España.',
-      body: 'Elecnor es una multinacional líder en infraestructuras y energía con operaciones en América y Europa. He contribuido al desarrollo de su plataforma global Intelligence Now, centrándome en la capa de agentes de IA construida sobre Google Cloud Vertex AI, y trabajando directamente con sus equipos de Estados Unidos y España. El trabajo incluyó diseñar e integrar agentes conversacionales y de tarea que automatizan flujos de negocio, extraen información de los datos internos y apoyan la toma de decisiones a escala en ambas regiones.',
+      body: 'Elecnor es una multinacional líder en infraestructuras y energía con operaciones en América y Europa. He contribuido al desarrollo de su plataforma global, centrándome en la capa de agentes de IA construida sobre Google Cloud Vertex AI, y trabajando directamente con sus equipos de Estados Unidos y España. El trabajo incluyó diseñar e integrar agentes conversacionales y de tarea que automatizan flujos de negocio, extraen información de los datos internos y apoyan la toma de decisiones a escala en ambas regiones.',
     },
     'vestor': {
       title: 'Vestor · Gestión de carteras y planificación financiera',
@@ -144,7 +144,7 @@ export const es = {
       description:
         'CodeGenia construye soluciones de IA y software a medida para sus clientes. Como Ingeniero de IA conecto las necesidades del cliente con la entrega técnica: diseño agentes de IA sobre Google Cloud Vertex AI, automatizo procesos de negocio y lidero el desarrollo de aplicaciones multiplataforma de principio a fin.',
       highlights: [
-        'He construido la capa de agentes de IA de la plataforma global Intelligence Now de Elecnor sobre Google Cloud Vertex AI, trabajando directamente con sus equipos de Estados Unidos y España.',
+        'He construido la capa de agentes de IA de la plataforma global de Elecnor sobre Google Cloud Vertex AI, trabajando directamente con sus equipos de Estados Unidos y España.',
         'He diseñado agentes conversacionales y de tarea que automatizan flujos de negocio y extraen información de los datos internos para apoyar la toma de decisiones a escala.',
         'He construido sistemas automatizados e integraciones que conectan modelos de IA y APIs con productos existentes, eliminando pasos manuales de las operaciones del día a día.',
         'He entrenado y desplegado un modelo de detección de objetos en tiempo real para Scalextric, reflejado en vivo por una representación 3D del circuito en el navegador.',
