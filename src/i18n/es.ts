@@ -26,7 +26,7 @@ export const es = {
       scroll: 'scroll',
     },
     aboutHeading: 'Sobre mí',
-    projectsHeading: 'Trabajo seleccionado',
+    projectsHeading: 'Mis proyectos',
     experienceHeading: 'Experiencia',
     certificationsLabel: 'Certificaciones',
     certificationsLead: 'Todas mis certificaciones y formaciones. Haz clic en cualquiera para ver la credencial.',
@@ -50,7 +50,7 @@ export const es = {
     detail: {
       back: '← Volver al trabajo',
       nextProjectLabel: 'Siguiente proyecto',
-      viewOnGithub: 'Ver en GitHub',
+      viewOnGithub: 'Ver proyecto',
       liveDemo: 'Demo en vivo',
     },
     chatbot: {

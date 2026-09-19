@@ -124,7 +124,7 @@ export const projects: Project[] = [
     featured: true,
     metrics: "",
     year: "2025",
-    github: "https://github.com/jcm-developer/vestor-max",
+    github: "https://vestor-max.pages.dev",
     demo: "",
     image: "/vestor.png",
     order: 2,

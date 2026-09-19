@@ -25,7 +25,7 @@ const { project, next } = Astro.props;
 const esp = es.projects[project.slug];
 const esNext = es.projects[next.slug];
 const links = [
-  { label: 'View on GitHub', es: es.ui.detail.viewOnGithub, url: project.github },
+  { label: 'View project', es: es.ui.detail.viewOnGithub, url: project.github },
   { label: 'Live demo', es: es.ui.detail.liveDemo, url: project.demo },
 ].filter((l) => l.url);
 ---
