@@ -47,7 +47,7 @@ portfolio/
 ├── .dev.vars.example       # Template for local secrets
 ├── docs/                   # Code style, workflow, operations, decisions, domains
 ├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, project images
-├── scripts/                # check-docs.mjs
+├── scripts/                # check-docs.mjs, test.mjs (Vitest wrapper)
 ├── src/
 │   ├── assets/             # Images optimized at build time
 │   ├── components/         # Astro components

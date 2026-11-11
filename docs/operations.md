@@ -37,7 +37,7 @@ npm run dev                      # http://localhost:4321, with hot reload
 | `npm run build` | Production build: static files in `dist/client/`, the Worker in `dist/server/` with the deployable `wrangler.json`. |
 | `npm run preview` | Serves the last build with `wrangler dev` on http://localhost:8787: the real Worker, with the headers from `public/_headers`. Run `npm run build` first. |
 | `npm run check` | Type check of `.astro` and `.ts` files. |
-| `npm test` | Unit tests (Vitest). |
+| `npm test` | Unit tests (Vitest), through `scripts/test.mjs`. Extra arguments pass through: `npm test -- src/lib/chat`. |
 
 `npm run dev` does not apply `public/_headers`, so a Content Security Policy violation only
 shows up under `npm run preview`. Check there after touching scripts, styles or fonts.

@@ -119,6 +119,10 @@ const props = defineProps<{ message: string; tone: 'info' | 'success' | 'error' 
 
 - **Runner:** Vitest (`npm test`). Tests live next to the module they cover
   (`src/lib/chat/validate.test.ts`).
+- **Run them through `npm test`, not `npx vitest`.** `scripts/test.mjs` starts Vitest from the
+  path with an uppercase drive letter. On Windows, when Node starts as `c:\...` (a VS Code
+  terminal does this), Vitest 5 loads its runner twice and every suite fails at `describe`
+  with "reading 'config'".
 - **What gets a test:** pure logic, above all everything in `src/lib/chat/` that decides what
   the chat endpoint accepts or forwards. Markup and styles are checked in the browser.
 

@@ -20,7 +20,10 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 
 const ROOT = execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim();
-const EM_DASH = String.fromCharCode(0x2014);
+// A tree may start with the folder name or with the name of the `origin` repository: a clone
+// can live in a folder named differently from the repository.
+const REPO_NAMES = new Set([basename(ROOT), originName()].filter(Boolean));
+const EM_DASH =String.fromCharCode(0x2014);
 const BINARY =
   /\.(png|jpe?g|gif|ico|webp|avif|bmp|svgz|woff2?|ttf|otf|eot|pdf|zip|gz|tgz|mp3|mp4|webm|mov|glb|gltf|wasm|pyc|ipynb|db|sqlite)$/i;
 const SKIP_TEXT =
@@ -30,6 +33,23 @@ const MAP_MARKER = /^<!--\s*check-docs:\s*map(\s+strict)?\s*-->\s*$/;
 const UNMAPPED = /(\.test\.|\.spec\.|\.d\.ts$|^__init__\.py$|^\.)/;
 
 const errors = [];
+
+/**
+ * Returns the repository name from the `origin` remote URL, if there is one.
+ *
+ * @return {string | null} The name without `.git`, or null without an `origin` remote.
+ */
+function originName() {
+  try {
+    const url = execFileSync('git', ['remote', 'get-url', 'origin'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    return url.match(/([^/:]+?)(?:\.git)?\/?$/)?.[1] ?? null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Returns the repository files git knows about, tracked or new but not ignored.
@@ -128,7 +148,7 @@ function anchorsOf(text) {
 function parseTree(lines) {
   const head = lines[0].match(/^([\w.@-][\w./@-]*)\/\s*(#.*)?$/);
   if (!head) return null;
-  const root = head[1] === basename(ROOT) ? '.' : head[1];
+  const root = REPO_NAMES.has(head[1]) ? '.' : head[1];
   const stack = [];
   const paths = [];
   const dirs = new Set();

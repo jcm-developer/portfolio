@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "wrangler dev",
     "check": "astro check",
-    "test": "vitest run",
+    "test": "node scripts/test.mjs",
     "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
