@@ -3,8 +3,9 @@ import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
 // SITE_URL is the canonical origin used by the sitemap and the canonical and
-// hreflang tags. Set it as a build variable in the Cloudflare dashboard.
-const SITE = process.env.SITE_URL || 'https://jaumecortes.dev';
+// hreflang tags. It defaults to the production workers.dev origin; set it as a build variable
+// in the Cloudflare dashboard only when the site moves to another domain.
+const SITE = process.env.SITE_URL || 'https://portfolio.jaumecortesmonzon.workers.dev';
 
 // https://astro.build/config
 export default defineConfig({

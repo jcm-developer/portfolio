@@ -10,7 +10,7 @@ portfolio runs outside the code itself.
 | `OPENAI_API_KEY` | Worker secret (runtime) | For the assistant | Key used by `src/pages/api/chat.ts`. Without it the site works and the assistant answers "unavailable". |
 | `OPENAI_MODEL` | Worker variable (runtime) | No | Model id. Defaults to `DEFAULT_MODEL` in `src/pages/api/chat.ts`. |
 | `OPENAI_CHAT_URL` | Worker variable (runtime) | No | Any OpenAI-compatible chat completions URL, to route through a gateway or a local mock. |
-| `SITE_URL` | Build variable | Recommended | Canonical origin for the sitemap, canonical and hreflang tags (`astro.config.mjs`). |
+| `SITE_URL` | Build variable | No | Canonical origin for the sitemap, canonical and hreflang tags (`astro.config.mjs`). Defaults to the production origin, https://portfolio.jaumecortesmonzon.workers.dev; set it only for a custom domain. Previews keep the production origin on purpose, so they never compete with it in search. |
 
 Never commit a secret. Variables that end up in a public bundle are public.
 
@@ -51,7 +51,7 @@ is created once from the dashboard:
 1. Workers & Pages, Create, Import a repository, pick this repo.
 2. Project name: `portfolio`. It must match `name` in `wrangler.jsonc`.
 3. Build command: `npm run build`. Deploy command: `npx wrangler deploy`.
-4. Build variables: `SITE_URL` with the final origin (the `workers.dev` URL or the custom domain).
+4. Build variables: none needed. Set `SITE_URL` only after moving to a custom domain.
 5. After the first deploy: Settings, Variables and Secrets, add `OPENAI_API_KEY` as type
    **Secret**. Secrets apply to the Worker at runtime, not to the build.
 
