@@ -2,24 +2,27 @@
 import type { SectionId } from '../i18n';
 
 /**
- * Lays out one home page section as the CV does: a spaced label in a narrow left column
- * and the content in the wide one.
+ * Lays out one home page section as the CV does: the spaced label in a narrow left column
+ * and the content in the wide one, under a hairline that draws itself into view.
  *
  * @param id - The anchor id, also the target of the assistant's navigation.
  * @param label - The visible heading.
+ * @param tone - The background: plain paper or the lavender tint.
  */
 interface Props {
   id: SectionId;
   label: string;
+  tone?: 'paper' | 'tint';
 }
 
-const { id, label } = Astro.props;
+const { id, label, tone = 'paper' } = Astro.props;
 ---
 
-<section id={id} class="section" aria-labelledby={`${id}-label`}>
+<section id={id} class:list={['section', `section-${tone}`]} aria-labelledby={`${id}-label`}>
   <div class="wrap section-grid">
-    <h2 id={`${id}-label`} class="label section-label">{label}</h2>
+    <h2 id={`${id}-label`} class="label section-label" data-reveal>{label}</h2>
     <div class="section-body">
+      <div class="rule section-rule" data-reveal aria-hidden="true"></div>
       <slot />
     </div>
   </div>
@@ -31,23 +34,35 @@ const { id, label } = Astro.props;
     scroll-margin-top: var(--nav-height);
   }
 
-  .section + .section {
+  .section-tint {
+    background: var(--tint);
     border-top: 1px solid var(--rule);
   }
 
   .section-grid {
     display: grid;
-    grid-template-columns: 13rem minmax(0, 1fr);
-    gap: 2rem clamp(2rem, 6vw, 5rem);
+    grid-template-columns: var(--side) minmax(0, 1fr);
+    gap: 1.5rem clamp(2rem, 6vw, 5rem);
   }
 
   .section-label {
     position: relative;
     align-self: start;
-    padding-top: 0.25rem;
+    /* Lines the label up with the hairline at the top of the content. */
+    margin-top: -0.55rem;
   }
 
-  /* A rule that draws itself beside the label when the assistant brings the visitor here. */
+  .section-body {
+    min-width: 0;
+  }
+
+  .section-rule {
+    height: 1px;
+    margin-bottom: clamp(2rem, 4vw, 2.75rem);
+    background: var(--rule);
+  }
+
+  /* A short rule that draws itself under the label when the assistant brings the visitor here. */
   .section-label::after {
     content: '';
     display: block;
@@ -67,6 +82,10 @@ const { id, label } = Astro.props;
   @media (max-width: 52rem) {
     .section-grid {
       grid-template-columns: minmax(0, 1fr);
+    }
+
+    .section-label {
+      margin-top: 0;
     }
   }
 </style>

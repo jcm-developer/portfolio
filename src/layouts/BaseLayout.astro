@@ -11,7 +11,7 @@ import { profile } from '../data/profile';
 import { getDictionary, LOCALES, type Locale } from '../i18n';
 
 /**
- * Wraps every page: document head, top bar, footer and the assistant.
+ * Wraps every page: document head, top bar, footer, the assistant and the scroll motion.
  *
  * @param locale - The locale of the page.
  * @param title - The document title; defaults to the site title.
@@ -93,6 +93,10 @@ const person = {
     <Chat locale={locale} />
   </body>
 </html>
+
+<script>
+  import '../scripts/motion';
+</script>
 
 <style>
   .skip {

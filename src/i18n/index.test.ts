@@ -11,7 +11,6 @@ describe('dictionaries', () => {
       expect(other.projects).toHaveLength(first.projects.length);
       expect(other.skills).toHaveLength(first.skills.length);
       expect(other.education.studies).toHaveLength(first.education.studies.length);
-      expect(other.hero.chips).toHaveLength(first.hero.chips.length);
     }
   });
 

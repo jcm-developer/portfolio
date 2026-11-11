@@ -25,7 +25,6 @@ export const en: Dictionary = {
     askLabel: 'Ask my assistant',
     askPlaceholder: 'What is he working on right now?',
     askSubmit: 'Ask',
-    chips: ['What is he working on now?', 'Which technologies does he use?', 'How can I contact him?'],
     photoAlt: 'Portrait of Jaume Cortés',
   },
   about: {

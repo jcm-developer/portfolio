@@ -55,7 +55,7 @@ portfolio/
 │   ├── layouts/            # BaseLayout.astro
 │   ├── lib/chat/           # Server-side chat logic: validation, prompt, stream parser
 │   ├── pages/              # Routes: index.ts, [lang]/index.astro, api/chat.ts, 404.astro
-│   ├── scripts/            # Browser scripts: chat.ts, ribbon.ts
+│   ├── scripts/            # Browser scripts: chat.ts, ribbon.ts, motion.ts
 │   └── styles/             # global.css: tokens and shared primitives
 ├── .githooks/              # commit-msg and pre-commit
 └── .github/                # CI workflows, issue and pull request templates

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../../assets/portrait.jpg';
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
 import { certifications, profile, projectMedia } from '../../data/profile';
@@ -22,17 +24,27 @@ const t = getDictionary(locale);
   <Hero locale={locale} />
 
   <Section id="about" label={t.nav.about}>
-    <p class="about">{t.about.body}</p>
+    <div class="about">
+      <Image
+        class="about-photo"
+        src={portrait}
+        alt={t.hero.photoAlt}
+        width={320}
+        height={400}
+        widths={[160, 320]}
+        sizes="7rem"
+        data-reveal
+      />
+      <p class="about-text" data-words>{t.about.body}</p>
+    </div>
   </Section>
 
   <Section id="experience" label={t.nav.experience}>
     {
       t.experience.map((job) => (
-        <article class="entry">
-          <header class="entry-head">
-            <h3 class="entry-title">{job.role}</h3>
-            <p class="entry-period">{job.period}</p>
-          </header>
+        <article class="stage" data-reveal>
+          <p class="entry-period">{job.period}</p>
+          <h3 class="entry-title">{job.role}</h3>
           <p class="entry-sub">{job.company}</p>
           <ul class="entry-bullets">
             {job.bullets.map((bullet) => (
@@ -49,31 +61,24 @@ const t = getDictionary(locale);
       t.projects.map((project) => {
         const media = projectMedia[project.slug];
         return (
-          <article class="entry project">
-            {media && (
-              <img class="project-image" src={media.image} alt="" width="800" height="450" loading="lazy" decoding="async" />
+          <article class="stage" data-reveal>
+            <p class="entry-period">{project.period}</p>
+            <h3 class="entry-title">{project.name}</h3>
+            <p class="entry-text">{project.description}</p>
+            <ul class="tags">
+              {project.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+            <details class="project-more">
+              <summary>{t.projectsUi.more}</summary>
+              <p>{project.body}</p>
+            </details>
+            {media?.url && (
+              <a class="project-link" href={media.url} target="_blank" rel="noopener noreferrer">
+                {t.projectsUi.visit} <span aria-hidden="true">↗</span>
+              </a>
             )}
-            <div>
-              <header class="entry-head">
-                <h3 class="entry-title">{project.name}</h3>
-                <p class="entry-period">{project.period}</p>
-              </header>
-              <p class="entry-text">{project.description}</p>
-              <ul class="tags">
-                {project.tags.map((tag) => (
-                  <li>{tag}</li>
-                ))}
-              </ul>
-              <details class="project-more">
-                <summary>{t.projectsUi.more}</summary>
-                <p>{project.body}</p>
-              </details>
-              {media?.url && (
-                <a class="project-link" href={media.url} target="_blank" rel="noopener noreferrer">
-                  {t.projectsUi.visit} ↗
-                </a>
-              )}
-            </div>
           </article>
         );
       })
@@ -81,25 +86,23 @@ const t = getDictionary(locale);
   </Section>
 
   <Section id="skills" label={t.nav.skills}>
-    <ul class="skills">
-      {t.skills.map((skill) => <li>{skill}</li>)}
+    <ul class="skills" data-stagger>
+      {t.skills.map((skill) => <li data-reveal>{skill}</li>)}
     </ul>
   </Section>
 
   <Section id="education" label={t.nav.education}>
     {
       t.education.studies.map((study) => (
-        <article class="entry">
-          <header class="entry-head">
-            <h3 class="entry-title">{study.title}</h3>
-            <p class="entry-period">{study.year}</p>
-          </header>
+        <article class="stage" data-reveal>
+          <p class="entry-period">{study.year}</p>
+          <h3 class="entry-title">{study.title}</h3>
           <p class="entry-sub">{study.school}</p>
         </article>
       ))
     }
 
-    <div class="extra">
+    <div class="extra" data-reveal>
       <h3 class="extra-title">{t.education.languagesLabel}</h3>
       <ul class="tags">
         {t.education.languages.map((language) => <li>{language}</li>)}
@@ -107,18 +110,21 @@ const t = getDictionary(locale);
     </div>
 
     <div class="extra">
-      <h3 class="extra-title">{t.education.certificationsLabel}</h3>
-      <p class="extra-hint">{t.education.certificationsHint}</p>
-      <ul class="certs">
+      <div data-reveal>
+        <h3 class="extra-title">{t.education.certificationsLabel}</h3>
+        <p class="extra-hint">{t.education.certificationsHint}</p>
+      </div>
+      <ul class="certs" data-stagger>
         {
           certifications.map((cert) => (
-            <li>
+            <li data-reveal>
               <a href={cert.url} target="_blank" rel="noopener noreferrer">
-                {cert.name}
+                <span class="certs-name">{cert.name}</span>
+                <span class="certs-meta">
+                  {cert.issuer} · {cert.year}
+                </span>
+                <span class="certs-arrow" aria-hidden="true">↗</span>
               </a>
-              <span>
-                {cert.issuer} · {cert.year}
-              </span>
             </li>
           ))
         }
@@ -126,55 +132,52 @@ const t = getDictionary(locale);
     </div>
   </Section>
 
-  <section id="contact" class="contact" aria-labelledby="contact-label">
-    <div class="wrap">
-      <p class="label">{t.nav.contact}</p>
-      <h2 id="contact-label" class="contact-heading">{t.contact.heading}</h2>
-      <p class="contact-lead">{t.contact.lead}</p>
-      <a class="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a>
-      <ul class="contact-links">
-        <li><a class="button button-primary" href={`mailto:${profile.email}`}>{t.contact.email}</a></li>
-        <li><a class="button" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        <li><a class="button" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a class="button" href={profile.cv[locale]} download>{t.contact.cv}</a></li>
-      </ul>
-    </div>
-  </section>
+  <Section id="contact" label={t.nav.contact} tone="tint">
+    <p class="contact-heading mask" data-reveal><span>{t.contact.heading}</span></p>
+    <p class="contact-lead" data-reveal>{t.contact.lead}</p>
+    <a class="contact-email" href={`mailto:${profile.email}`} data-reveal>{profile.email}</a>
+    <ul class="contact-links" data-reveal>
+      <li><a class="button button-primary" href={`mailto:${profile.email}`}>{t.contact.email}</a></li>
+      <li><a class="button" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="button" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="button" href={profile.cv[locale]} download>{t.contact.cv}</a></li>
+    </ul>
+  </Section>
 </BaseLayout>
 
 <style>
+  /* ── About: a small portrait beside one statement that lights up word by word ── */
+
   .about {
-    max-width: 34ch;
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .about-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .about-text {
+    max-width: 36ch;
     font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-    line-height: 1.25;
-    letter-spacing: -0.015em;
+    font-weight: 600;
+    font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+    line-height: 1.3;
+    letter-spacing: -0.025em;
     text-wrap: pretty;
   }
 
-  .project {
-    display: grid;
-    grid-template-columns: 9rem minmax(0, 1fr);
-    gap: 1.5rem;
-    align-items: start;
-  }
-
-  /* Client logos come on transparent backgrounds; the plate gives them all one frame. */
-  .project-image {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-    padding: 0.625rem;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    background: #fff;
-  }
+  /* ── Projects ── */
 
   .project-more {
     max-width: 62ch;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     font-size: 0.9375rem;
     color: var(--ink-soft);
   }
@@ -187,7 +190,7 @@ const t = getDictionary(locale);
   }
 
   .project-more p {
-    margin-top: 0.625rem;
+    margin-top: 0.75rem;
   }
 
   .project-link {
@@ -196,33 +199,58 @@ const t = getDictionary(locale);
     font-weight: 500;
   }
 
+  .project-link span {
+    display: inline-block;
+    transition: translate 300ms var(--ease);
+  }
+
+  .project-link:hover span {
+    translate: 0.15rem -0.15rem;
+  }
+
+  /* ── Skills: rows that slide on hover ── */
+
   .skills {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 2.5rem;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
   }
 
   .skills li {
-    padding-block: 0.875rem;
+    padding-block: 1.125rem 0.875rem;
     border-bottom: 1px solid var(--rule);
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.2;
+    transition:
+      color 300ms ease,
+      padding 400ms var(--ease);
   }
 
+  .skills li:hover {
+    padding-left: 0.625rem;
+    color: var(--indigo-deep);
+  }
+
+  /* ── Education: languages and certificates ── */
+
   .extra {
-    margin-top: 2.75rem;
-    padding-top: 2.25rem;
+    margin-top: clamp(3rem, 6vw, 4rem);
+    padding-top: clamp(2rem, 4vw, 2.75rem);
     border-top: 1px solid var(--rule);
   }
 
   .extra-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.375rem;
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
     line-height: 1.2;
+    letter-spacing: -0.015em;
   }
 
   .extra-hint {
-    margin-top: 0.25rem;
+    margin-top: 0.375rem;
     font-size: 0.9375rem;
     color: var(--ink-soft);
   }
@@ -230,54 +258,80 @@ const t = getDictionary(locale);
   .certs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem 2.5rem;
+    gap: 0.75rem;
     margin-top: 1.25rem;
   }
 
   .certs li {
     display: flex;
-    flex-direction: column;
-    font-size: 0.9375rem;
-    line-height: 1.4;
   }
 
   .certs a {
-    font-weight: 500;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 0.875rem 2.75rem 0.875rem 1.125rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    line-height: 1.35;
+    text-decoration: none;
+    transition:
+      border-color 200ms ease,
+      translate 400ms var(--ease);
   }
 
-  .certs span {
+  .certs a:hover {
+    border-color: var(--indigo);
+    translate: 0 -0.1875rem;
+  }
+
+  .certs-name {
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+
+  .certs-meta {
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--ink-soft);
   }
 
-  .contact {
-    padding-block: clamp(4rem, 10vw, 7.5rem);
-    background: var(--tint);
-    border-top: 1px solid var(--rule);
-    scroll-margin-top: var(--nav-height);
+  .certs-arrow {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    color: var(--indigo);
+    transition: translate 300ms var(--ease);
   }
 
+  .certs a:hover .certs-arrow {
+    translate: 0.15rem -0.15rem;
+  }
+
+  /* ── Contact ── */
+
   .contact-heading {
-    margin-top: 1.25rem;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(3rem, 9vw, 6rem);
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
     line-height: 0.9;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.045em;
   }
 
   .contact-lead {
-    margin-top: 1.25rem;
+    margin-top: 1.75rem;
     color: var(--ink-soft);
   }
 
   .contact-email {
     display: inline-block;
-    margin-top: 0.25rem;
+    margin-top: 0.375rem;
     font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(1.25rem, 3.6vw, 2rem);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 3.4vw, 2.25rem);
+    letter-spacing: -0.02em;
     overflow-wrap: anywhere;
   }
 
@@ -285,16 +339,16 @@ const t = getDictionary(locale);
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 2rem;
+    margin-top: 2.25rem;
   }
 
-  @media (max-width: 36rem) {
-    .project {
+  @media (max-width: 44rem) {
+    .about {
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .project-image {
-      max-width: 11rem;
+    .about-photo {
+      width: 6rem;
     }
 
     .skills,

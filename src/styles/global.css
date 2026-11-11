@@ -18,6 +18,9 @@
   --nav-height: 4rem;
   --radius: 0.875rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Width of the label column every section shares (Section.astro). */
+  --side: 13rem;
 }
 
 *,
@@ -29,6 +32,15 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+}
+
+/* No scrollbars anywhere; the bar under the top nav shows how far the page has scrolled. */
+* {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -120,67 +132,65 @@ canvas {
   color: var(--indigo);
 }
 
-/* ── Entry: one dated row (a job, a project, a degree), laid out as in the CV ── */
+/* ── Stage: one dated item (a job, a project, a degree): period, title, organisation, text ── */
 
-.entry + .entry {
-  margin-top: 2.25rem;
-  padding-top: 2.25rem;
-  border-top: 1px solid var(--rule);
+.stage + .stage {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
 }
 
-.entry-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.25rem 1.5rem;
+.stage .entry-title {
+  margin-top: 0.625rem;
 }
+
+/* ── Entry text: the parts of a stage, with room between them ── */
 
 .entry-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.375rem;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .entry-period {
   font-family: var(--font-mono);
+  font-weight: 400;
   font-size: 0.8125rem;
+  line-height: 1.5;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  white-space: nowrap;
 }
 
 .entry-sub {
-  margin-top: 0.125rem;
+  margin-top: 0.5rem;
   font-weight: 500;
   color: var(--indigo-deep);
 }
 
 .entry-text,
 .entry-bullets {
-  margin-top: 0.875rem;
+  margin-top: 1.25rem;
   max-width: 62ch;
   color: var(--ink-soft);
 }
 
 .entry-bullets li {
   position: relative;
-  padding-left: 1.25rem;
+  padding-left: 1.5rem;
 }
 
 .entry-bullets li + li {
-  margin-top: 0.5rem;
+  margin-top: 0.875rem;
 }
 
 .entry-bullets li::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.72em;
-  width: 0.5rem;
+  top: 0.82em;
+  width: 0.625rem;
   height: 1px;
   background: var(--indigo);
 }
@@ -189,11 +199,11 @@ canvas {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .tags li {
-  padding: 0.2rem 0.7rem;
+  padding: 0.25rem 0.75rem;
   border: 1px solid var(--rule);
   border-radius: 999px;
   font-family: var(--font-mono);
@@ -237,6 +247,71 @@ canvas {
   border-color: var(--indigo-deep);
   background: var(--indigo-deep);
   color: #fff;
+}
+
+/* ── Motion primitives, driven by src/scripts/motion.ts ── */
+
+/* Hidden only once the script has marked the root, so the page reads complete without it. */
+:root[data-motion] [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 900ms var(--ease),
+    transform 1000ms var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+:root[data-motion] [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* A line of large type that rises from behind its own edge. The padding keeps accents inside. */
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.14em;
+  margin-top: -0.14em;
+}
+
+.mask > span {
+  display: block;
+}
+
+:root[data-motion] .mask[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+:root[data-motion] .mask[data-reveal] > span {
+  transform: translateY(110%) rotate(3deg);
+  transform-origin: left bottom;
+  transition: transform 1100ms var(--ease);
+}
+
+:root[data-motion] .mask[data-reveal].is-in > span {
+  transform: none;
+}
+
+/* A hairline that draws itself from the left when it comes into view. */
+:root[data-motion] .rule[data-reveal] {
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1200ms var(--ease);
+}
+
+:root[data-motion] .rule[data-reveal].is-in {
+  transform: scaleX(1);
+}
+
+/* The about statement, split into words by the script; they light up as it scrolls past. */
+.word {
+  transition: opacity 400ms ease;
+}
+
+:root[data-motion] .word:not(.is-lit) {
+  opacity: 0.18;
 }
 
 @media (prefers-reduced-motion: reduce) {

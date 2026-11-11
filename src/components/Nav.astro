@@ -4,7 +4,8 @@ import { getDictionary, LOCALES, SECTIONS, type Locale } from '../i18n';
 import Mark from './Mark.astro';
 
 /**
- * Renders the sticky top bar: home link, section links and the language switch.
+ * Renders the sticky top bar: home link, section links with the one in view marked, the
+ * language switch, and a bar along the bottom that fills as the page scrolls.
  *
  * @param locale - The locale of the current page.
  */
@@ -55,6 +56,7 @@ const t = getDictionary(locale);
       }
     </ul>
   </div>
+  <span class="nav-progress" aria-hidden="true"></span>
 </header>
 
 <style>
@@ -102,14 +104,51 @@ const t = getDictionary(locale);
   }
 
   .nav-links a {
+    position: relative;
+    display: block;
     font-size: 0.9375rem;
     color: var(--ink-soft);
     text-decoration: none;
     white-space: nowrap;
+    transition: color 300ms ease;
   }
 
   .nav-links a:hover {
     color: var(--indigo-deep);
+  }
+
+  /* The link of the section in view, set by src/scripts/motion.ts. */
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.125rem;
+    height: 1px;
+    background: var(--indigo);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms var(--ease);
+  }
+
+  .nav-links a:global(.is-active) {
+    color: var(--ink);
+  }
+
+  .nav-links a:global(.is-active)::after {
+    transform: scaleX(1);
+  }
+
+  /* Fills with --scroll, which the same script keeps on the root element. */
+  .nav-progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background: var(--indigo);
+    transform: scaleX(var(--scroll, 0));
+    transform-origin: left;
   }
 
   .nav-langs {

@@ -151,7 +151,7 @@ function init(root: HTMLElement): void {
     void ask(question);
   });
 
-  // The hero question box and its suggestions hand over to the panel.
+  // The hero question box hands over to the panel.
   const heroForm = document.querySelector<HTMLFormElement>('[data-ask-form]');
   const heroInput = heroForm?.querySelector<HTMLInputElement>('input');
   heroForm?.addEventListener('submit', (event) => {
@@ -160,12 +160,6 @@ function init(root: HTMLElement): void {
     if (heroInput) heroInput.value = '';
     open();
     void ask(question);
-  });
-  document.querySelectorAll<HTMLButtonElement>('[data-ask-chip]').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      open();
-      void ask(chip.textContent ?? '');
-    });
   });
 }
 

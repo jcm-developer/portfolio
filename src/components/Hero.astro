@@ -1,12 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-import avatar from '../assets/avatar.jpg';
 import { profile } from '../data/profile';
 import { getDictionary, type Locale } from '../i18n';
+import Mark from './Mark.astro';
 
 /**
- * Renders the opening block: name, one-line pitch and the question box that hands the
- * visitor to the assistant, over the animated ribbon from the LinkedIn banner.
+ * Renders the opening block, one screen tall: the name, the one-line pitch and the question
+ * box that hands the visitor to the assistant, stacked in one column on the left, with the
+ * animated ribbon from the LinkedIn banner filling the space on the right.
  *
  * @param locale - The locale of the current page.
  */
@@ -22,17 +22,24 @@ const [firstName, ...lastName] = profile.name.split(' ');
 <section class="hero">
   <canvas class="hero-ribbon" data-ribbon aria-hidden="true"></canvas>
 
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="label hero-role">{t.role} · {t.location}</p>
-      <h1 class="hero-name">
-        <span>{firstName}</span>
-        <span>{lastName.join(' ')}</span>
-      </h1>
+  <div class="wrap hero-inner">
+    <p class="label hero-role">{t.role} · {t.location}</p>
+    <h1 class="hero-name">
+      <span class="visually-hidden">{profile.name}</span>
+      <span class="mask hero-line" aria-hidden="true"><span>{firstName}</span></span>
+      <span class="mask hero-line" aria-hidden="true">
+        <span>{lastName.join(' ')}<span class="hero-dot">.</span></span>
+      </span>
+    </h1>
+
+    <div class="hero-foot">
       <p class="hero-lead">{t.hero.lead}</p>
 
       <form class="ask" data-ask-form>
-        <label class="ask-label" for="ask-input">{t.hero.askLabel}</label>
+        <label class="ask-label" for="ask-input">
+          <Mark size={14} />
+          {t.hero.askLabel}
+        </label>
         <div class="ask-field">
           <input
             id="ask-input"
@@ -44,31 +51,8 @@ const [firstName, ...lastName] = profile.name.split(' ');
           />
           <button class="button button-primary" type="submit">{t.hero.askSubmit}</button>
         </div>
-        <ul class="ask-chips">
-          {
-            t.hero.chips.map((chip) => (
-              <li>
-                <button type="button" data-ask-chip>
-                  {chip}
-                </button>
-              </li>
-            ))
-          }
-        </ul>
       </form>
     </div>
-
-    <Image
-      class="hero-photo"
-      src={avatar}
-      alt={t.hero.photoAlt}
-      width={640}
-      height={640}
-      widths={[320, 640]}
-      sizes="(max-width: 52rem) 9rem, 20rem"
-      loading="eager"
-      fetchpriority="high"
-    />
   </div>
 </section>
 
@@ -77,79 +61,93 @@ const [firstName, ...lastName] = profile.name.split(' ');
 </script>
 
 <style>
+  /* One screen tall, capped so very tall windows do not leave the copy floating. */
   .hero {
     position: relative;
+    display: grid;
+    align-content: center;
+    min-height: min(calc(100svh - var(--nav-height)), 56rem);
     overflow: hidden;
     background: var(--tint);
     border-bottom: 1px solid var(--rule);
   }
 
-  /* Kept to the right of the copy so the lines never run through the text. */
   .hero-ribbon {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 60%;
+    inset: 0;
+    width: 100%;
     height: 100%;
     pointer-events: none;
   }
 
-  .hero-grid {
+  .hero-inner {
     position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: clamp(2rem, 6vw, 5rem);
-    padding-block: clamp(3.5rem, 10vw, 7.5rem);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
   }
 
-  .hero-copy > * {
-    animation: rise 700ms var(--ease) both;
-  }
-
-  .hero-copy > :nth-child(2) {
-    animation-delay: 80ms;
-  }
-
-  .hero-copy > :nth-child(3) {
-    animation-delay: 160ms;
-  }
-
-  .hero-copy > :nth-child(4) {
-    animation-delay: 240ms;
+  .hero-role {
+    animation: hero-fade 900ms var(--ease) both;
   }
 
   .hero-name {
     margin-top: 1.25rem;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(3.75rem, 13vw, 9rem);
+    font-size: clamp(3.25rem, 10vw, 7.5rem);
     line-height: 0.86;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.05em;
   }
 
-  .hero-name span {
-    display: block;
+  .hero-line {
+    width: fit-content;
+    padding-right: 0.08em;
+  }
+
+  /* Each line rises from behind its own edge, the second a beat after the first. */
+  .hero-line > span {
+    transform-origin: left bottom;
+    animation: hero-rise 1200ms var(--ease) 100ms both;
+  }
+
+  .hero-line + .hero-line > span {
+    animation-delay: 240ms;
+  }
+
+  .hero-dot {
+    color: var(--indigo);
+  }
+
+  /* Pitch and question box follow the name in the same column, so the eye runs straight down. */
+  .hero-foot {
+    display: grid;
+    gap: clamp(1.75rem, 3.5vw, 2.25rem);
+    max-width: 34rem;
+    margin-top: clamp(1.5rem, 3vw, 2rem);
   }
 
   .hero-lead {
     max-width: 30ch;
-    margin-top: 1.5rem;
-    font-size: clamp(1.1875rem, 2.2vw, 1.5rem);
-    line-height: 1.4;
+    font-size: clamp(1.1875rem, 2vw, 1.5rem);
+    line-height: 1.45;
     color: var(--ink-soft);
+    animation: hero-fade 900ms var(--ease) 650ms both;
   }
 
   .ask {
-    max-width: 34rem;
-    margin-top: 2.5rem;
+    animation: hero-fade 900ms var(--ease) 800ms both;
   }
 
   .ask-label {
-    display: block;
-    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.625rem;
     font-weight: 500;
     font-size: 0.9375rem;
+  }
+
+  .ask-label :global(.mark) {
+    animation: hero-spin 10s linear infinite;
   }
 
   .ask-field {
@@ -159,12 +157,17 @@ const [firstName, ...lastName] = profile.name.split(' ');
     border: 1px solid var(--rule);
     border-radius: 999px;
     background: var(--paper);
-    box-shadow: 0 12px 32px -18px rgb(61 50 181 / 0.45);
-    transition: border-color 160ms ease;
+    box-shadow: 0 18px 44px -22px rgb(61 50 181 / 0.5);
+    transition:
+      border-color 160ms ease,
+      box-shadow 300ms ease;
   }
 
   .ask-field:focus-within {
     border-color: var(--indigo);
+    box-shadow:
+      0 0 0 0.3rem color-mix(in srgb, var(--indigo) 14%, transparent),
+      0 18px 44px -22px rgb(61 50 181 / 0.5);
   }
 
   .ask-field input {
@@ -184,63 +187,29 @@ const [firstName, ...lastName] = profile.name.split(' ');
     opacity: 0.75;
   }
 
-  .ask-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.875rem;
+  @keyframes hero-rise {
+    from {
+      transform: translateY(112%) rotate(4deg);
+    }
   }
 
-  .ask-chips button {
-    padding: 0.3rem 0.8rem;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--paper) 70%, transparent);
-    font-size: 0.8125rem;
-    color: var(--ink-soft);
-    cursor: pointer;
-    transition:
-      border-color 160ms ease,
-      color 160ms ease;
-  }
-
-  .ask-chips button:hover {
-    border-color: var(--indigo);
-    color: var(--indigo-deep);
-  }
-
-  .hero-photo {
-    width: clamp(14rem, 26vw, 20rem);
-    height: auto;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border: 0.5rem solid var(--paper);
-    border-radius: 50%;
-    box-shadow: 0 24px 60px -30px rgb(61 50 181 / 0.55);
-    animation: rise 900ms var(--ease) 200ms both;
-  }
-
-  @keyframes rise {
+  @keyframes hero-fade {
     from {
       opacity: 0;
       transform: translateY(1rem);
     }
   }
 
-  @media (max-width: 52rem) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 1fr);
+  @keyframes hero-spin {
+    to {
+      rotate: 360deg;
     }
+  }
 
-    .hero-ribbon {
-      width: 100%;
-      height: 17rem;
-    }
-
-    .hero-photo {
-      order: -1;
-      width: 9rem;
-      border-width: 0.375rem;
+  /* A loop would restart every instant under the global reduced-motion rule. */
+  @media (prefers-reduced-motion: reduce) {
+    .ask-label :global(.mark) {
+      animation: none;
     }
   }
 </style>

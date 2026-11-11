@@ -39,29 +39,46 @@ There is no dark theme: both source artefacts are light.
 ## Layout
 
 - One column of content, `--wrap` (70rem) wide.
-- Every section is a two-column grid (`src/components/Section.astro`): a 13rem label column and
-  the content. Under 52rem the label stacks above. This mirrors the CV's sidebar and body.
-- Dated items (jobs, projects, studies) use the shared `entry` classes: title left, period
-  right in mono, organisation below in indigo, then text.
+- Every section is a two-column grid (`src/components/Section.astro`): the label in a `--side`
+  (13rem) column and the content, under a hairline that draws itself into view. Under 52rem
+  the label stacks above. This mirrors the CV's sidebar and body.
+- Dated items (jobs, projects, studies) are `stage` blocks: the period in mono on top, then the
+  title, the organisation in indigo and the text. Each part has its own spacing; nothing sits
+  on the next line without room.
+- The page is typographic: no project pictures or logos. The portrait appears once, small and
+  with soft corners, beside the about statement; never in a circle, never in the hero.
 - Hero and contact are the only tinted blocks; they open and close the page.
+- No visible scrollbars; the bar under the top nav shows how far the page has scrolled.
 
 ## Signature: the ribbon
 
-A band of 44 fine lines crosses the hero and twists once, after the LinkedIn banner. It is
-drawn on a canvas by `src/scripts/ribbon.ts` and drifts very slowly.
+A band of 48 fine lines crosses the hero behind the name and twists once, after the LinkedIn
+banner. It is drawn on a canvas by `src/scripts/ribbon.ts`: it draws itself in from the left on
+load, drifts very slowly and leans towards the pointer.
 
-- It sits on the right 60% of the hero, fading in from the left, so lines never run through
-  the copy. On narrow screens it is a short band behind the portrait.
-- It is the one decorative element. Nothing else on the page is ornamental.
+- The hero fills the first screen (capped at 56rem) with one column on the left: role, the
+  name on two lines with an indigo full stop (at most 7.5rem), the pitch and the question box,
+  in that order and close together. No suggestion chips: the placeholder already shows the
+  kind of question to ask.
+- The ribbon is faint behind the copy and full on the right, where it has room.
+- The ribbon is the one decorative element. Nothing else on the page is ornamental.
 - With `prefers-reduced-motion` it draws a single still frame.
 
 ## Motion
 
-- Page load: the hero copy rises in sequence, once.
-- The assistant panel eases in; the launcher mark turns 30 degrees on hover.
-- When the assistant brings the visitor to a section, a short rule draws itself under that
-  section's label (`is-pointed`).
-- No scroll-triggered reveals.
+Few pieces, done well. Nothing tilts, spins on hover, glows or scrolls sideways.
+
+- Page load: the two lines of the name rise from behind their own edge, then the pitch and the
+  question box fade up.
+- Scroll: each section's hairline draws itself from the left, and content rises into view once
+  (`data-reveal`). Large headings rise from a mask (`mask`).
+- The about statement lights up word by word as it scrolls past.
+- The nav underlines the section in view.
+- The assistant panel eases in; the launcher mark turns 30 degrees on hover. When the
+  assistant brings the visitor to a section, a short rule draws itself under that section's
+  label (`is-pointed`).
+- `src/scripts/motion.ts` drives the scroll motion. Without it, or with
+  `prefers-reduced-motion`, everything is visible and nothing moves.
 
 ## Voice
 

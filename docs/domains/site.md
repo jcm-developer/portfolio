@@ -15,7 +15,10 @@ redirect.
   footer and the assistant.
 - `src/components/Nav.astro`: section links and the language switch.
 - `src/components/Hero.astro` and `src/scripts/ribbon.ts`: opening block and its canvas ribbon.
-- `src/components/Section.astro`: the label and content grid every section shares.
+- `src/components/Section.astro`: the label column and content column every section shares,
+  with the hairline that draws itself over the content.
+- `src/scripts/motion.ts`: scroll motion: reveals, drawing hairlines, the about
+  statement, the active nav link and the progress bar.
 - `src/components/Mark.astro`: the asterisk mark.
 - `src/styles/global.css`: tokens and the shared `label`, `entry`, `tags` and `button` classes.
 - `public/_headers`: security headers and cache rules.
@@ -30,7 +33,8 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 
 1. A request for `/` reaches the Worker and is redirected to `/en/` (`docs/decisions.md`, D6).
 2. `/en/` and `/es/` are static files served by Cloudflare without running the Worker.
-3. In the browser two scripts load: `ribbon.ts` (hero canvas) and `chat.ts` (assistant).
+3. In the browser three scripts load: `ribbon.ts` (hero canvas), `motion.ts` (scroll motion)
+   and `chat.ts` (assistant).
 
 ## Invariants
 
@@ -39,8 +43,10 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 - No inline scripts or styles anywhere, or the Content Security Policy blocks them
   (`docs/decisions.md`, D4).
 - Every page sets `lang`, a canonical URL and hreflang alternates for all locales.
-- Motion respects `prefers-reduced-motion`: the ribbon draws one still frame and CSS
-  animations are cut in `global.css`.
+- Motion respects `prefers-reduced-motion`: the ribbon draws one still frame, CSS
+  animations are cut in `global.css` and `motion.ts` does not start.
+- The page reads complete without JavaScript: `[data-reveal]` content is hidden only once
+  `motion.ts` sets `data-motion` on the root element.
 
 ## Gotchas
 
@@ -53,6 +59,9 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
   site under the Content Security Policy with no build error.
 - Elements created by a script do not get Astro's scoped style attribute. Styles for them are
   global (`Chat.astro` uses `is:global`).
+- In a scoped `<style>`, `:global()` nested inside `:not()` is left uncompiled and the rule
+  never matches. Selectors that depend on state set by a script (`is-in`, `is-lit` on words,
+  `data-motion`) live in `global.css` instead.
 - Images imported from `src/assets` are also emitted at their original size. Keep sources
   small: the build publishes them.
 
