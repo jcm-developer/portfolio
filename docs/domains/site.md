@@ -25,7 +25,8 @@ redirect.
 - `src/components/Mark.astro`: the asterisk mark.
 - `src/components/Icon.astro`: the few inline SVG icons (mail, LinkedIn, GitHub, download).
 - `src/styles/global.css`: tokens and the shared `label`, `entry`, `tags` and `button` classes.
-- `public/_headers`: security headers and cache rules.
+- `public/_headers`: security headers, cache rules and the UTF-8 `charset` of `/llms.txt`
+  (static `.txt` files are served as `text/plain` without one).
 - `public/og-en.png`, `public/og-es.png`: the 1200x630 link preview images (`og:image` in
   `BaseLayout.astro`), one per locale because the role differs.
 - `astro.config.mjs`, `wrangler.jsonc`: build and Worker config.
