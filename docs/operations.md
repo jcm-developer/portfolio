@@ -71,8 +71,9 @@ the last line of defence if every other limit is bypassed.
 ## CI
 
 - `.github/workflows/ci.yml`: the gate (`npm run check`, `npm test`, `npm run build`) on every
-  push to `main` and every pull request.
-- `.github/workflows/standards.yml`: `scripts/check-docs.mjs` and the commit message format.
+  push to `main` or `dev` and every pull request.
+- `.github/workflows/standards.yml`: `scripts/check-docs.mjs` and the commit message format, on
+  the same triggers.
 
 ## Costs
 
