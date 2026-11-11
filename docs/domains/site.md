@@ -9,7 +9,7 @@ redirect.
 ## Key files
 
 - `src/pages/[lang]/index.astro` (`getStaticPaths`): the home page, one build per locale.
-- `src/pages/index.ts` (`GET`): redirects `/` to `/en/` or `/es/`. Runs in the Worker.
+- `src/pages/index.ts` (`GET`): redirects `/` to `/en/`, the default language. Runs in the Worker.
 - `src/pages/404.astro`: one static page for every unknown URL, in both languages.
 - `src/layouts/BaseLayout.astro`: head (canonical, hreflang, Open Graph, JSON-LD), top bar,
   footer and the assistant.
@@ -28,8 +28,7 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 
 ## Flow
 
-1. A request for `/` reaches the Worker; `pickLocale` reads `Accept-Language` and the visitor
-   is redirected.
+1. A request for `/` reaches the Worker and is redirected to `/en/` (`docs/decisions.md`, D6).
 2. `/en/` and `/es/` are static files served by Cloudflare without running the Worker.
 3. In the browser two scripts load: `ribbon.ts` (hero canvas) and `chat.ts` (assistant).
 
@@ -60,5 +59,5 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 ## Related
 
 - `DESIGN.md`: the visual rules these files implement.
-- `docs/decisions.md`: D2, D3, D4, D5.
+- `docs/decisions.md`: D2, D3, D4, D5, D6.
 - `docs/operations.md`: deploy and local commands.

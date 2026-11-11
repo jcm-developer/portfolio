@@ -1,23 +1,15 @@
 import type { APIRoute } from 'astro';
-import { pickLocale } from '../i18n';
 
-// Runs in the Worker: the target depends on the visitor's Accept-Language header.
+// Runs in the Worker so the redirect is a real HTTP response, not a meta refresh page.
 export const prerender = false;
 
 /**
- * Redirects the bare domain to the locale the visitor's browser prefers.
+ * Redirects the bare domain to the English page, the site's default language.
  *
- * @param context - The Astro API context.
- * @return A temporary redirect to `/en/` or `/es/`.
+ * @return A temporary redirect to `/en/`.
  */
-export const GET: APIRoute = ({ request }) => {
-  const locale = pickLocale(request.headers.get('accept-language'));
-  return new Response(null, {
+export const GET: APIRoute = () =>
+  new Response(null, {
     status: 302,
-    headers: {
-      Location: `/${locale}/`,
-      Vary: 'Accept-Language',
-      'Cache-Control': 'no-store',
-    },
+    headers: { Location: '/en/', 'Cache-Control': 'no-store' },
   });
-};

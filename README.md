@@ -19,7 +19,7 @@
 ## Features
 
 **Site**
-- One page per language (`/en/`, `/es/`), prerendered; `/` redirects by browser language.
+- One page per language (`/en/`, `/es/`), prerendered; `/` redirects to English.
 - Profile, experience, projects, skills, education and certifications, laid out like the CV.
 
 **Assistant**
@@ -62,7 +62,7 @@ flowchart LR
   api -->|text and section events| visitor
 ```
 
-Pages are static files. Only two routes run code: `/` (language redirect) and `/api/chat`,
+Pages are static files. Only two routes run code: `/` (redirect to `/en/`) and `/api/chat`,
 the single place that holds the key. The browser sends the visible conversation; the endpoint
 decides everything else and forwards only text and a validated section id.
 

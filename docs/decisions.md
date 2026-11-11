@@ -35,7 +35,7 @@ The endpoint is still public, so abuse is bounded (rate limit, token cap, provid
 not impossible.
 
 ## D3. One route per language instead of a client-side text swap (2026-11-11)
-Status: accepted
+Status: accepted; the redirect by `Accept-Language` is superseded by D6
 Context: Spanish was applied in the browser by swapping `data-es` attributes, so search engines
 only saw English and every string existed twice in the markup.
 Decision: `/en/` and `/es/` are prerendered from typed dictionaries (`src/i18n`); `/` redirects
@@ -62,3 +62,12 @@ Decision: projects, education and certifications live as sections of the home pa
 paragraph of detail sits in a native `details` element under each project.
 Consequences: nothing to navigate to but sections, so the assistant has one tool
 (`show_section`). A project that earns a real write-up gets its own page then.
+
+## D6. The bare domain always opens in English (2026-11-11)
+Status: accepted
+Context: `/` redirected by `Accept-Language` (D3), so visitors with a Spanish browser landed on
+`/es/`. The owner wants English to be the default for everyone.
+Decision: `/` always redirects to `/en/`; Spanish is one click away in the language switch.
+`pickLocale` and its tests are removed.
+Consequences: the redirect no longer varies by request, so it could become a static rule; it
+stays in the Worker to remain a real HTTP redirect.

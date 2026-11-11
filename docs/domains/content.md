@@ -10,7 +10,7 @@ the rest.
 
 - `src/data/profile.ts` (`profile`, `certifications`, `projectMedia`): name, email, links, CV
   paths, the certificate list, and the image and live URL of each project.
-- `src/i18n/index.ts` (`LOCALES`, `SECTIONS`, `Dictionary`, `getDictionary`, `pickLocale`,
+- `src/i18n/index.ts` (`LOCALES`, `SECTIONS`, `Dictionary`, `getDictionary`,
   `isLocale`): locale plumbing and the shape every dictionary must have.
 - `src/i18n/es.ts`, `src/i18n/en.ts`: the dictionaries.
 - `public/Jaume-Cortes-CV-ES.pdf`, `public/Jaume-Cortes-CV-EN.pdf`: the downloadable CVs, one

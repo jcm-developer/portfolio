@@ -111,32 +111,3 @@ export function isLocale(value: unknown): value is Locale {
 export function getDictionary(locale: Locale): Dictionary {
   return DICTIONARIES[locale];
 }
-
-/**
- * Picks the site locale that best matches an Accept-Language header.
- *
- * Catalan and Galician speakers get Spanish because every visitor who prefers them also
- * reads Spanish, and the site has no closer match.
- *
- * @param header - The raw Accept-Language header, or null when the client sent none.
- * @return The matching locale, English when nothing matches.
- */
-export function pickLocale(header: string | null): Locale {
-  if (!header) return 'en';
-  const ranked = header
-    .split(',')
-    .map((part) => {
-      const [tag, ...params] = part.trim().split(';');
-      const q = params.map((p) => p.trim()).find((p) => p.startsWith('q='));
-      const weight = q ? Number.parseFloat(q.slice(2)) : 1;
-      return { lang: tag.toLowerCase().split('-')[0], weight: Number.isFinite(weight) ? weight : 0 };
-    })
-    .filter((entry) => entry.weight > 0)
-    .sort((a, b) => b.weight - a.weight);
-
-  for (const { lang } of ranked) {
-    if (lang === 'es' || lang === 'ca' || lang === 'gl') return 'es';
-    if (lang === 'en') return 'en';
-  }
-  return 'en';
-}
