@@ -45,7 +45,7 @@ portfolio/
 ├── wrangler.jsonc          # Worker config: name, assets, rate limit binding
 ├── .dev.vars.example       # Template for local secrets
 ├── docs/                   # Code style, workflow, operations, decisions, domains
-├── public/                 # Files served as is: _headers, robots.txt, favicon, CV
+├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, project images
 ├── scripts/                # check-docs.mjs
 ├── src/
 │   ├── assets/             # Images optimized at build time

@@ -21,11 +21,14 @@ export interface ExperienceEntry {
   bullets: string[];
 }
 
-/** A project, with the technologies its description names. */
+/** A project: a one-line description, a longer account and the technologies involved. */
 export interface ProjectEntry {
+  /** Key into `projectMedia` in `src/data/profile.ts`. The same in every locale. */
+  slug: string;
   name: string;
   period: string;
   description: string;
+  body: string;
   tags: string[];
 }
 
@@ -53,6 +56,7 @@ export interface Dictionary {
   about: { body: string };
   experience: ExperienceEntry[];
   projects: ProjectEntry[];
+  projectsUi: { more: string; visit: string };
   skills: string[];
   education: {
     studies: EducationEntry[];

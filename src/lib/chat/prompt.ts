@@ -21,7 +21,7 @@ export function buildSystemPrompt(lang: Locale): string {
     .map((job) => `- ${job.role}, ${job.company} (${job.period}): ${job.bullets.join(' ')}`)
     .join('\n');
   const projects = t.projects
-    .map((project) => `- ${project.name} (${project.period}): ${project.description}`)
+    .map((project) => `- ${project.name} (${project.period}): ${project.body}`)
     .join('\n');
   const studies = t.education.studies
     .map((study) => `- ${study.title}, ${study.school} (${study.year})`)

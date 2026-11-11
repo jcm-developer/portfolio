@@ -60,27 +60,70 @@ export const es: Dictionary = {
   ],
   projects: [
     {
-      name: 'Elecnor',
+      slug: 'elecnor',
+      name: 'Elecnor · Plataforma global',
       period: '2026',
       description:
-        'Plataforma global de agentes de IA desplegada en Estados Unidos y España para automatizar flujos de negocio.',
-      tags: ['Agentes de IA', 'Google Cloud Vertex AI'],
+        'Una plataforma corporativa global para Elecnor impulsada por agentes de IA sobre Google Cloud Vertex AI, construida junto a sus equipos de Estados Unidos y España.',
+      body: 'Elecnor es una multinacional líder en infraestructuras y energía con operaciones en América y Europa. He contribuido al desarrollo de su plataforma global, centrándome en la capa de agentes de IA construida sobre Google Cloud Vertex AI, y trabajando directamente con sus equipos de Estados Unidos y España. El trabajo incluyó diseñar e integrar agentes conversacionales y de tarea que automatizan flujos de negocio, extraen información de los datos internos y apoyan la toma de decisiones a escala en ambas regiones.',
+      tags: ['Google Cloud', 'Vertex AI', 'AI Agents', 'Python'],
     },
     {
-      name: 'Vestor',
+      slug: 'vestor',
+      name: 'Vestor · Gestión de carteras y planificación financiera',
       period: '2025 – Actualidad',
       description:
-        'Plataforma de seguimiento de carteras y planificación financiera. Consumo de APIs y web scraping.',
-      tags: ['APIs', 'Web scraping'],
+        'Plataforma moderna de seguimiento de carteras y planificación financiera, pensada para inversores a largo plazo.',
+      body: 'Vestor es un proyecto personal que construí desde cero: una plataforma moderna para seguir carteras de inversión y planificar objetivos financieros a largo plazo. Maneja datos reales de cartera con una interfaz limpia y enfocada, diseñada para inversores que piensan en años, no en minutos. Construida con React en el frontend y Convex como capa de base de datos en tiempo real y autenticación.',
+      tags: ['React', 'Convex', 'TypeScript'],
     },
     {
-      name: 'Scalextric',
+      slug: 'scalextric',
+      name: 'Scalextric · Detección de objetos con IA y web 3D',
       period: '2023',
       description:
-        'Detección de objetos en tiempo real sobre un circuito físico, reflejada en vivo por un render 3D en el navegador.',
-      tags: ['Detección de objetos', 'Render 3D'],
+        'Detección de objetos en tiempo real sobre un circuito de Scalextric, junto a una representación 3D de los coches y el circuito ejecutándose en el navegador.',
+      body: 'Un proyecto que combina visión por computador y la web: un modelo de IA detecta y rastrea los coches en un circuito físico de Scalextric en tiempo real, mientras una representación 3D en la web refleja la acción en vivo en el navegador. Reúne detección de objetos, datos en tiempo real y gráficos 3D interactivos en una sola experiencia.',
+      tags: ['Python', 'Object Detection', 'Machine Learning', 'Web 3D'],
+    },
+    {
+      slug: 'automation',
+      name: 'Sistemas automatizados e integraciones de IA',
+      period: '2024 – Actualidad',
+      description:
+        'Un cuerpo de trabajo continuo automatizando procesos de negocio y conectando modelos de IA con software y herramientas existentes.',
+      body: 'Mi foco actual en CodeGenia: construir sistemas y procesos automatizados, integrar modelos de IA en productos existentes y desarrollar el software a su alrededor. El trabajo abarca conectar APIs, eliminar pasos manuales de las operaciones del día a día y entregar integraciones que aguantan en producción.',
+      tags: ['Python', 'AI Automations', 'Integrations', 'APIs'],
+    },
+    {
+      slug: 'yara',
+      name: 'Grupo Yara · Visualización de pisos en RV y RA',
+      period: '2024',
+      description:
+        'Herramientas de realidad virtual y aumentada que permiten a los compradores recorrer pisos antes de que estén construidos.',
+      body: 'Para Grupo Yara Construcciones desarrollé funcionalidades de realidad virtual y aumentada para visualizar pisos. Los posibles compradores pueden explorar los espacios de forma inmersiva (recorriendo distribuciones y acabados antes de la construcción), convirtiendo los planos arquitectónicos en algo por lo que puedes caminar de verdad.',
+      tags: ['C#', 'VR', 'AR', 'Blender'],
+    },
+    {
+      slug: 'bosch',
+      name: 'Bosch · App del servicio técnico de reparaciones',
+      period: '2022',
+      description:
+        'Una aplicación móvil que da soporte al flujo de trabajo del servicio técnico de reparaciones de Bosch.',
+      body: 'Una aplicación móvil creada para dar soporte al servicio técnico de reparaciones de Bosch. Agiliza el flujo de trabajo de reparación para los técnicos, reuniendo los pasos de un servicio en una experiencia móvil única y enfocada.',
+      tags: ['Kotlin', 'Mobile', 'REST APIs'],
+    },
+    {
+      slug: 'itaca-sabien',
+      name: 'ITACA-SABIEN · App web de tecnología sanitaria',
+      period: '2020',
+      description:
+        'Una aplicación web corporativa desarrollada dentro de un grupo de investigación centrado en tecnologías para la salud y el bienestar.',
+      body: 'Desarrollada dentro del grupo de investigación ITACA-SABIEN, centrado en tecnologías para la salud y el bienestar. El proyecto fue una aplicación web corporativa: mi primer trabajo práctico construyendo software real de pila completa en un entorno orientado a la investigación.',
+      tags: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
     },
   ],
+  projectsUi: { more: 'Más sobre este proyecto', visit: 'Ver el proyecto' },
   skills: [
     'Machine Learning & Deep Learning',
     'Automatización de procesos',

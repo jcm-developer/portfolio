@@ -60,26 +60,70 @@ export const en: Dictionary = {
   ],
   projects: [
     {
-      name: 'Elecnor',
+      slug: 'elecnor',
+      name: 'Elecnor · Global Platform',
       period: '2026',
       description:
-        'Global AI agent platform deployed in the United States and Spain to automate business workflows.',
-      tags: ['AI agents', 'Google Cloud Vertex AI'],
+        'A global enterprise platform for Elecnor powered by AI agents built on Google Cloud Vertex AI, built alongside their teams in the United States and Spain.',
+      body: 'Elecnor is a leading multinational infrastructure and energy company with operations across the Americas and Europe. I contributed to the development of their global platform, focusing on the AI agents layer built on Google Cloud Vertex AI, and worked directly with their teams in the United States and Spain. The work involved designing and integrating conversational and task-based agents that automate business workflows, surface insights from internal data, and support decision-making at scale across both regions.',
+      tags: ['Google Cloud', 'Vertex AI', 'AI Agents', 'Python'],
     },
     {
-      name: 'Vestor',
+      slug: 'vestor',
+      name: 'Vestor · Portfolio & Financial Planning',
       period: '2025 – Present',
-      description: 'Portfolio tracking and financial planning platform. API consumption and web scraping.',
-      tags: ['APIs', 'Web scraping'],
+      description:
+        'Modern portfolio tracking and financial planning platform built for long-term investors.',
+      body: 'Vestor is a personal project I built from scratch: a modern platform for tracking investment portfolios and planning long-term financial goals. It handles real portfolio data with a clean, focused interface designed for investors who think in years, not minutes. Built with React on the frontend and Convex for the real-time database and authentication layer.',
+      tags: ['React', 'Convex', 'TypeScript'],
     },
     {
-      name: 'Scalextric',
+      slug: 'scalextric',
+      name: 'Scalextric · AI Object Detection & 3D Web',
       period: '2023',
       description:
-        'Real-time object detection on a physical track, mirrored live by a 3D render in the browser.',
-      tags: ['Object detection', '3D render'],
+        'Real-time object detection on a Scalextric race track, paired with a 3D rendering of the cars and circuit running in the browser.',
+      body: 'A project combining computer vision and the web: an AI model detects and tracks the cars on a physical Scalextric track in real time, while a 3D web rendering mirrors the action live in the browser. It brings together object detection, real-time data, and interactive 3D graphics in a single experience.',
+      tags: ['Python', 'Object Detection', 'Machine Learning', 'Web 3D'],
+    },
+    {
+      slug: 'automation',
+      name: 'Automated Systems & AI Integrations',
+      period: '2024 – Present',
+      description:
+        'An ongoing body of work automating business processes and wiring AI models into existing software and tooling.',
+      body: 'My current focus at CodeGenia: building automated systems and processes, integrating AI models into existing products, and developing the software around them. The work spans connecting APIs, removing manual steps from day-to-day operations, and shipping integrations that hold up in production.',
+      tags: ['Python', 'AI Automations', 'Integrations', 'APIs'],
+    },
+    {
+      slug: 'yara',
+      name: 'Grupo Yara · VR & AR Apartment Visualization',
+      period: '2024',
+      description:
+        'Virtual and augmented reality tools that let buyers walk through apartments before they are built.',
+      body: 'For Grupo Yara Construcciones I built virtual and augmented reality features for visualizing apartments. Prospective buyers can explore spaces immersively (touring layouts and finishes ahead of construction), turning architectural plans into something you can actually walk through.',
+      tags: ['C#', 'VR', 'AR', 'Blender'],
+    },
+    {
+      slug: 'bosch',
+      name: 'Bosch · Technical Repair Service App',
+      period: '2022',
+      description:
+        "A mobile application supporting the workflow of Bosch's technical repair service.",
+      body: "A mobile application built to support Bosch's technical repair service. It streamlines the repair workflow for technicians, bringing the steps of a service job into a single, focused mobile experience.",
+      tags: ['Kotlin', 'Mobile', 'REST APIs'],
+    },
+    {
+      slug: 'itaca-sabien',
+      name: 'ITACA-SABIEN · Health Tech Web App',
+      period: '2020',
+      description:
+        'A company web application built within a research group working on health and well-being technologies.',
+      body: 'Developed within the ITACA-SABIEN research group, which focuses on health and well-being technologies. The project was a company web application: my early hands-on work building real, full-stack software in a research-driven environment.',
+      tags: ['JavaScript', 'Vue.js', 'Node.js', 'PostgreSQL'],
     },
   ],
+  projectsUi: { more: 'More about this project', visit: 'Visit the project' },
   skills: [
     'Machine Learning & Deep Learning',
     'Process automation',
@@ -105,7 +149,7 @@ export const en: Dictionary = {
     heading: 'Shall we talk?',
     lead: 'Email is the fastest way to reach me.',
     email: 'Email me',
-    cv: 'Download CV (PDF, in Spanish)',
+    cv: 'Download CV (PDF)',
   },
   chat: {
     title: "Jaume's assistant",

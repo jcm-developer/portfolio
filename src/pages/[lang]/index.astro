@@ -1,7 +1,7 @@
 ---
 import Hero from '../../components/Hero.astro';
 import Section from '../../components/Section.astro';
-import { certifications, profile } from '../../data/profile';
+import { certifications, profile, projectMedia } from '../../data/profile';
 import { getDictionary, LOCALES, type Locale } from '../../i18n';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -46,20 +46,37 @@ const t = getDictionary(locale);
 
   <Section id="projects" label={t.nav.projects}>
     {
-      t.projects.map((project) => (
-        <article class="entry">
-          <header class="entry-head">
-            <h3 class="entry-title">{project.name}</h3>
-            <p class="entry-period">{project.period}</p>
-          </header>
-          <p class="entry-text">{project.description}</p>
-          <ul class="tags">
-            {project.tags.map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-        </article>
-      ))
+      t.projects.map((project) => {
+        const media = projectMedia[project.slug];
+        return (
+          <article class="entry project">
+            {media && (
+              <img class="project-image" src={media.image} alt="" width="800" height="450" loading="lazy" decoding="async" />
+            )}
+            <div>
+              <header class="entry-head">
+                <h3 class="entry-title">{project.name}</h3>
+                <p class="entry-period">{project.period}</p>
+              </header>
+              <p class="entry-text">{project.description}</p>
+              <ul class="tags">
+                {project.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+              <details class="project-more">
+                <summary>{t.projectsUi.more}</summary>
+                <p>{project.body}</p>
+              </details>
+              {media?.url && (
+                <a class="project-link" href={media.url} target="_blank" rel="noopener noreferrer">
+                  {t.projectsUi.visit} ↗
+                </a>
+              )}
+            </div>
+          </article>
+        );
+      })
     }
   </Section>
 
@@ -119,7 +136,7 @@ const t = getDictionary(locale);
         <li><a class="button button-primary" href={`mailto:${profile.email}`}>{t.contact.email}</a></li>
         <li><a class="button" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         <li><a class="button" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a class="button" href={profile.cv} download>{t.contact.cv}</a></li>
+        <li><a class="button" href={profile.cv[locale]} download>{t.contact.cv}</a></li>
       </ul>
     </div>
   </section>
@@ -134,6 +151,49 @@ const t = getDictionary(locale);
     line-height: 1.25;
     letter-spacing: -0.015em;
     text-wrap: pretty;
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Client logos come on transparent backgrounds; the plate gives them all one frame. */
+  .project-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    padding: 0.625rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+
+  .project-more {
+    max-width: 62ch;
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+  }
+
+  .project-more summary {
+    width: fit-content;
+    font-weight: 500;
+    color: var(--indigo-deep);
+    cursor: pointer;
+  }
+
+  .project-more p {
+    margin-top: 0.625rem;
+  }
+
+  .project-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
   }
 
   .skills {
@@ -229,6 +289,14 @@ const t = getDictionary(locale);
   }
 
   @media (max-width: 36rem) {
+    .project {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project-image {
+      max-width: 11rem;
+    }
+
     .skills,
     .certs {
       grid-template-columns: minmax(0, 1fr);

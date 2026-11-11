@@ -14,9 +14,27 @@ export const profile = {
   email: 'jaumecortesmonzon@gmail.com',
   linkedin: 'https://www.linkedin.com/in/jaume-cortes-monzon-developer/',
   github: 'https://github.com/jcm-developer',
-  /** Served from `public/`. */
-  cv: '/Jaume-Cortes-CV-ES.pdf',
+  /** The CV for each locale, served from `public/`. */
+  cv: { en: '/Jaume-Cortes-CV-EN.pdf', es: '/Jaume-Cortes-CV-ES.pdf' },
 } as const;
+
+/** The picture and, when it is public, the live URL of a project. */
+export interface ProjectMedia {
+  /** Served from `public/`: a client logo or a screenshot, 16:9. */
+  image: string;
+  url?: string;
+}
+
+/** Media for each project, keyed by the `slug` of its dictionary entry. */
+export const projectMedia: Record<string, ProjectMedia> = {
+  elecnor: { image: '/elecnor.png' },
+  vestor: { image: '/vestor.png', url: 'https://vestor-max.pages.dev' },
+  scalextric: { image: '/scalextric.png' },
+  automation: { image: '/automation.png' },
+  yara: { image: '/yara.png' },
+  bosch: { image: '/bosch.png' },
+  'itaca-sabien': { image: '/itaca-sabien.png' },
+};
 
 /** Certificates, newest and most relevant first. Names stay in their original English. */
 export const certifications: Certification[] = [

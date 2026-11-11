@@ -56,8 +56,9 @@ script or a header change.
 
 ## D5. Single page, no project detail pages (2026-11-11)
 Status: accepted
-Context: the CV gives one sentence per project; the old detail pages padded that with invented
-filler.
-Decision: projects, education and certifications live as sections of the home page.
+Context: each project has a one-line description and a single paragraph of detail, which is
+not enough to carry a page of its own.
+Decision: projects, education and certifications live as sections of the home page. The
+paragraph of detail sits in a native `details` element under each project.
 Consequences: nothing to navigate to but sections, so the assistant has one tool
 (`show_section`). A project that earns a real write-up gets its own page then.

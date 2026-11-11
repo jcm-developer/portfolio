@@ -8,12 +8,14 @@ the rest.
 
 ## Key files
 
-- `src/data/profile.ts` (`profile`, `certifications`): name, email, links, CV path and the
-  certificate list.
+- `src/data/profile.ts` (`profile`, `certifications`, `projectMedia`): name, email, links, CV
+  paths, the certificate list, and the image and live URL of each project.
 - `src/i18n/index.ts` (`LOCALES`, `SECTIONS`, `Dictionary`, `getDictionary`, `pickLocale`,
   `isLocale`): locale plumbing and the shape every dictionary must have.
 - `src/i18n/es.ts`, `src/i18n/en.ts`: the dictionaries.
-- `public/Jaume-Cortes-CV-ES.pdf`: the downloadable CV.
+- `public/Jaume-Cortes-CV-ES.pdf`, `public/Jaume-Cortes-CV-EN.pdf`: the downloadable CVs, one
+  per locale (`profile.cv`).
+- `public/*.png`: one 16:9 picture per project, a client logo or a screenshot.
 - `src/assets/avatar.jpg`: the portrait.
 - Tests: `src/i18n/index.test.ts`.
 
@@ -24,7 +26,9 @@ the rest.
 
 ## Flow
 
-1. The Spanish CV is the source. `es.ts` follows its wording; `en.ts` is its translation.
+1. The CV is the source for the summary, experience, skills and education. Projects carry
+   more than the CV does: a description, a paragraph of detail and a stack, written by the
+   owner. A project's `slug` links its dictionary entry to `projectMedia`.
 2. Pages read `getDictionary(locale)`; the assistant's prompt reads the English dictionary
    (`buildSystemPrompt` in `src/lib/chat/prompt.ts`).
 
@@ -40,8 +44,9 @@ the rest.
 - Changing a fact means editing both dictionaries. The assistant only sees the English one.
 - The phone number is in the PDF but deliberately not in the pages or the prompt, to keep it
   away from scrapers.
-- There is one CV file, in Spanish. The English page says so on its download button. An
-  English PDF would need a second entry in `profile` and a per-locale choice in the page.
+- A project without an entry in `projectMedia` renders without a picture; nothing fails. Add
+  both when adding a project.
+- The assistant gets each project's detail paragraph, not its one-line description.
 
 ## Related
 
