@@ -1,5 +1,6 @@
 ---
 import Hero from '../../components/Hero.astro';
+import Icon from '../../components/Icon.astro';
 import Section from '../../components/Section.astro';
 import { certifications, profile, projectMedia } from '../../data/profile';
 import { getDictionary, LOCALES, type Locale } from '../../i18n';
@@ -130,10 +131,21 @@ const t = getDictionary(locale);
     <p class="contact-lead" data-reveal>{t.contact.lead}</p>
     <a class="contact-email" href={`mailto:${profile.email}`} data-reveal>{profile.email}</a>
     <ul class="contact-links" data-reveal>
-      <li><a class="button button-primary" href={`mailto:${profile.email}`}>{t.contact.email}</a></li>
-      <li><a class="button" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-      <li><a class="button" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a class="button" href={profile.cv[locale]} download>{t.contact.cv}</a></li>
+      <li>
+        <a class="contact-icon contact-icon-primary" href={`mailto:${profile.email}`} aria-label={t.contact.email} title={t.contact.email}>
+          <Icon name="mail" size={22} />
+        </a>
+      </li>
+      <li>
+        <a class="contact-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <Icon name="linkedin" size={20} />
+        </a>
+      </li>
+      <li>
+        <a class="contact-icon" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <Icon name="github" size={22} />
+        </a>
+      </li>
     </ul>
   </Section>
 </BaseLayout>
@@ -371,15 +383,60 @@ const t = getDictionary(locale);
     margin-top: 2.25rem;
   }
 
+  .contact-icon {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      translate 400ms var(--ease);
+  }
+
+  .contact-icon:hover {
+    background: var(--ink);
+    color: var(--paper);
+    translate: 0 -0.1875rem;
+  }
+
+  .contact-icon-primary {
+    border-color: var(--indigo);
+    background: var(--indigo);
+    color: #fff;
+  }
+
+  .contact-icon-primary:hover {
+    border-color: var(--indigo-deep);
+    background: var(--indigo-deep);
+    color: #fff;
+  }
+
+  /* Touch screens never hover, so there the pictures show in colour from the start. */
+  @media (hover: none) {
+    .project-plate img {
+      filter: none;
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 44rem) {
     .project {
       grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
     }
 
+    /* The picture follows the text, at the column's width, so the title leads each project. */
     .project-plate {
-      order: -1;
-      max-width: 12rem;
       margin-top: 0;
+    }
+
+    .project-plate-logo {
+      padding: 1.5rem 2rem;
     }
 
     .skills,

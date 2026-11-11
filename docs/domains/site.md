@@ -20,6 +20,7 @@ redirect.
 - `src/scripts/motion.ts`: scroll motion: reveals, drawing hairlines, the about
   statement, the active nav link and the progress bar.
 - `src/components/Mark.astro`: the asterisk mark.
+- `src/components/Icon.astro`: the few inline SVG icons (mail, LinkedIn, GitHub, download).
 - `src/styles/global.css`: tokens and the shared `label`, `entry`, `tags` and `button` classes.
 - `public/_headers`: security headers and cache rules.
 - `astro.config.mjs`, `wrangler.jsonc`: build and Worker config.

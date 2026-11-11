@@ -25,6 +25,7 @@ export const es: Dictionary = {
     askLabel: 'Pregunta a mi asistente',
     askPlaceholder: '¿En qué está trabajando ahora?',
     askSubmit: 'Preguntar',
+    cv: 'Descargar CV (PDF)',
   },
   about: {
     body: 'Actualmente traduzco necesidades de cliente en soluciones técnicas a medida: agentes conversacionales y de tarea sobre Google Cloud Vertex AI, integraciones entre APIs y modelos, y el software que los rodea de extremo a extremo, desde la arquitectura hasta el frontend en React, Vue.js, Node.js y demás tecnologías.',
@@ -147,7 +148,6 @@ export const es: Dictionary = {
     heading: '¿Hablamos?',
     lead: 'La forma más rápida de llegar a mí es el correo.',
     email: 'Escríbeme',
-    cv: 'Descargar CV (PDF)',
   },
   chat: {
     title: 'Asistente de Jaume',

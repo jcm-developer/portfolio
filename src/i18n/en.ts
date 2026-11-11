@@ -25,6 +25,7 @@ export const en: Dictionary = {
     askLabel: 'Ask my assistant',
     askPlaceholder: 'What is he working on right now?',
     askSubmit: 'Ask',
+    cv: 'Download CV (PDF)',
   },
   about: {
     body: 'I currently turn client needs into tailored technical solutions: conversational and task agents on Google Cloud Vertex AI, integrations between APIs and models, and the software around them end to end, from the architecture to the frontend in React, Vue.js, Node.js and other technologies.',
@@ -134,7 +135,7 @@ export const en: Dictionary = {
   ],
   education: {
     studies: [
-      { title: 'BSc in Computer Engineering', school: 'Valencian International University (VIU)', year: '2026' },
+      { title: 'Computer Engineering', school: 'Valencian International University (VIU)', year: '2026' },
       { title: 'Cross-platform application development', school: 'IES La Sènia', year: '2023' },
       { title: 'Web application development', school: 'Grupo Studio Formación', year: '2020' },
     ],
@@ -147,7 +148,6 @@ export const en: Dictionary = {
     heading: 'Shall we talk?',
     lead: 'Email is the fastest way to reach me.',
     email: 'Email me',
-    cv: 'Download CV (PDF)',
   },
   chat: {
     title: "Jaume's assistant",

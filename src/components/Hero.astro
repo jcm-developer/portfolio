@@ -1,12 +1,14 @@
 ---
 import { profile } from '../data/profile';
 import { getDictionary, type Locale } from '../i18n';
+import Icon from './Icon.astro';
 import Mark from './Mark.astro';
 
 /**
- * Renders the opening block, one screen tall: the name, the one-line pitch and the question
- * box that hands the visitor to the assistant, stacked in one column on the left, with the
- * animated ribbon from the LinkedIn banner filling the space on the right.
+ * Renders the opening block, one screen tall: the name, the one-line pitch, the question box
+ * that hands the visitor to the assistant and the CV download, stacked in one column on the
+ * left, with the animated ribbon from the LinkedIn banner filling the space on the right (a
+ * band under the copy on phones).
  *
  * @param locale - The locale of the current page.
  */
@@ -23,7 +25,9 @@ const [firstName, ...lastName] = profile.name.split(' ');
   <canvas class="hero-ribbon" data-ribbon aria-hidden="true"></canvas>
 
   <div class="wrap hero-inner">
-    <p class="label hero-role">{t.role} · {t.location}</p>
+    <p class="label hero-role">
+      <span>{t.role}</span>{' '}<span aria-hidden="true">·</span>{' '}<span>{t.location}</span>
+    </p>
     <h1 class="hero-name">
       <span class="visually-hidden">{profile.name}</span>
       <span class="mask hero-line" aria-hidden="true"><span>{firstName}</span></span>
@@ -52,6 +56,11 @@ const [firstName, ...lastName] = profile.name.split(' ');
           <button class="button button-primary" type="submit">{t.hero.askSubmit}</button>
         </div>
       </form>
+
+      <a class="hero-cv" href={profile.cv[locale]} download>
+        <Icon name="download" size={18} />
+        {t.hero.cv}
+      </a>
     </div>
   </div>
 </section>
@@ -87,6 +96,11 @@ const [firstName, ...lastName] = profile.name.split(' ');
 
   .hero-role {
     animation: hero-fade 900ms var(--ease) both;
+  }
+
+  /* Role and location wrap as whole units, never mid-phrase. */
+  .hero-role > span {
+    white-space: nowrap;
   }
 
   .hero-name {
@@ -185,6 +199,50 @@ const [firstName, ...lastName] = profile.name.split(' ');
   .ask-field input::placeholder {
     color: var(--ink-soft);
     opacity: 0.75;
+  }
+
+  .hero-cv {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    margin-top: calc(-1 * clamp(0.5rem, 1.5vw, 0.75rem));
+    font-weight: 500;
+    font-size: 0.9375rem;
+    color: var(--indigo-deep);
+    text-decoration: none;
+    animation: hero-fade 900ms var(--ease) 950ms both;
+  }
+
+  .hero-cv:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .hero-cv :global(.icon) {
+    transition: translate 300ms var(--ease);
+  }
+
+  .hero-cv:hover :global(.icon) {
+    translate: 0 0.125rem;
+  }
+
+  /* Phones: the copy sits at the top and the ribbon becomes a band under it, so the lines never
+     run behind the text. The canvas height matches the room left by the padding. */
+  @media (max-width: 44rem) {
+    .hero {
+      align-content: start;
+      min-height: 0;
+    }
+
+    .hero-inner {
+      padding-block: 2.5rem 11rem;
+    }
+
+    .hero-ribbon {
+      top: auto;
+      height: 10rem;
+    }
   }
 
   @keyframes hero-rise {

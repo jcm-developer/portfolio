@@ -50,6 +50,7 @@ export interface Dictionary {
     askLabel: string;
     askPlaceholder: string;
     askSubmit: string;
+    cv: string;
   };
   about: { body: string };
   experience: ExperienceEntry[];
@@ -67,7 +68,6 @@ export interface Dictionary {
     heading: string;
     lead: string;
     email: string;
-    cv: string;
   };
   chat: {
     title: string;

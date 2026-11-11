@@ -13,6 +13,8 @@ function start(canvas: HTMLCanvasElement): void {
   if (!ctx) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // Same breakpoint as Hero.astro: on phones the canvas is a band under the copy, not behind it.
+  const band = window.matchMedia('(max-width: 44rem)');
   let width = 0;
   let height = 0;
   let frame = 0;
@@ -46,8 +48,10 @@ function start(canvas: HTMLCanvasElement): void {
 
     const stroke = ctx!.createLinearGradient(0, 0, width, 0);
     // Faint on the left, where the copy sits, and full on the right, where the band has room.
-    stroke.addColorStop(0, 'rgba(85, 72, 224, 0.04)');
-    stroke.addColorStop(0.4, 'rgba(85, 72, 224, 0.1)');
+    // On phones nothing sits over it, so it only fades a little at the left edge.
+    const solo = band.matches;
+    stroke.addColorStop(0, solo ? 'rgba(85, 72, 224, 0.16)' : 'rgba(85, 72, 224, 0.04)');
+    stroke.addColorStop(0.4, solo ? 'rgba(85, 72, 224, 0.3)' : 'rgba(85, 72, 224, 0.1)');
     stroke.addColorStop(0.7, 'rgba(85, 72, 224, 0.38)');
     stroke.addColorStop(1, 'rgba(116, 132, 240, 0.32)');
     ctx!.strokeStyle = stroke;

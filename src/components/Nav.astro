@@ -4,8 +4,8 @@ import { getDictionary, LOCALES, SECTIONS, type Locale } from '../i18n';
 import Mark from './Mark.astro';
 
 /**
- * Renders the sticky top bar: home link, section links with the one in view marked, the
- * language switch, and a bar along the bottom that fills as the page scrolls.
+ * Renders the sticky top bar: home link, section links with the one in view marked (wide
+ * screens only), the language switch, and a bar along the bottom that fills as the page scrolls.
  *
  * @param locale - The locale of the current page.
  */
@@ -175,29 +175,15 @@ const t = getDictionary(locale);
     color: #fff;
   }
 
+  /* On narrow screens the bar keeps only the name and the language switch: the page is one
+     column read top to bottom, and the assistant already takes the visitor to any section. */
   @media (max-width: 52rem) {
-    .nav-inner {
-      flex-wrap: wrap;
-      gap: 0 1rem;
-      padding-block: 0.625rem 0;
+    .nav-links {
+      display: none;
     }
 
     .nav-langs {
       margin-left: auto;
-    }
-
-    /* The section links drop to their own row and scroll sideways. */
-    .nav-links {
-      order: 3;
-      width: 100%;
-      margin-left: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .nav-links ul {
-      gap: 1.25rem;
-      padding-block: 0.625rem;
     }
   }
 </style>

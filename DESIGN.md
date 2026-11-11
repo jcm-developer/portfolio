@@ -48,8 +48,13 @@ There is no dark theme: both source artefacts are light.
 - The page is typographic: no portrait. A portrait returns only with a good photo, and then
   beside the contact heading; never in a circle, never in the hero.
 - Each project shows its logo or screenshot on a white 16:9 plate to the right of the text
-  (above it on phones). Pictures are grey at rest and take their colour when the project is
-  hovered, so client brands never compete with the page or with each other.
+  (below it, at full column width, on phones). With a pointer, pictures are grey at rest and
+  take their colour when the project is hovered, so client brands never compete with the page
+  or with each other. Touch screens cannot hover, so there they show in colour.
+- Under 52rem the top bar keeps only the name and the language switch; the section links
+  return on wider screens.
+- Contact links are round icon buttons (email in indigo, LinkedIn, GitHub), each with an
+  accessible name. Icons come from `src/components/Icon.astro`, inline SVG in the text colour.
 - Hero and contact are the only tinted blocks; they open and close the page.
 - No visible scrollbars; the bar under the top nav shows how far the page has scrolled.
 
@@ -60,10 +65,13 @@ banner. It is drawn on a canvas by `src/scripts/ribbon.ts`: it draws itself in f
 load, drifts very slowly and leans towards the pointer.
 
 - The hero fills the first screen (capped at 56rem) with one column on the left: role, the
-  name on two lines with an indigo full stop (at most 7.5rem), the pitch and the question box,
-  in that order and close together. No suggestion chips: the placeholder already shows the
-  kind of question to ask.
+  name on two lines with an indigo full stop (at most 7.5rem), the pitch, the question box and
+  a quiet "Download CV" link, in that order and close together. No suggestion chips: the
+  placeholder already shows the kind of question to ask.
 - The ribbon is faint behind the copy and full on the right, where it has room.
+- On phones (under 44rem) the hero is as tall as its copy, which sits at the top, and the
+  ribbon becomes a band under it: a portrait screen has no room beside the copy, and a band
+  stretched to the full height runs behind the text.
 - The ribbon is the one decorative element. Nothing else on the page is ornamental.
 - With `prefers-reduced-motion` it draws a single still frame.
 
