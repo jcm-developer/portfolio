@@ -65,7 +65,8 @@ There is no dark theme: both source artefacts are light.
 
 A band of 48 fine lines crosses the hero behind the name and twists once, after the LinkedIn
 banner. It is drawn on a canvas by `src/scripts/ribbon.ts`: it draws itself in from the left on
-load, drifts very slowly and leans towards the pointer.
+load and then drifts very slowly. It does not react to the pointer: moving across the hero
+should never shift the lines behind the copy and the buttons.
 
 - The hero fills the first screen (capped at 56rem) with one column on the left: the role, the
   name on two lines with an indigo full stop (at most 7.5rem), the pitch and two buttons, in
