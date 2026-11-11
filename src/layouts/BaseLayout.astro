@@ -31,6 +31,8 @@ const { title = t.meta.title, description = t.meta.description } = Astro.props;
 
 const site = Astro.site ?? Astro.url;
 const canonical = new URL(`/${locale}/`, site).href;
+// Link previews need an absolute URL; the role on the image is in the page's language.
+const shareImage = new URL(`/og-${locale}.png`, site).href;
 
 const person = {
   '@context': 'https://schema.org',
@@ -75,7 +77,12 @@ const person = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
 
   <body>

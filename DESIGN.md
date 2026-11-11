@@ -79,6 +79,9 @@ should never shift the lines behind the copy and the buttons.
   the width and the buttons stack at full width.
 - The ribbon is the one decorative element. Nothing else on the page is ornamental.
 - With `prefers-reduced-motion` it draws a single still frame.
+- The link preview images (`public/og-en.png`, `public/og-es.png`) are the hero as a still: tint
+  ground, the role label, the name with its indigo full stop and the ribbon at rest on the right,
+  plus the host in mono. They are the only place the ribbon appears outside the hero.
 
 ## Motion
 

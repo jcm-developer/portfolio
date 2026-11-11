@@ -6,6 +6,7 @@ export const en: Dictionary = {
     title: 'Jaume Cortés · AI Engineer',
     description:
       'AI Engineer based in Valencia. Conversational and task agents on Google Cloud Vertex AI, integrations between APIs and models, and the software around them.',
+    imageAlt: 'Jaume Cortés, AI Engineer, over a band of fine indigo lines.',
   },
   role: 'AI Engineer',
   location: 'Valencia, Spain',

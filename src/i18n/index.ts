@@ -41,7 +41,7 @@ export interface EducationEntry {
 
 /** Every translatable string of the site, for one locale. */
 export interface Dictionary {
-  meta: { title: string; description: string };
+  meta: { title: string; description: string; imageAlt: string };
   role: string;
   location: string;
   nav: Record<SectionId, string> & { skipToContent: string; switchLanguage: string; menu: string };

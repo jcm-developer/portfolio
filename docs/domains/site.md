@@ -23,6 +23,8 @@ redirect.
 - `src/components/Icon.astro`: the few inline SVG icons (mail, LinkedIn, GitHub, download).
 - `src/styles/global.css`: tokens and the shared `label`, `entry`, `tags` and `button` classes.
 - `public/_headers`: security headers and cache rules.
+- `public/og-en.png`, `public/og-es.png`: the 1200x630 link preview images (`og:image` in
+  `BaseLayout.astro`), one per locale because the role differs.
 - `astro.config.mjs`, `wrangler.jsonc`: build and Worker config.
 
 ## Data
@@ -64,6 +66,10 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 - In a scoped `<style>`, `:global()` nested inside `:not()` is left uncompiled and the rule
   never matches. Selectors that depend on state set by a script (`is-in`, `is-lit` on words,
   `data-motion`) live in `global.css` instead.
+- The share images are static PNGs rendered once from the hero's design (role, name, ribbon,
+  host). They do not follow changes to `role`, `profile.name`, the palette or the production
+  origin: re-render both when one of those changes. Social networks cache previews, so
+  refresh them afterwards (LinkedIn Post Inspector).
 - Images imported from `src/assets` are also emitted at their original size. Keep sources
   small: the build publishes them.
 
