@@ -54,9 +54,15 @@ is created once from the dashboard:
 5. After the first deploy: Settings, Variables and Secrets, add `OPENAI_API_KEY` as type
    **Secret**. Secrets apply to the Worker at runtime, not to the build.
 
-Every push to `main` deploys to production; other branches get a preview URL.
+Every push to `main` deploys to production; other branches get a preview URL through
+`npx wrangler preview`.
 
 The rate limiter (`CHAT_LIMITER` in `wrangler.jsonc`) needs no setup: the binding creates it.
+Previews use their own namespace from the `previews` block, so they never share a counter with
+production; without that block `wrangler preview` refuses to deploy. Previews keep their own
+secrets (`npx wrangler preview secret`, or the Preview base config in the dashboard): if
+`OPENAI_API_KEY` is not set there, the assistant on a preview answers with its "unavailable"
+error.
 
 Outside Cloudflare, also set a monthly budget on the OpenAI project that owns the key. It is
 the last line of defence if every other limit is bypassed.

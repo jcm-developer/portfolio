@@ -19,6 +19,17 @@
       "namespace_id": "1001",
       "simple": { "limit": 8, "period": 60 }
     }
-  ]
+  ],
+  // Branch previews (every branch but main) get their own limiter namespace, so preview traffic
+  // never shares a counter with production. Wrangler refuses a preview without this block.
+  "previews": {
+    "ratelimits": [
+      {
+        "name": "CHAT_LIMITER",
+        "namespace_id": "1002",
+        "simple": { "limit": 8, "period": 60 }
+      }
+    ]
+  }
   // OPENAI_API_KEY is a secret: set it in the dashboard, never here.
 }
