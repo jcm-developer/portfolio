@@ -85,10 +85,7 @@ const person = {
       <slot />
     </main>
     <footer class="footer">
-      <div class="wrap footer-inner">
-        <p>© {new Date().getFullYear()} {profile.name}</p>
-        <a href={`${profile.github}/portfolio`} rel="noopener">{t.footer.source}</a>
-      </div>
+      <p class="wrap footer-inner">© {new Date().getFullYear()} {profile.name}</p>
     </footer>
     <Chat locale={locale} />
   </body>
@@ -121,12 +118,10 @@ const person = {
   }
 
   .footer-inner {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem 2rem;
-    /* Room on the right so the assistant launcher never covers the link. */
-    padding-block: 1.75rem;
-    padding-right: calc(var(--gutter) + 4.5rem);
+    padding-block: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-align: center;
   }
 </style>

@@ -47,9 +47,7 @@ export interface Dictionary {
   nav: Record<SectionId, string> & { skipToContent: string; switchLanguage: string; menu: string };
   hero: {
     lead: string;
-    askLabel: string;
-    askPlaceholder: string;
-    askSubmit: string;
+    ask: string;
     cv: string;
   };
   about: { body: string };
@@ -84,7 +82,6 @@ export interface Dictionary {
     errorGeneric: string;
     disclaimer: string;
   };
-  footer: { source: string };
   notFound: { title: string; body: string; home: string };
 }
 

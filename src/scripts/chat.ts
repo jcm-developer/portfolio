@@ -151,15 +151,9 @@ function init(root: HTMLElement): void {
     void ask(question);
   });
 
-  // The hero question box hands over to the panel.
-  const heroForm = document.querySelector<HTMLFormElement>('[data-ask-form]');
-  const heroInput = heroForm?.querySelector<HTMLInputElement>('input');
-  heroForm?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const question = heroInput?.value ?? '';
-    if (heroInput) heroInput.value = '';
-    open();
-    void ask(question);
+  // Buttons elsewhere on the page, such as the hero's, open the panel too.
+  document.querySelectorAll<HTMLElement>('[data-chat-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', open);
   });
 }
 

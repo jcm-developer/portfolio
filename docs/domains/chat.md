@@ -17,7 +17,7 @@ the site describes. Its design goal is that the model key can only ever be spent
   upstream stream into the site's own events.
 - `src/components/Chat.astro`: launcher and panel markup and styles.
 - `src/scripts/chat.ts`: panel behaviour in the browser.
-- `src/components/Hero.astro`: the question box that hands over to the panel.
+- `src/components/Hero.astro`: the button that opens the panel (`data-chat-trigger`).
 - Tests: `src/lib/chat/validate.test.ts`, `src/lib/chat/stream.test.ts`.
 
 ## Data
@@ -33,7 +33,8 @@ Response: `text/event-stream` of `ChatEvent` frames: `text` (a delta), `nav` (a 
 
 ## Flow
 
-1. The visitor submits the hero box or the panel form; `ask` in
+1. The visitor opens the panel (the launcher, or any `[data-chat-trigger]` button such as the
+   hero's) and submits the form; `ask` in
    `src/scripts/chat.ts` posts the last `MAX_MESSAGES` turns to `/api/chat`.
 2. The endpoint checks, in order: same origin, JSON content type, body size, shape
    (`parseChatRequest`), rate limit (`CHAT_LIMITER`, keyed by `cf-connecting-ip`), key present.

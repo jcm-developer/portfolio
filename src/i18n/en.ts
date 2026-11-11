@@ -22,10 +22,8 @@ export const en: Dictionary = {
   },
   hero: {
     lead: 'I turn client needs into AI agents and the software around them, end to end.',
-    askLabel: 'Ask my assistant',
-    askPlaceholder: 'What is he working on right now?',
-    askSubmit: 'Ask',
-    cv: 'Download CV (PDF)',
+    ask: 'Ask my assistant',
+    cv: 'Download CV',
   },
   about: {
     body: 'I currently turn client needs into tailored technical solutions: conversational and task agents on Google Cloud Vertex AI, integrations between APIs and models, and the software around them end to end, from the architecture to the frontend in React, Vue.js, Node.js and other technologies.',
@@ -147,7 +145,7 @@ export const en: Dictionary = {
   contact: {
     heading: 'Shall we talk?',
     lead: 'Email is the fastest way to reach me.',
-    email: 'Email me',
+    email: 'Email',
   },
   chat: {
     title: "Jaume's assistant",
@@ -165,7 +163,6 @@ export const en: Dictionary = {
     errorGeneric: 'The assistant is unavailable right now. Try again in a few minutes or email Jaume.',
     disclaimer: "AI-generated answers based on Jaume's CV.",
   },
-  footer: { source: 'Source on GitHub' },
   notFound: {
     title: 'This page does not exist',
     body: 'The link is broken or the page has moved.',

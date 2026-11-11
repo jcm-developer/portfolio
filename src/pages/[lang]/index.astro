@@ -17,6 +17,15 @@ export function getStaticPaths() {
 
 const locale = Astro.params.lang as Locale;
 const t = getDictionary(locale);
+
+/** The last segment of a profile URL, shown as the handle under each channel. */
+const handleOf = (url: string) => new URL(url).pathname.split('/').filter(Boolean).pop() ?? '';
+
+const contacts = [
+  { icon: 'mail', label: t.contact.email, handle: profile.email, href: `mailto:${profile.email}`, external: false },
+  { icon: 'linkedin', label: 'LinkedIn', handle: handleOf(profile.linkedin), href: profile.linkedin, external: true },
+  { icon: 'github', label: 'GitHub', handle: handleOf(profile.github), href: profile.github, external: true },
+] as const;
 ---
 
 <BaseLayout locale={locale}>
@@ -127,26 +136,34 @@ const t = getDictionary(locale);
   </Section>
 
   <Section id="contact" label={t.nav.contact} tone="tint">
-    <p class="contact-heading mask" data-reveal><span>{t.contact.heading}</span></p>
-    <p class="contact-lead" data-reveal>{t.contact.lead}</p>
-    <a class="contact-email" href={`mailto:${profile.email}`} data-reveal>{profile.email}</a>
-    <ul class="contact-links" data-reveal>
-      <li>
-        <a class="contact-icon contact-icon-primary" href={`mailto:${profile.email}`} aria-label={t.contact.email} title={t.contact.email}>
-          <Icon name="mail" size={22} />
-        </a>
-      </li>
-      <li>
-        <a class="contact-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
-          <Icon name="linkedin" size={20} />
-        </a>
-      </li>
-      <li>
-        <a class="contact-icon" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-          <Icon name="github" size={22} />
-        </a>
-      </li>
-    </ul>
+    <div class="contact">
+      <div class="contact-intro">
+        <p class="contact-heading mask" data-reveal><span>{t.contact.heading}</span></p>
+        <p class="contact-lead" data-reveal>{t.contact.lead}</p>
+      </div>
+      <ul class="contact-list" data-stagger>
+        {
+          contacts.map((channel) => (
+            <li data-reveal>
+              <a
+                class:list={['contact-row', { 'contact-row-primary': channel.icon === 'mail' }]}
+                href={channel.href}
+                {...(channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                <span class="contact-icon">
+                  <Icon name={channel.icon} size={20} />
+                </span>
+                <span class="contact-text">
+                  <span class="contact-channel">{channel.label}</span>
+                  <span class="contact-handle">{channel.handle}</span>
+                </span>
+                <span class="contact-arrow" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </Section>
 </BaseLayout>
 
@@ -353,67 +370,115 @@ const t = getDictionary(locale);
 
   /* ── Contact ── */
 
+  /* ── Contact: the invitation on the left, one card per channel on the right ── */
+
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
   .contact-heading {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(2.75rem, 7vw, 5.5rem);
-    line-height: 0.9;
+    font-size: clamp(2.75rem, 6vw, 4.75rem);
+    line-height: 0.92;
     letter-spacing: -0.045em;
   }
 
   .contact-lead {
-    margin-top: 1.75rem;
+    max-width: 28ch;
+    margin-top: 1.25rem;
+    text-wrap: balance;
+    font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
     color: var(--ink-soft);
   }
 
-  .contact-email {
-    display: inline-block;
-    margin-top: 0.375rem;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.25rem, 3.4vw, 2.25rem);
-    letter-spacing: -0.02em;
-    overflow-wrap: anywhere;
+  .contact-list {
+    display: grid;
+    gap: 0.75rem;
   }
 
-  .contact-links {
+  .contact-row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 2.25rem;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem 1rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--paper);
+    text-decoration: none;
+    transition:
+      border-color 200ms ease,
+      box-shadow 400ms ease,
+      translate 400ms var(--ease);
+  }
+
+  .contact-row:hover {
+    border-color: var(--indigo);
+    box-shadow: 0 18px 40px -26px rgb(61 50 181 / 0.55);
+    translate: 0 -0.1875rem;
   }
 
   .contact-icon {
     display: grid;
+    flex: none;
     place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
-    border: 1px solid var(--ink);
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 999px;
-    color: var(--ink);
+    background: var(--tint);
+    color: var(--indigo-deep);
     transition:
       background-color 200ms ease,
-      border-color 200ms ease,
-      color 200ms ease,
-      translate 400ms var(--ease);
+      color 200ms ease;
   }
 
-  .contact-icon:hover {
-    background: var(--ink);
-    color: var(--paper);
-    translate: 0 -0.1875rem;
-  }
-
-  .contact-icon-primary {
-    border-color: var(--indigo);
+  .contact-row-primary .contact-icon,
+  .contact-row:hover .contact-icon {
     background: var(--indigo);
     color: #fff;
   }
 
-  .contact-icon-primary:hover {
-    border-color: var(--indigo-deep);
-    background: var(--indigo-deep);
-    color: #fff;
+  .contact-text {
+    display: grid;
+    flex: 1;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .contact-channel {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .contact-handle {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-arrow {
+    flex: none;
+    color: var(--indigo);
+    transition: translate 300ms var(--ease);
+  }
+
+  .contact-row:hover .contact-arrow {
+    translate: 0.15rem -0.15rem;
+  }
+
+  /* Under the section breakpoint the invitation sits above the cards. */
+  @media (max-width: 52rem) {
+    .contact {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+    }
   }
 
   /* Touch screens never hover, so there the pictures show in colour from the start. */

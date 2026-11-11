@@ -12,7 +12,7 @@ code or tests. Rules that apply to one folder only live in that folder's `AGENTS
 - **CSS:** kebab-case classes prefixed by their component (`hero-name`, `chat-msg-user`).
   Colours, fonts and sizes only through the custom properties in `src/styles/global.css`.
 - **Section ids** are the English words in `SECTIONS` (`src/i18n/index.ts`) in every locale.
-- **DOM hooks for scripts** are `data-*` attributes (`data-chat`, `data-ask-form`), never
+- **DOM hooks for scripts** are `data-*` attributes (`data-chat`, `data-chat-trigger`), never
   classes.
 
 ## Comments

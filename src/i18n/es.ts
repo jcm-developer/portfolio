@@ -22,10 +22,8 @@ export const es: Dictionary = {
   },
   hero: {
     lead: 'Traduzco necesidades de cliente en agentes de IA y en el software que los rodea, de extremo a extremo.',
-    askLabel: 'Pregunta a mi asistente',
-    askPlaceholder: '¿En qué está trabajando ahora?',
-    askSubmit: 'Preguntar',
-    cv: 'Descargar CV (PDF)',
+    ask: 'Pregunta a mi asistente',
+    cv: 'Descargar CV',
   },
   about: {
     body: 'Actualmente traduzco necesidades de cliente en soluciones técnicas a medida: agentes conversacionales y de tarea sobre Google Cloud Vertex AI, integraciones entre APIs y modelos, y el software que los rodea de extremo a extremo, desde la arquitectura hasta el frontend en React, Vue.js, Node.js y demás tecnologías.',
@@ -135,7 +133,7 @@ export const es: Dictionary = {
   ],
   education: {
     studies: [
-      { title: 'Grado en Ingeniería Informática', school: 'Universidad Internacional de Valencia (VIU)', year: '2026' },
+      { title: 'Ingeniería Informática', school: 'Universidad Internacional de Valencia (VIU)', year: '2026' },
       { title: 'Desarrollo de aplicaciones multiplataforma', school: 'IES La Sènia', year: '2023' },
       { title: 'Desarrollo de aplicaciones web', school: 'Grupo Studio Formación', year: '2020' },
     ],
@@ -147,7 +145,7 @@ export const es: Dictionary = {
   contact: {
     heading: '¿Hablamos?',
     lead: 'La forma más rápida de llegar a mí es el correo.',
-    email: 'Escríbeme',
+    email: 'Correo',
   },
   chat: {
     title: 'Asistente de Jaume',
@@ -165,7 +163,6 @@ export const es: Dictionary = {
     errorGeneric: 'El asistente no está disponible ahora mismo. Vuelve a intentarlo en unos minutos o escribe a Jaume por correo.',
     disclaimer: 'Respuestas generadas por IA a partir del CV de Jaume.',
   },
-  footer: { source: 'Código en GitHub' },
   notFound: {
     title: 'Esta página no existe',
     body: 'El enlace está roto o la página se ha movido.',
