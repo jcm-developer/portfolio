@@ -79,9 +79,12 @@ should never shift the lines behind the copy and the buttons.
   the width and the buttons stack at full width.
 - The ribbon is the one decorative element. Nothing else on the page is ornamental.
 - With `prefers-reduced-motion` it draws a single still frame.
-- The link preview images (`public/og-en.png`, `public/og-es.png`) are the hero as a still: tint
-  ground, the role label, the name with its indigo full stop and the ribbon at rest on the right,
-  plus the host in mono. They are the only place the ribbon appears outside the hero.
+- The link preview images (`public/og-en.png`, `public/og-es.png`) take the hero's parts, centred:
+  tint ground, the role label, the name with its indigo full stop and the host in mono, with the
+  ribbon at rest crossing the full width, faint behind the copy. All copy stays inside the central
+  630px square: chat apps crop previews around the centre (to a square, or about 1.5:1), so
+  left-aligned copy loses its first letters. They are the only place the ribbon appears outside
+  the hero.
 
 ## Motion
 
