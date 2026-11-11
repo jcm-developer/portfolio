@@ -9,7 +9,8 @@ the rest.
 ## Key files
 
 - `src/data/profile.ts` (`profile`, `certifications`, `projectMedia`): name, email, links, CV
-  paths, the certificate list, and the picture (with its `kind`) and live URL of each project.
+  paths, language codes for structured data, the certificate list, and the picture (with its
+  `kind`) and live URL of each project.
 - `src/i18n/index.ts` (`LOCALES`, `SECTIONS`, `Dictionary`, `getDictionary`,
   `isLocale`): locale plumbing and the shape every dictionary must have.
 - `src/i18n/es.ts`, `src/i18n/en.ts`: the dictionaries.
@@ -33,8 +34,9 @@ the rest.
 1. The CV is the source for the summary, experience, skills and education. Projects carry
    more than the CV does: a description, a paragraph of detail and a stack, written by the
    owner. A project's `slug` links its dictionary entry to `projectMedia`.
-2. Pages read `getDictionary(locale)`; the assistant's prompt reads the English dictionary
-   (`buildSystemPrompt` in `src/lib/chat/prompt.ts`).
+2. Pages read `getDictionary(locale)`; the assistant's prompt and `/llms.txt` read the English
+   dictionary (`buildSystemPrompt` in `src/lib/chat/prompt.ts`, `buildLlmsTxt` in
+   `src/lib/llms.ts`). The JSON-LD `Person` in `BaseLayout.astro` reads the page's locale.
 
 ## Invariants
 
@@ -45,7 +47,10 @@ the rest.
 
 ## Gotchas
 
-- Changing a fact means editing both dictionaries. The assistant only sees the English one.
+- Changing a fact means editing both dictionaries. The assistant and `/llms.txt` only see the
+  English one.
+- `profile.languages` must match the languages listed in `education.languages`; it is the
+  machine-readable form (BCP 47) used by `knowsLanguage`.
 - The phone number is in the PDF but deliberately not in the pages or the prompt, to keep it
   away from scrapers.
 - A project without an entry in `projectMedia` renders without a picture or link; nothing

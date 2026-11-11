@@ -11,7 +11,10 @@ redirect.
 - `src/pages/[lang]/index.astro` (`getStaticPaths`): the home page, one build per locale.
 - `src/pages/index.ts` (`GET`): redirects `/` to `/en/`, the default language. Runs in the Worker.
 - `src/pages/404.astro`: one static page for every unknown URL, in both languages.
-- `src/layouts/BaseLayout.astro`: head (canonical, hreflang, Open Graph, JSON-LD), top bar,
+- `src/pages/llms.txt.ts` and `src/lib/llms.ts` (`buildLlmsTxt`): `/llms.txt`, a Markdown
+  summary of the profile for AI assistants, prerendered from the English dictionary.
+- `src/layouts/BaseLayout.astro`: head (canonical, hreflang, Open Graph, the JSON-LD `Person`
+  with employer, schools, skills and languages), top bar,
   footer and the assistant.
 - `src/components/Nav.astro`: section links and the language switch.
 - `src/components/Hero.astro` and `src/scripts/ribbon.ts`: opening block and its canvas ribbon.

@@ -56,8 +56,9 @@ portfolio/
 │   ├── data/               # Language-neutral profile data
 │   ├── i18n/               # Locales, dictionaries, locale helpers
 │   ├── layouts/            # BaseLayout.astro
-│   ├── lib/chat/           # Server-side chat logic: validation, prompt, stream parser
-│   ├── pages/              # Routes: index.ts, [lang]/index.astro, api/chat.ts, 404.astro
+│   ├── lib/chat/           # Chat logic: validation, prompt, stream parser, saved conversation
+│   ├── lib/llms.ts         # Builds /llms.txt from the dictionaries
+│   ├── pages/              # Routes: index.ts, [lang]/index.astro, api/chat.ts, llms.txt.ts, 404.astro
 │   ├── scripts/            # Browser scripts: chat.ts, ribbon.ts, motion.ts
 │   └── styles/             # global.css: tokens and shared primitives
 ├── .githooks/              # commit-msg and pre-commit

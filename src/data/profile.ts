@@ -24,6 +24,8 @@ export const profile = {
   email: 'jaumecortesmonzon@gmail.com',
   linkedin: 'https://www.linkedin.com/in/jaume-cortes-monzon-developer/',
   github: 'https://github.com/jcm-developer',
+  /** BCP 47 codes of the languages listed under Education, for structured data. */
+  languages: ['es', 'ca', 'en'],
   /** The CV for each locale, served from `public/`. */
   cv: { en: '/Jaume-Cortes-CV-EN.pdf', es: '/Jaume-Cortes-CV-ES.pdf' },
 } as const;

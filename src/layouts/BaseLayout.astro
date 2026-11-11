@@ -43,6 +43,12 @@ const person = {
   url: canonical,
   sameAs: [profile.linkedin, profile.github],
   worksFor: { '@type': 'Organization', name: t.experience[0].company },
+  alumniOf: [...new Set(t.education.studies.map((study) => study.school))].map((name) => ({
+    '@type': 'EducationalOrganization',
+    name,
+  })),
+  knowsAbout: t.skills,
+  knowsLanguage: profile.languages,
   address: { '@type': 'PostalAddress', addressLocality: 'Valencia', addressCountry: 'ES' },
 };
 ---
