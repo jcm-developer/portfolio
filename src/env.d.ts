@@ -16,8 +16,7 @@ interface Env {
   CHAT_LIMITER?: RateLimiter;
 }
 
-type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
-
-declare namespace App {
-  interface Locals extends Runtime {}
+/** The Worker environment, read with `import { env } from 'cloudflare:workers'`. */
+declare module 'cloudflare:workers' {
+  export const env: Env;
 }

@@ -27,7 +27,7 @@ small server endpoint that keeps the model key off the browser.
 
 | Layer | Technology |
 |---|---|
-| Framework | Astro 5, TypeScript (strict) |
+| Framework | Astro 7, TypeScript (strict) |
 | Styles | Plain CSS with custom properties, scoped per component |
 | Fonts | League Spartan, Roboto, Roboto Mono (self-hosted through Fontsource) |
 | Server | Cloudflare Workers through `@astrojs/cloudflare` (`/` and `/api/chat` only) |
@@ -42,7 +42,8 @@ portfolio/
 ├── DESIGN.md               # Visual system: palette, type, layout, signature
 ├── README.md               # Human front door
 ├── astro.config.mjs        # Astro config: adapter, sitemap, no inline scripts or styles
-├── wrangler.jsonc          # Worker config: name, assets, rate limit binding
+├── wrangler.jsonc          # Worker config: name, compatibility, rate limit binding
+├── .node-version           # Node version for CI and Cloudflare builds (Astro 7 minimum)
 ├── .dev.vars.example       # Template for local secrets
 ├── docs/                   # Code style, workflow, operations, decisions, domains
 ├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, project images

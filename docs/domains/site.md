@@ -52,8 +52,9 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
 
 - `_headers` applies to static assets only. Responses built by the Worker (`/`, `/api/chat`)
   set their own headers in code.
-- `dist/_worker.js` holds the server bundle. `public/.assetsignore` keeps it from being served
-  as an asset; do not remove it.
+- The build splits into `dist/client/` (served as assets) and `dist/server/` (the Worker, never
+  served). `wrangler deploy` finds the generated `dist/server/wrangler.json` through
+  `.wrangler/deploy/config.json`, so `wrangler.jsonc` must not set `main` or `assets`.
 - Astro inlines small scripts and stylesheets by default. `assetsInlineLimit: 0` and
   `inlineStylesheets: 'never'` in `astro.config.mjs` turn that off; removing them breaks the
   site under the Content Security Policy with no build error.

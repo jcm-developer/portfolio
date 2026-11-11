@@ -2,13 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // Must match the Worker name chosen in the Cloudflare dashboard.
   "name": "portfolio",
-  "main": "./dist/_worker.js/index.js",
+  // No "main" or "assets": @astrojs/cloudflare sets the Worker entry and the ASSETS binding, and
+  // the build writes the deployable config to dist/server/wrangler.json.
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  },
   "observability": {
     "enabled": true
   },

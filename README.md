@@ -36,19 +36,19 @@
 ## Tech stack
 
 <p>
-  <img alt="Astro" src="https://img.shields.io/badge/Astro-5-BC52EE?logo=astro&logoColor=white&labelColor=0d1117" />
+  <img alt="Astro" src="https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white&labelColor=0d1117" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white&labelColor=0d1117" />
   <img alt="Cloudflare Workers" src="https://img.shields.io/badge/Cloudflare_Workers-4-F38020?logo=cloudflare&logoColor=white&labelColor=0d1117" />
-  <img alt="Vitest" src="https://img.shields.io/badge/Vitest-3-6E9F18?logo=vitest&logoColor=white&labelColor=0d1117" />
+  <img alt="Vitest" src="https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white&labelColor=0d1117" />
 </p>
 
 | Layer | Technology |
 |---|---|
-| Framework | Astro 5, TypeScript |
+| Framework | Astro 7, TypeScript |
 | Styles | Plain CSS with custom properties |
 | Server | Cloudflare Workers (`@astrojs/cloudflare`, Wrangler 4) |
 | Model | OpenAI chat completions |
-| Tests | Vitest 3 |
+| Tests | Vitest 5 |
 
 ---
 
@@ -70,7 +70,7 @@ decides everything else and forwards only text and a validated section id.
 
 ## Getting started
 
-Requires Node 22.
+Requires Node 22.23.4 or later (pinned in `.node-version`).
 
 ```bash
 git clone https://github.com/jcm-developer/portfolio.git

@@ -71,3 +71,16 @@ Decision: `/` always redirects to `/en/`; Spanish is one click away in the langu
 `pickLocale` and its tests are removed.
 Consequences: the redirect no longer varies by request, so it could become a static rule; it
 stays in the Worker to remain a real HTTP redirect.
+
+## D7. Astro 7 with the Vite-based Cloudflare adapter (2026-11-11)
+Status: accepted
+Context: `npm audit` flagged critical and high issues in Astro 5, `@astrojs/cloudflare` 12 and
+Vitest 3 that only major upgrades fix.
+Decision: move to Astro 7, `@astrojs/cloudflare` 14 and Vitest 5. Worker bindings and secrets
+are read with `import { env } from 'cloudflare:workers'` (`locals.runtime.env` now throws).
+`session: false` in `astro.config.mjs`, because the adapter otherwise adds a `SESSION` KV
+binding that deploy would provision. `vite` is a direct dev dependency so the Cloudflare plugin,
+Astro and Vitest share one Vite major; two copies break `npm run dev` with "Missing field
+moduleType".
+Consequences: Node 22.23.4 or later (`.node-version`). `wrangler.jsonc` no longer sets `main`
+or `assets`; the build generates the deployable config.

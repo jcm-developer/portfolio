@@ -22,7 +22,8 @@ Locally, runtime values live in `.dev.vars` (ignored by git; template in `.dev.v
 
 ## Local development
 
-Requires Node 22.
+Requires Node 22.23.4 or later, the minimum for Astro 7. `.node-version` pins the version used
+by CI and by Cloudflare Workers Builds.
 
 ```bash
 npm install
@@ -33,7 +34,7 @@ npm run dev                      # http://localhost:4321, with hot reload
 | Command | What it does |
 |---|---|
 | `npm run dev` | Astro dev server. The Cloudflare bindings (rate limiter, `.dev.vars`) are emulated. |
-| `npm run build` | Production build into `dist/`. |
+| `npm run build` | Production build: static files in `dist/client/`, the Worker in `dist/server/` with the deployable `wrangler.json`. |
 | `npm run preview` | Serves the last build with `wrangler dev` on http://localhost:8787: the real Worker, with the headers from `public/_headers`. Run `npm run build` first. |
 | `npm run check` | Type check of `.astro` and `.ts` files. |
 | `npm test` | Unit tests (Vitest). |

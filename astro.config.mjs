@@ -14,8 +14,9 @@ export default defineConfig({
   adapter: cloudflare({
     // Optimize images with sharp at build time: every page that uses one is prerendered.
     imageService: 'compile',
-    platformProxy: { enabled: true },
   }),
+  // No sessions: without this the adapter adds a SESSION KV binding that deploy would provision.
+  session: false,
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },

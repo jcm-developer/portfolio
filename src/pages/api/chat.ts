@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 import { SECTIONS } from '../../i18n';
 import { buildSystemPrompt } from '../../lib/chat/prompt';
 import { createCompletionParser, encodeEvent, NAV_TOOL } from '../../lib/chat/stream';
@@ -43,7 +44,7 @@ function errorResponse(status: number, error: ErrorCode): Response {
  * @param context - The Astro API context.
  * @return A `text/event-stream` response, or a JSON error with a stable code.
  */
-export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!isSameOrigin(request)) return errorResponse(403, 'forbidden');
 
   if (!request.headers.get('content-type')?.includes('application/json')) {
@@ -60,8 +61,6 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
   }
   const parsed = parseChatRequest(body);
   if (!parsed.ok) return errorResponse(400, parsed.error);
-
-  const env = locals.runtime?.env ?? {};
 
   if (env.CHAT_LIMITER) {
     const key = request.headers.get('cf-connecting-ip') ?? clientAddress ?? 'unknown';
