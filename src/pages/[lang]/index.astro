@@ -370,13 +370,22 @@ const contacts = [
 
   /* ── Contact ── */
 
-  /* ── Contact: the invitation on the left, one card per channel on the right ── */
+  /* ── Contact: the heading across the top, then the lead beside one card per channel ── */
 
   .contact {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    align-items: center;
-    gap: clamp(2.5rem, 6vw, 4.5rem);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 2.5rem clamp(2rem, 5vw, 4rem);
+  }
+
+  /* The intro's children join the grid, so the heading can span both columns. */
+  .contact-intro {
+    display: contents;
+  }
+
+  .contact-heading {
+    grid-column: 1 / -1;
   }
 
   .contact-heading {
@@ -389,7 +398,7 @@ const contacts = [
 
   .contact-lead {
     max-width: 28ch;
-    margin-top: 1.25rem;
+    padding-top: 0.75rem;
     text-wrap: balance;
     font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
     color: var(--ink-soft);
@@ -473,11 +482,19 @@ const contacts = [
     translate: 0.15rem -0.15rem;
   }
 
-  /* Under the section breakpoint the invitation sits above the cards. */
+  /* Under the section breakpoint everything stacks: heading, lead, cards. */
   @media (max-width: 52rem) {
     .contact {
       grid-template-columns: minmax(0, 1fr);
-      gap: 2rem;
+      gap: 1.25rem;
+    }
+
+    .contact-lead {
+      padding-top: 0;
+    }
+
+    .contact-list {
+      margin-top: 1rem;
     }
   }
 

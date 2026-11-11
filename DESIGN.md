@@ -53,9 +53,9 @@ There is no dark theme: both source artefacts are light.
   or with each other. Touch screens cannot hover, so there they show in colour.
 - Under 52rem the top bar keeps only the name and the language switch; the section links
   return on wider screens.
-- Contact pairs the invitation (heading and lead) on the left with one card per channel on the
-  right: an icon in a tinted circle, the channel, its handle in mono and an arrow. Email leads,
-  its circle filled indigo. Under 52rem the invitation stacks above the cards. Icons come from
+- Contact sets the heading across the top, then the lead on the left beside one card per
+  channel on the right: an icon in a tinted circle, the channel, its handle in mono and an arrow. Email leads,
+  its circle filled indigo. Under 52rem heading, lead and cards stack. Icons come from
   `src/components/Icon.astro`, inline SVG in the text colour.
 - The footer is one centred line: the copyright, in mono.
 - Hero and contact are the only tinted blocks; they open and close the page.
