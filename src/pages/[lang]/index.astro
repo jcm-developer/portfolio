@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 import Hero from '../../components/Hero.astro';
 import Icon from '../../components/Icon.astro';
 import Section from '../../components/Section.astro';
@@ -26,6 +28,11 @@ const contacts = [
   { icon: 'linkedin', label: 'LinkedIn', handle: handleOf(profile.linkedin), href: profile.linkedin, external: true },
   { icon: 'github', label: 'GitHub', handle: handleOf(profile.github), href: profile.github, external: true },
 ] as const;
+
+// Project plates are 13rem wide beside the text, and the column's width under 44rem
+// (`.project` styles below). The widths cover both at 1x and 2x; sources are 800px wide.
+const PLATE_WIDTHS = [208, 416, 640, 800];
+const PLATE_SIZES = '(max-width: 44rem) 100vw, 13rem';
 ---
 
 <BaseLayout locale={locale}>
@@ -79,7 +86,15 @@ const contacts = [
             </div>
             {media && (
               <div class:list={['project-plate', `project-plate-${media.kind ?? 'logo'}`]}>
-                <img src={media.image} alt="" width="800" height="450" loading="lazy" decoding="async" />
+                <Image
+                  src={media.image}
+                  alt=""
+                  format="webp"
+                  widths={PLATE_WIDTHS.filter((width) => width <= media.image.width)}
+                  sizes={PLATE_SIZES}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             )}
           </article>

@@ -1,5 +1,15 @@
 // Language-neutral facts about the site owner. Translatable copy lives in src/i18n.
 
+import type { ImageMetadata } from 'astro';
+
+import automation from '../assets/projects/automation.png';
+import bosch from '../assets/projects/bosch.png';
+import elecnor from '../assets/projects/elecnor.png';
+import itacaSabien from '../assets/projects/itaca-sabien.png';
+import scalextric from '../assets/projects/scalextric.png';
+import vestor from '../assets/projects/vestor.png';
+import yara from '../assets/projects/yara.png';
+
 /** A certificate with a public credential link. */
 export interface Certification {
   name: string;
@@ -20,8 +30,8 @@ export const profile = {
 
 /** The picture and, when it is public, the live URL of a project. */
 export interface ProjectMedia {
-  /** Served from `public/`: a client logo or a screenshot, 16:9. */
-  image: string;
+  /** A client logo or a screenshot, 16:9, optimized by Astro at build time. */
+  image: ImageMetadata;
   /** How the picture sits on its plate: a logo gets padding, a screenshot fills it. Default logo. */
   kind?: 'logo' | 'screenshot';
   url?: string;
@@ -29,13 +39,13 @@ export interface ProjectMedia {
 
 /** Media for each project, keyed by the `slug` of its dictionary entry. */
 export const projectMedia: Record<string, ProjectMedia> = {
-  elecnor: { image: '/elecnor.png' },
-  vestor: { image: '/vestor.png', kind: 'screenshot', url: 'https://vestor-max.pages.dev' },
-  scalextric: { image: '/scalextric.png' },
-  automation: { image: '/automation.png' },
-  yara: { image: '/yara.png' },
-  bosch: { image: '/bosch.png' },
-  'itaca-sabien': { image: '/itaca-sabien.png' },
+  elecnor: { image: elecnor },
+  vestor: { image: vestor, kind: 'screenshot', url: 'https://vestor-max.pages.dev' },
+  scalextric: { image: scalextric },
+  automation: { image: automation },
+  yara: { image: yara },
+  bosch: { image: bosch },
+  'itaca-sabien': { image: itacaSabien },
 };
 
 /** Certificates, newest and most relevant first. Names stay in their original English. */

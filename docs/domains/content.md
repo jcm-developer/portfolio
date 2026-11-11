@@ -15,7 +15,10 @@ the rest.
 - `src/i18n/es.ts`, `src/i18n/en.ts`: the dictionaries.
 - `public/Jaume-Cortes-CV-ES.pdf`, `public/Jaume-Cortes-CV-EN.pdf`: the downloadable CVs, one
   per locale (`profile.cv`).
-- `public/*.png`: one 16:9 picture per project, a client logo or a screenshot.
+- `src/assets/projects/*.png`: one 16:9 picture per project (800x450), a client logo or a
+  screenshot, imported into `projectMedia`. The page renders them with `Image` from
+  `astro:assets` as responsive WebP (`PLATE_WIDTHS`, `PLATE_SIZES` in
+  `src/pages/[lang]/index.astro`).
 - `src/assets/avatar.jpg`, `src/assets/portrait.jpg`: the original portrait and its 4:5
   crop. Not shown on the page at the moment; the crop is the one the CV uses.
 - Tests: `src/i18n/index.test.ts`.
@@ -47,6 +50,9 @@ the rest.
   away from scrapers.
 - A project without an entry in `projectMedia` renders without a picture or link; nothing
   fails. Add both when adding a project.
+- A new project picture goes in `src/assets/projects/`, not `public/`: files in `public/` skip
+  the image pipeline and ship at full size. Keep sources at 800px wide; `PLATE_WIDTHS` never
+  upscales past the source.
 - The assistant gets each project's detail paragraph, not its one-line description.
 
 ## Related

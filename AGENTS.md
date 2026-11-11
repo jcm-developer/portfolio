@@ -46,7 +46,7 @@ portfolio/
 ├── .node-version           # Node version for CI and Cloudflare builds (Astro 7 minimum)
 ├── .dev.vars.example       # Template for local secrets
 ├── docs/                   # Code style, workflow, operations, decisions, domains
-├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, project and share images
+├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, share images
 ├── scripts/                # check-docs.mjs, test.mjs (Vitest wrapper)
 ├── src/
 │   ├── assets/             # Images optimized at build time
