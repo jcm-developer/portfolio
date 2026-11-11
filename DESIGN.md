@@ -45,8 +45,8 @@ There is no dark theme: both source artefacts are light.
 - Dated items (jobs, projects, studies) are `stage` blocks: the period in mono on top, then the
   title, the organisation in indigo and the text. Each part has its own spacing; nothing sits
   on the next line without room.
-- The page is typographic: no project pictures or logos. The portrait appears once, small and
-  with soft corners, beside the about statement; never in a circle, never in the hero.
+- The page is typographic: no portrait, no project pictures or logos. A portrait returns only
+  with a good photo, and then beside the contact heading; never in a circle, never in the hero.
 - Hero and contact are the only tinted blocks; they open and close the page.
 - No visible scrollbars; the bar under the top nav shows how far the page has scrolled.
 

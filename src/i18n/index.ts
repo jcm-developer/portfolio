@@ -50,7 +50,6 @@ export interface Dictionary {
     askLabel: string;
     askPlaceholder: string;
     askSubmit: string;
-    photoAlt: string;
   };
   about: { body: string };
   experience: ExperienceEntry[];

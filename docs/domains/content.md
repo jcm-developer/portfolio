@@ -17,7 +17,8 @@ the rest.
   per locale (`profile.cv`).
 - `public/*.png`: one 16:9 picture per project, a client logo or a screenshot. Not shown on
   the page at the moment.
-- `src/assets/avatar.jpg`: the portrait.
+- `src/assets/avatar.jpg`, `src/assets/portrait.jpg`: the original portrait and its 4:5
+  crop. Not shown on the page at the moment; the crop is the one the CV uses.
 - Tests: `src/i18n/index.test.ts`.
 
 ## Data

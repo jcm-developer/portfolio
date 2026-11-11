@@ -25,7 +25,6 @@ export const en: Dictionary = {
     askLabel: 'Ask my assistant',
     askPlaceholder: 'What is he working on right now?',
     askSubmit: 'Ask',
-    photoAlt: 'Portrait of Jaume Cortés',
   },
   about: {
     body: 'I currently turn client needs into tailored technical solutions: conversational and task agents on Google Cloud Vertex AI, integrations between APIs and models, and the software around them end to end, from the architecture to the frontend in React, Vue.js, Node.js and other technologies.',
