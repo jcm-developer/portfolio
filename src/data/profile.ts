@@ -22,13 +22,15 @@ export const profile = {
 export interface ProjectMedia {
   /** Served from `public/`: a client logo or a screenshot, 16:9. */
   image: string;
+  /** How the picture sits on its plate: a logo gets padding, a screenshot fills it. Default logo. */
+  kind?: 'logo' | 'screenshot';
   url?: string;
 }
 
 /** Media for each project, keyed by the `slug` of its dictionary entry. */
 export const projectMedia: Record<string, ProjectMedia> = {
   elecnor: { image: '/elecnor.png' },
-  vestor: { image: '/vestor.png', url: 'https://vestor-max.pages.dev' },
+  vestor: { image: '/vestor.png', kind: 'screenshot', url: 'https://vestor-max.pages.dev' },
   scalextric: { image: '/scalextric.png' },
   automation: { image: '/automation.png' },
   yara: { image: '/yara.png' },

@@ -9,14 +9,13 @@ the rest.
 ## Key files
 
 - `src/data/profile.ts` (`profile`, `certifications`, `projectMedia`): name, email, links, CV
-  paths, the certificate list, and the live URL of each project that has one.
+  paths, the certificate list, and the picture (with its `kind`) and live URL of each project.
 - `src/i18n/index.ts` (`LOCALES`, `SECTIONS`, `Dictionary`, `getDictionary`,
   `isLocale`): locale plumbing and the shape every dictionary must have.
 - `src/i18n/es.ts`, `src/i18n/en.ts`: the dictionaries.
 - `public/Jaume-Cortes-CV-ES.pdf`, `public/Jaume-Cortes-CV-EN.pdf`: the downloadable CVs, one
   per locale (`profile.cv`).
-- `public/*.png`: one 16:9 picture per project, a client logo or a screenshot. Not shown on
-  the page at the moment.
+- `public/*.png`: one 16:9 picture per project, a client logo or a screenshot.
 - `src/assets/avatar.jpg`, `src/assets/portrait.jpg`: the original portrait and its 4:5
   crop. Not shown on the page at the moment; the crop is the one the CV uses.
 - Tests: `src/i18n/index.test.ts`.
@@ -46,7 +45,8 @@ the rest.
 - Changing a fact means editing both dictionaries. The assistant only sees the English one.
 - The phone number is in the PDF but deliberately not in the pages or the prompt, to keep it
   away from scrapers.
-- A project without an entry in `projectMedia` renders without a link; nothing fails.
+- A project without an entry in `projectMedia` renders without a picture or link; nothing
+  fails. Add both when adding a project.
 - The assistant gets each project's detail paragraph, not its one-line description.
 
 ## Related

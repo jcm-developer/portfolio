@@ -47,23 +47,30 @@ const t = getDictionary(locale);
       t.projects.map((project) => {
         const media = projectMedia[project.slug];
         return (
-          <article class="stage" data-reveal>
-            <p class="entry-period">{project.period}</p>
-            <h3 class="entry-title">{project.name}</h3>
-            <p class="entry-text">{project.description}</p>
-            <ul class="tags">
-              {project.tags.map((tag) => (
-                <li>{tag}</li>
-              ))}
-            </ul>
-            <details class="project-more">
-              <summary>{t.projectsUi.more}</summary>
-              <p>{project.body}</p>
-            </details>
-            {media?.url && (
-              <a class="project-link" href={media.url} target="_blank" rel="noopener noreferrer">
-                {t.projectsUi.visit} <span aria-hidden="true">↗</span>
-              </a>
+          <article class="stage project" data-reveal>
+            <div class="project-text">
+              <p class="entry-period">{project.period}</p>
+              <h3 class="entry-title">{project.name}</h3>
+              <p class="entry-text">{project.description}</p>
+              <ul class="tags">
+                {project.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+              <details class="project-more">
+                <summary>{t.projectsUi.more}</summary>
+                <p>{project.body}</p>
+              </details>
+              {media?.url && (
+                <a class="project-link" href={media.url} target="_blank" rel="noopener noreferrer">
+                  {t.projectsUi.visit} <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </div>
+            {media && (
+              <div class:list={['project-plate', `project-plate-${media.kind ?? 'logo'}`]}>
+                <img src={media.image} alt="" width="800" height="450" loading="lazy" decoding="async" />
+              </div>
             )}
           </article>
         );
@@ -144,7 +151,58 @@ const t = getDictionary(locale);
     text-wrap: pretty;
   }
 
-  /* ── Projects ── */
+  /* ── Projects: the text, and the logo or screenshot on a plate to its right ── */
+
+  .project {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    align-items: start;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  /* Every picture gets the same frame, so logos of different sizes and styles read as one set. */
+  .project-plate {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    margin-top: 1.75rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: #fff;
+    overflow: hidden;
+    transition: border-color 400ms ease;
+  }
+
+  .project-plate-logo {
+    padding: 1rem 1.25rem;
+  }
+
+  .project-plate img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Grey at rest so no brand colour competes with the page; full colour on hover. */
+    filter: grayscale(1);
+    opacity: 0.75;
+    transition:
+      filter 500ms ease,
+      opacity 500ms ease,
+      scale 700ms var(--ease);
+  }
+
+  .project-plate-screenshot img {
+    object-fit: cover;
+  }
+
+  .project:hover .project-plate {
+    border-color: var(--indigo);
+  }
+
+  .project:hover .project-plate img {
+    filter: none;
+    opacity: 1;
+    scale: 1.04;
+  }
 
   .project-more {
     max-width: 62ch;
@@ -314,6 +372,16 @@ const t = getDictionary(locale);
   }
 
   @media (max-width: 44rem) {
+    .project {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project-plate {
+      order: -1;
+      max-width: 12rem;
+      margin-top: 0;
+    }
+
     .skills,
     .certs {
       grid-template-columns: minmax(0, 1fr);
