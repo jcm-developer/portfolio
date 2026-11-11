@@ -1,0 +1,44 @@
+---
+import { getDictionary, LOCALES } from '../i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// One static page serves every unknown URL, so it carries both languages.
+const blocks = LOCALES.map((locale) => ({ locale, t: getDictionary(locale).notFound }));
+---
+
+<BaseLayout locale="en" title="404" indexable={false}>
+  <div class="wrap missing">
+    {
+      blocks.map(({ locale, t }) => (
+        <section lang={locale}>
+          <h1>{t.title}</h1>
+          <p>{t.body}</p>
+          <a class="button button-primary" href={`/${locale}/`}>
+            {t.home}
+          </a>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .missing {
+    display: grid;
+    gap: 3rem;
+    padding-block: clamp(4rem, 12vw, 8rem);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    margin-block: 0.75rem 1.5rem;
+    color: var(--ink-soft);
+  }
+</style>

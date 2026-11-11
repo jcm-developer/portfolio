@@ -1,0 +1,41 @@
+---
+/**
+ * Draws the twelve-point asterisk used as the site mark, the same one as on the LinkedIn banner.
+ *
+ * @param size - The width and height, in pixels.
+ */
+interface Props {
+  size?: number;
+}
+
+const { size = 20 } = Astro.props;
+
+// Six strokes through the centre, 30 degrees apart.
+const strokes = Array.from({ length: 6 }, (_, i) => {
+  const angle = (i * Math.PI) / 6;
+  const dx = Math.cos(angle) * 9;
+  const dy = Math.sin(angle) * 9;
+  return { x1: 12 - dx, y1: 12 - dy, x2: 12 + dx, y2: 12 + dy };
+});
+---
+
+<svg
+  class="mark"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  aria-hidden="true"
+>
+  {strokes.map((s) => <line x1={s.x1.toFixed(2)} y1={s.y1.toFixed(2)} x2={s.x2.toFixed(2)} y2={s.y2.toFixed(2)} />)}
+</svg>
+
+<style>
+  .mark {
+    flex: none;
+    color: var(--indigo);
+  }
+</style>

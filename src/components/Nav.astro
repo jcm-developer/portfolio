@@ -1,719 +1,164 @@
 ---
 import { profile } from '../data/profile';
-import { es } from '../i18n/es';
-import Logo from './Logo.astro';
-import { withBase } from '../scripts/paths';
+import { getDictionary, LOCALES, SECTIONS, type Locale } from '../i18n';
+import Mark from './Mark.astro';
+
+/**
+ * Renders the sticky top bar: home link, section links and the language switch.
+ *
+ * @param locale - The locale of the current page.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
 ---
 
-<nav id="main-nav">
-  <div class="dock" id="nav-dock">
-    <a href={withBase('#top')} class="dock-item dock-logo" data-nav-link aria-label={`${profile.name} — home`}>
-      <Logo />
-      <span class="dock-tip" data-es="Inicio">Home</span>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="nav-home" href={`/${locale}/`}>
+      <Mark size={18} />
+      <span>{profile.name}</span>
     </a>
 
-    <span class="dock-sep" aria-hidden="true"></span>
+    <nav class="nav-links" aria-label={t.nav.menu}>
+      <ul>
+        {
+          SECTIONS.map((section) => (
+            <li>
+              <a href={`#${section}`} data-nav-section={section}>
+                {t.nav[section]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
-    <a href={withBase('#about')} class="dock-item" data-nav-link aria-label="About">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.about}>About</span>
-    </a>
-
-    <a href={withBase('#projects')} class="dock-item" data-nav-link aria-label="Projects">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.projects}>Projects</span>
-    </a>
-
-    <a href={withBase('#experience')} class="dock-item" data-nav-link aria-label="Experience">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.experience}>Experience</span>
-    </a>
-
-    <a href={withBase('#certifications')} class="dock-item" data-nav-link aria-label="Certifications">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.certifications}>Certifications</span>
-    </a>
-
-    <a href={withBase('#education')} class="dock-item" data-nav-link aria-label="Education">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.education}>Education</span>
-    </a>
-
-    <a href={withBase('#contact')} class="dock-item" data-nav-link aria-label="Contact">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.nav.contact}>Contact</span>
-    </a>
-
-    <span class="dock-sep" aria-hidden="true"></span>
-
-    <button type="button" class="dock-item lang-toggle" aria-label="Cambiar a español"><span class="lang-code">ES</span><span class="dock-tip" data-es="Idioma">Language</span></button>
-
-    <button type="button" class="dock-item theme-toggle" aria-label="Activar modo oscuro" aria-pressed="true">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-      </svg>
-      <span class="dock-tip" data-es="Tema">Theme</span>
-    </button>
-
-    <button type="button" class="dock-item chat-toggle" data-chat-toggle aria-label="Abrir asistente" aria-expanded="false" aria-controls="chat-window">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" />
-      </svg>
-      <span class="dock-tip" data-es={es.ui.chatbot.assistant}>Assistant</span>
-    </button>
-
-    <button type="button" class="dock-item menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
-      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M18 6 6 18M6 6l12 12" />
-      </svg>
-    </button>
+    <ul class="nav-langs">
+      {
+        LOCALES.map((code) => (
+          <li>
+            <a
+              href={`/${code}/`}
+              hreflang={code}
+              lang={code}
+              aria-current={code === locale ? 'true' : undefined}
+              aria-label={code === locale ? undefined : t.nav.switchLanguage}
+            >
+              {code.toUpperCase()}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
-</nav>
-
-<!-- Drop-down menu for small screens — a glass panel mirroring the dock,
-     separated from it by a gap. The section links are duplicated here (rather
-     than moved) so the desktop dock keeps its own copy; the lang/theme toggles
-     live here on mobile. Everything carries data-es so i18n translates it; the
-     section links carry data-nav-link so the smooth-scroll delegation handles
-     them, and the toggles reuse the .lang-toggle / .theme-toggle handlers. -->
-<div id="mobile-menu" aria-hidden="true">
-  <div class="mobile-menu-panel" role="navigation" aria-label="Mobile">
-    <a href={withBase('#about')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-      </svg>
-      <span data-es={es.ui.nav.about}>About</span>
-    </a>
-
-    <a href={withBase('#projects')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" />
-      </svg>
-      <span data-es={es.ui.nav.projects}>Projects</span>
-    </a>
-
-    <a href={withBase('#experience')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-      </svg>
-      <span data-es={es.ui.nav.experience}>Experience</span>
-    </a>
-
-    <a href={withBase('#certifications')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="8" r="6" /><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
-      </svg>
-      <span data-es={es.ui.nav.certifications}>Certifications</span>
-    </a>
-
-    <a href={withBase('#education')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" />
-      </svg>
-      <span data-es={es.ui.nav.education}>Education</span>
-    </a>
-
-    <a href={withBase('#contact')} class="mobile-link" data-nav-link>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 6-10 7L2 6" />
-      </svg>
-      <span data-es={es.ui.nav.contact}>Contact</span>
-    </a>
-
-    <span class="mobile-sep" aria-hidden="true"></span>
-
-    <div class="mobile-controls">
-      <button type="button" class="mobile-link mobile-control lang-toggle" aria-label="Cambiar a español">
-        <span class="mobile-control-icon lang-code">ES</span>
-        <span data-es="Idioma">Language</span>
-      </button>
-
-      <button type="button" class="mobile-link mobile-control theme-toggle" aria-label="Activar modo oscuro" aria-pressed="true">
-        <span class="mobile-control-icon">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </span>
-        <span data-es="Tema">Theme</span>
-      </button>
-    </div>
-  </div>
-</div>
+</header>
 
 <style>
-  #main-nav {
-    position: fixed;
+  .nav {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    padding: 16px;
-    pointer-events: none; /* only the dock itself is interactive */
+    z-index: 20;
+    background: color-mix(in srgb, var(--tint) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
   }
 
-  /* The floating glass dock — a contained pill, not a full-width bar. */
-  .dock {
-    pointer-events: auto;
+  .nav-inner {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px;
-    border-radius: 20px;
-    background: rgba(17, 17, 24, 0.55);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-      0 10px 40px -8px rgba(0, 0, 0, 0.55),
-      0 2px 8px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
-    transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
-  }
-  #main-nav.scrolled .dock {
-    background: rgba(17, 17, 24, 0.78);
-    border-color: rgba(255, 255, 255, 0.12);
+    gap: 1.5rem;
+    min-height: var(--nav-height);
   }
 
-  /* Dock items — rounded squares that magnify on hover (see script). */
-  .dock-item {
-    position: relative;
+  .nav-home {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    flex: none;
-    border: none;
-    border-radius: 13px;
-    background: transparent;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    isolation: isolate; /* own stacking context so the chip can sit behind content */
-    transform-origin: center center;
-    transition: background 200ms ease, color 200ms ease;
-    will-change: transform;
-  }
-  .dock-item svg {
-    display: block;
-    width: 21px;
-    height: 21px;
-  }
-  .dock-item::before {
-    /* subtle filled chip that fades in on hover, behind the icon/label */
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background: var(--color-surface-2);
-    opacity: 0;
-    transition: opacity 200ms ease;
-  }
-  .dock-item:hover {
-    color: var(--color-accent);
-  }
-  .dock-item:hover::before {
-    opacity: 1;
-  }
-
-  .dock-logo {
-    width: auto;
-    padding: 0 12px;
-  }
-
-  .lang-toggle {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-
-  /* Chat toggle — subtly highlighted by default to draw attention. */
-  .chat-toggle {
-    color: var(--color-accent);
-  }
-  .chat-toggle::before {
-    opacity: 0.18;
-    background: var(--color-accent);
-  }
-  .chat-toggle:hover::before {
-    opacity: 0.28;
-    background: var(--color-accent);
-  }
-
-  /* While the docked chat panel is open the trigger reads as "active". */
-  :global(body.chat-open) .chat-toggle {
-    color: var(--color-accent);
-  }
-  :global(body.chat-open) .chat-toggle::before {
-    opacity: 0.32;
-    background: var(--color-accent);
-  }
-
-  /* Tooltip label BELOW each item — the dock sits at the top of the viewport,
-     so labels drop downward (opposite of a bottom-anchored macOS dock). */
-  .dock-tip {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-4px);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
     white-space: nowrap;
-    color: var(--color-text-primary);
-    background: var(--color-surface-2);
-    border: 1px solid var(--color-border);
-    box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms ease, transform 180ms ease;
-    z-index: 2;
-  }
-  .dock-tip::after {
-    /* little pointer triangle, pointing up toward its item */
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-bottom-color: var(--color-surface-2);
-  }
-  .dock-item:hover .dock-tip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
   }
 
-  .dock-sep {
-    width: 1px;
-    height: 26px;
-    flex: none;
-    margin: 0 3px;
-    background: var(--color-border);
-    transition: background 300ms ease;
-  }
-  #main-nav.scrolled .dock-sep {
-    background: var(--color-border-glow);
+  .nav-home span {
+    /* League Spartan sits high in its line box; nudge it onto the mark's centre. */
+    padding-top: 0.2em;
   }
 
-  /* Hamburger is a mobile-only affordance — hidden on desktop where the full
-     dock is shown. The close (X) icon only appears while the menu is open. */
-  .menu-toggle { display: none; }
-  .menu-toggle .icon-close { display: none; }
-  :global(body.menu-open) .menu-toggle .icon-menu { display: none; }
-  :global(body.menu-open) .menu-toggle .icon-close { display: block; }
-
-  /* The mobile menu overlay is inert on desktop. */
-  #mobile-menu { display: none; }
-
-  /* Theme icon: show the icon for the mode you'll switch TO. */
-  .theme-toggle .icon-sun { display: block; }
-  .theme-toggle .icon-moon { display: none; }
-  :global(html[data-theme='light']) .theme-toggle .icon-sun { display: none; }
-  :global(html[data-theme='light']) .theme-toggle .icon-moon { display: block; }
-
-  /* Light theme glass tint */
-  :global(html[data-theme='light']) .dock {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: rgba(0, 0, 0, 0.06);
-    box-shadow:
-      0 10px 40px -8px rgba(20, 20, 50, 0.18),
-      0 2px 8px rgba(20, 20, 50, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  }
-  :global(html[data-theme='light']) #main-nav.scrolled .dock {
-    background: rgba(255, 255, 255, 0.82);
-    border-color: rgba(0, 0, 0, 0.1);
+  .nav-links {
+    margin-left: auto;
+    min-width: 0;
   }
 
-  @media (max-width: 768px) {
-    #main-nav {
-      padding: 10px;
-    }
-    .dock {
-      width: 100%;
-      justify-content: space-between;
-      gap: 2px;
-      padding: 6px 8px;
-      border-radius: 17px;
-    }
-    .dock-item {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
-    }
-    .dock-logo {
-      padding: 0 10px;
-      margin-left: 6px;
+  .nav-links ul {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover {
+    color: var(--indigo-deep);
+  }
+
+  .nav-langs {
+    display: flex;
+    gap: 0.125rem;
+    padding: 0.1875rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--paper);
+  }
+
+  .nav-langs a {
+    display: block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  .nav-langs a[aria-current] {
+    background: var(--indigo);
+    color: #fff;
+  }
+
+  @media (max-width: 52rem) {
+    .nav-inner {
+      flex-wrap: wrap;
+      gap: 0 1rem;
+      padding-block: 0.625rem 0;
     }
 
-    /* On mobile the dock holds the logo (left) plus the chat + hamburger
-       buttons (right); the section links AND the lang/theme toggles move
-       into the drop-down. The chat trigger stays one tap away. */
-    .dock a.dock-item[data-nav-link]:not(.dock-logo),
-    .dock-sep,
-    .dock .lang-toggle,
-    .dock .theme-toggle {
-      display: none;
-    }
-    /* Push the chat + hamburger cluster to the right edge. */
-    .dock .chat-toggle {
+    .nav-langs {
       margin-left: auto;
-      color: var(--color-text-secondary);
-    }
-    .dock .chat-toggle::before {
-      opacity: 0;
-      background: var(--color-surface-2);
-    }
-    .dock .chat-toggle:hover::before {
-      opacity: 1;
-    }
-    .menu-toggle { display: inline-flex; }
-
-    /* --- Drop-down glass panel ----------------------------------------- */
-    /* Full-screen, click-through layer; only the panel inside is interactive.
-       When open it becomes click-catching so a tap outside closes the menu. */
-    #mobile-menu {
-      display: block;
-      position: fixed;
-      inset: 0;
-      z-index: 90; /* below the dock (100) so the hamburger stays tappable */
-      pointer-events: none;
-    }
-    :global(body.menu-open) #mobile-menu {
-      pointer-events: auto;
     }
 
-    /* The panel mirrors the dock's glass treatment, offset below it by a gap. */
-    .mobile-menu-panel {
-      position: absolute;
-      top: 76px; /* clears the dock (≈64px tall) and leaves a ~12px separation */
-      left: 10px;
-      right: 10px;
-      pointer-events: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      padding: 9px;
-      border-radius: 20px;
-      background: rgba(17, 17, 24, 0.78);
-      backdrop-filter: blur(20px) saturate(140%);
-      -webkit-backdrop-filter: blur(20px) saturate(140%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow:
-        0 18px 50px -10px rgba(0, 0, 0, 0.6),
-        0 2px 8px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.07);
-      transform-origin: top center;
-      opacity: 0;
-      transform: translateY(-12px) scale(0.98);
-      visibility: hidden;
-      transition: opacity 240ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 260ms;
-    }
-    :global(body.menu-open) .mobile-menu-panel {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      visibility: visible;
-      transition: opacity 200ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
-    }
-    :global(html[data-theme='light']) .mobile-menu-panel {
-      background: rgba(255, 255, 255, 0.82);
-      border-color: rgba(0, 0, 0, 0.08);
-      box-shadow:
-        0 18px 50px -10px rgba(20, 20, 50, 0.2),
-        0 2px 8px rgba(20, 20, 50, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    }
-
-    /* Rows inside the panel — icon + label, full width, tappable. */
-    .mobile-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    /* The section links drop to their own row and scroll sideways. */
+    .nav-links {
+      order: 3;
       width: 100%;
-      padding: 13px 14px;
-      border-radius: 13px;
-      background: transparent;
-      border: none;
-      color: var(--color-text-primary);
-      font-family: inherit;
-      font-size: 1.0625rem;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      /* slide-up + fade, staggered per item while the panel opens */
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 300ms ease, transform 300ms ease, background 180ms ease, color 180ms ease;
-    }
-    .mobile-link svg {
-      width: 22px;
-      height: 22px;
-      flex: none;
-      color: var(--color-accent);
-    }
-    .mobile-link:active {
-      background: var(--color-surface-2);
-    }
-    :global(body.menu-open) .mobile-link {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(1) { transition-delay: 40ms; }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(2) { transition-delay: 80ms; }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(3) { transition-delay: 120ms; }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(4) { transition-delay: 160ms; }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(5) { transition-delay: 200ms; }
-    :global(body.menu-open) .mobile-menu-panel > .mobile-link:nth-child(6) { transition-delay: 230ms; }
-    :global(body.menu-open) .mobile-controls .mobile-link { transition-delay: 270ms; }
-
-    /* Horizontal divider mirroring the dock's vertical .dock-sep. */
-    .mobile-sep {
-      height: 1px;
-      margin: 5px 8px;
-      background: var(--color-border);
+      margin-left: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    /* Lang + theme toggles sit side by side at the foot of the panel. */
-    .mobile-controls {
-      display: flex;
-      gap: 4px;
-    }
-    .mobile-control {
-      flex: 1;
-    }
-    .mobile-control-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      flex: none;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--color-accent);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #mobile-menu,
-    .mobile-menu-panel,
-    .mobile-link {
-      transition-duration: 0s !important;
-      transition-delay: 0s !important;
+    .nav-links ul {
+      gap: 1.25rem;
+      padding-block: 0.625rem;
     }
   }
 </style>
-
-<script>
-  import gsap from 'gsap';
-  import { syncPreferences, toggleLang, toggleTheme } from '../scripts/i18n';
-  import { isHome } from '../scripts/paths';
-
-  // Apply stored language + theme to the freshly-parsed DOM as early as possible.
-  syncPreferences();
-
-  function smoothScrollTo(hash: string) {
-    const id = hash.replace(/^.*#/, '');
-    const target = id ? document.getElementById(id) : null;
-    const lenis = (window as any).__lenis;
-    if (target) {
-      if (lenis && typeof lenis.scrollTo === 'function') {
-        lenis.scrollTo(target, { offset: -88 });
-      } else {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-      return true;
-    }
-    return false;
-  }
-
-  // --- Mobile hamburger menu ---------------------------------------------
-  function isMenuOpen() {
-    return document.body.classList.contains('menu-open');
-  }
-  function openMenu() {
-    document.body.classList.add('menu-open');
-    const btn = document.querySelector('.menu-toggle');
-    btn?.setAttribute('aria-expanded', 'true');
-    btn?.setAttribute('aria-label', 'Cerrar menú');
-    document.getElementById('mobile-menu')?.setAttribute('aria-hidden', 'false');
-    (window as any).__lenis?.stop?.();
-  }
-  function closeMenu() {
-    if (!isMenuOpen()) return;
-    document.body.classList.remove('menu-open');
-    const btn = document.querySelector('.menu-toggle');
-    btn?.setAttribute('aria-expanded', 'false');
-    btn?.setAttribute('aria-label', 'Abrir menú');
-    document.getElementById('mobile-menu')?.setAttribute('aria-hidden', 'true');
-    (window as any).__lenis?.start?.();
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-  });
-
-  // --- macOS-style dock magnification ------------------------------------
-  // On pointer move we scale each item by its horizontal distance to the
-  // cursor, so the dock "bulges" around the hovered icon. Touch + reduced
-  // motion users get a plain dock. Re-bound on every View Transition because
-  // the nav DOM is swapped on navigation.
-  let cleanupDock: (() => void) | null = null;
-
-  function initDock() {
-    cleanupDock?.();
-    cleanupDock = null;
-
-    const finePointer = window.matchMedia('(pointer: fine)').matches;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const dock = document.getElementById('nav-dock');
-    if (!dock || !finePointer || reduced) return;
-
-    const items = Array.from(dock.querySelectorAll<HTMLElement>('.dock-item'));
-    const setters = items.map((el) => gsap.quickTo(el, 'scale', { duration: 0.32, ease: 'power3.out' }));
-
-    const MAX = 1.34; // peak scale at the cursor
-    const RANGE = 110; // px of influence on each side
-
-    let centers: number[] = [];
-    const cache = () => {
-      centers = items.map((el) => {
-        const r = el.getBoundingClientRect();
-        return r.left + r.width / 2;
-      });
-    };
-
-    const onMove = (e: PointerEvent) => {
-      if (!centers.length) cache();
-      for (let i = 0; i < items.length; i++) {
-        const dist = Math.abs(e.clientX - centers[i]);
-        const t = Math.max(0, 1 - dist / RANGE);
-        setters[i](1 + (MAX - 1) * t * t);
-      }
-    };
-    const onLeave = () => setters.forEach((s) => s(1));
-
-    dock.addEventListener('pointerenter', cache);
-    dock.addEventListener('pointermove', onMove);
-    dock.addEventListener('pointerleave', onLeave);
-    window.addEventListener('resize', cache);
-
-    cleanupDock = () => {
-      dock.removeEventListener('pointerenter', cache);
-      dock.removeEventListener('pointermove', onMove);
-      dock.removeEventListener('pointerleave', onLeave);
-      window.removeEventListener('resize', cache);
-    };
-  }
-
-  initDock();
-
-  // Note: the `scrolled` class on #main-nav is driven by ScrollTrigger in
-  // scripts/animations.ts (it owns the Lenis-synced scroll state).
-
-  // Delegated handlers survive View Transition DOM swaps.
-  // Capture phase + stopPropagation so this runs BEFORE Astro's ClientRouter
-  // link interception — otherwise the router jumps to the anchor instantly
-  // and Lenis never gets to animate the scroll.
-  document.addEventListener(
-    'click',
-    (e) => {
-      const el = e.target as HTMLElement;
-
-      if (el.closest('.menu-toggle')) {
-        e.preventDefault();
-        isMenuOpen() ? closeMenu() : openMenu();
-        return;
-      }
-      // Tap outside the panel (the transparent area of the overlay) closes it.
-      if (el.closest('#mobile-menu') && !el.closest('.mobile-menu-panel')) {
-        closeMenu();
-        return;
-      }
-
-      // Chat trigger — hand off to the persisted Chatbot component, which owns
-      // the docked panel's open/close state, and collapse the mobile menu.
-      if (el.closest('.chat-toggle')) {
-        e.preventDefault();
-        closeMenu();
-        document.dispatchEvent(new CustomEvent('chatbot:toggle'));
-        return;
-      }
-
-      if (el.closest('.lang-toggle')) {
-        e.preventDefault();
-        toggleLang();
-        return;
-      }
-      if (el.closest('.theme-toggle')) {
-        e.preventDefault();
-        toggleTheme();
-        return;
-      }
-
-      const link = el.closest('[data-nav-link]') as HTMLAnchorElement | null;
-      if (!link) return;
-
-      // A section link was tapped — collapse the menu (no-op if already closed).
-      closeMenu();
-
-      const href = link.getAttribute('href') ?? '';
-      const hashOnly = href.includes('#');
-
-      // In-page anchor on the current page → Lenis smooth scroll, no navigation.
-      if (isHome() && hashOnly) {
-        const did = smoothScrollTo(href);
-        if (did) {
-          e.preventDefault();
-          e.stopPropagation();
-          const newHash = href.replace(/^.*(?=#)/, '') || '/';
-          history.replaceState(null, '', newHash);
-        }
-      }
-    },
-    true // capture
-  );
-
-  // When landing on the home page with a hash (e.g. navigating back from a
-  // project page via "/#projects"), smooth-scroll to it once Lenis is ready.
-  document.addEventListener('astro:page-load', () => {
-    // The page content is swapped on navigation — re-translate + re-theme it.
-    syncPreferences();
-    initDock();
-    closeMenu();
-
-    if (isHome() && window.location.hash) {
-      const hash = window.location.hash;
-      requestAnimationFrame(() => requestAnimationFrame(() => smoothScrollTo(hash)));
-    }
-  });
-</script>

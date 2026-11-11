@@ -1,0 +1,237 @@
+---
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import { certifications, profile } from '../../data/profile';
+import { getDictionary, LOCALES, type Locale } from '../../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+/**
+ * Builds one home page per locale.
+ *
+ * @return The route params for `/en/` and `/es/`.
+ */
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.params.lang as Locale;
+const t = getDictionary(locale);
+---
+
+<BaseLayout locale={locale}>
+  <Hero locale={locale} />
+
+  <Section id="about" label={t.nav.about}>
+    <p class="about">{t.about.body}</p>
+  </Section>
+
+  <Section id="experience" label={t.nav.experience}>
+    {
+      t.experience.map((job) => (
+        <article class="entry">
+          <header class="entry-head">
+            <h3 class="entry-title">{job.role}</h3>
+            <p class="entry-period">{job.period}</p>
+          </header>
+          <p class="entry-sub">{job.company}</p>
+          <ul class="entry-bullets">
+            {job.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </Section>
+
+  <Section id="projects" label={t.nav.projects}>
+    {
+      t.projects.map((project) => (
+        <article class="entry">
+          <header class="entry-head">
+            <h3 class="entry-title">{project.name}</h3>
+            <p class="entry-period">{project.period}</p>
+          </header>
+          <p class="entry-text">{project.description}</p>
+          <ul class="tags">
+            {project.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </Section>
+
+  <Section id="skills" label={t.nav.skills}>
+    <ul class="skills">
+      {t.skills.map((skill) => <li>{skill}</li>)}
+    </ul>
+  </Section>
+
+  <Section id="education" label={t.nav.education}>
+    {
+      t.education.studies.map((study) => (
+        <article class="entry">
+          <header class="entry-head">
+            <h3 class="entry-title">{study.title}</h3>
+            <p class="entry-period">{study.year}</p>
+          </header>
+          <p class="entry-sub">{study.school}</p>
+        </article>
+      ))
+    }
+
+    <div class="extra">
+      <h3 class="extra-title">{t.education.languagesLabel}</h3>
+      <ul class="tags">
+        {t.education.languages.map((language) => <li>{language}</li>)}
+      </ul>
+    </div>
+
+    <div class="extra">
+      <h3 class="extra-title">{t.education.certificationsLabel}</h3>
+      <p class="extra-hint">{t.education.certificationsHint}</p>
+      <ul class="certs">
+        {
+          certifications.map((cert) => (
+            <li>
+              <a href={cert.url} target="_blank" rel="noopener noreferrer">
+                {cert.name}
+              </a>
+              <span>
+                {cert.issuer} · {cert.year}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-label">
+    <div class="wrap">
+      <p class="label">{t.nav.contact}</p>
+      <h2 id="contact-label" class="contact-heading">{t.contact.heading}</h2>
+      <p class="contact-lead">{t.contact.lead}</p>
+      <a class="contact-email" href={`mailto:${profile.email}`}>{profile.email}</a>
+      <ul class="contact-links">
+        <li><a class="button button-primary" href={`mailto:${profile.email}`}>{t.contact.email}</a></li>
+        <li><a class="button" href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a class="button" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a class="button" href={profile.cv} download>{t.contact.cv}</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    max-width: 34ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2.5rem;
+  }
+
+  .skills li {
+    padding-block: 0.875rem;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 500;
+  }
+
+  .extra {
+    margin-top: 2.75rem;
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .extra-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.375rem;
+    line-height: 1.2;
+  }
+
+  .extra-hint {
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+  }
+
+  .certs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 2.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .certs li {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .certs a {
+    font-weight: 500;
+  }
+
+  .certs span {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+
+  .contact {
+    padding-block: clamp(4rem, 10vw, 7.5rem);
+    background: var(--tint);
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: var(--nav-height);
+  }
+
+  .contact-heading {
+    margin-top: 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .contact-lead {
+    margin-top: 1.25rem;
+    color: var(--ink-soft);
+  }
+
+  .contact-email {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.25rem, 3.6vw, 2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 36rem) {
+    .skills,
+    .certs {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

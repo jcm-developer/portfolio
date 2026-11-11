@@ -1,36 +1,34 @@
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
-// Deploy targets are env-overridable so the same build works on a custom
-// domain / user page (root) or a GitHub Pages project subpath.
-//   SITE_URL  → full canonical origin (used by sitemap + canonical meta)
-//   BASE_PATH → "/" for root, or "/<repo>" for a project page
+// SITE_URL is the canonical origin used by the sitemap and the canonical and
+// hreflang tags. Set it as a build variable in the Cloudflare dashboard.
 const SITE = process.env.SITE_URL || 'https://jaumecortes.dev';
-const BASE = process.env.BASE_PATH || '/';
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
-  base: BASE,
-  integrations: [sitemap()],
+  // Pages are prerendered; only `/` and `/api/chat` opt out and run in the Worker.
   output: 'static',
-  image: {
-    // Astro built-in image optimization
-    format: ['avif', 'webp'],
+  adapter: cloudflare({
+    // Optimize images with sharp at build time: every page that uses one is prerendered.
+    imageService: 'compile',
+    platformProxy: { enabled: true },
+  }),
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'en', locales: { en: 'en', es: 'es' } },
+    }),
+  ],
+  build: {
+    // No inline <style> blocks, so the Content Security Policy can forbid inline styles.
+    inlineStylesheets: 'never',
   },
   vite: {
-    plugins: [tailwindcss()],
     build: {
-      // Code split for better caching
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            gsap: ['gsap'],
-            lenis: ['lenis'],
-          },
-        },
-      },
+      // No inline <script> blocks either: every script ships as a same-origin file.
+      assetsInlineLimit: 0,
     },
   },
 });

@@ -1,0 +1,7 @@
+# Local secrets for `npm run dev` and `npm run preview`.
+# Copy to .dev.vars (ignored by git) and fill in. In production this is a Worker secret.
+OPENAI_API_KEY=
+# Optional. Defaults to gpt-4o-mini.
+# OPENAI_MODEL=
+# Optional. Any OpenAI-compatible chat completions URL (a gateway, a local mock).
+# OPENAI_CHAT_URL=
