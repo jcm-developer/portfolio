@@ -41,7 +41,8 @@ only saw English and every string existed twice in the markup.
 Decision: `/en/` and `/es/` are prerendered from typed dictionaries (`src/i18n`); `/` redirects
 by `Accept-Language`.
 Consequences: every visible string must exist in both dictionaries, which the `Dictionary`
-type enforces at build time. Switching language reloads the page and resets the assistant.
+type enforces at build time. Switching language reloads the page; the assistant's conversation
+is carried over through `sessionStorage` (`docs/domains/chat.md`).
 
 ## D4. No inline code, strict Content Security Policy (2026-11-11)
 Status: accepted

@@ -17,13 +17,21 @@ the site describes. Its design goal is that the model key can only ever be spent
   upstream stream into the site's own events.
 - `src/components/Chat.astro`: launcher and panel markup and styles.
 - `src/scripts/chat.ts`: panel behaviour in the browser.
+- `src/lib/chat/session.ts` (`parseSavedChat`, `SAVED_CHAT_KEY`, `MAX_TRANSCRIPT`): the
+  conversation as saved for the tab, and its validation on the way back in.
 - `src/components/Hero.astro`: the button that opens the panel (`data-chat-trigger`).
-- Tests: `src/lib/chat/validate.test.ts`, `src/lib/chat/stream.test.ts`.
+- Tests: `src/lib/chat/validate.test.ts`, `src/lib/chat/stream.test.ts`,
+  `src/lib/chat/session.test.ts`.
 
 ## Data
 
-Nothing is stored. The conversation lives in memory in the visitor's tab (`history` in
-`src/scripts/chat.ts`) and is sent whole with each question.
+Nothing is stored on the server. The conversation lives in the visitor's tab (`history` in
+`src/scripts/chat.ts`) and is sent whole with each question. After each turn, and when the
+panel opens or closes, it is saved to `sessionStorage` under `SAVED_CHAT_KEY` as a
+`SavedChat`: the turns (`history`), the rendered messages (`transcript`) and whether the panel
+was open. On load the panel restores it, so the conversation survives a reload and a switch
+between `/en/` and `/es/` in the same tab, and ends with the tab. The greeting, error messages
+and a question that failed are never saved.
 
 Request: `{ lang, messages: [{ role: 'user' | 'assistant', content }] }`.
 
@@ -53,7 +61,11 @@ Response: `text/event-stream` of `ChatEvent` frames: `text` (a delta), `nav` (a 
 - Only `user` and `assistant` roles are accepted, and the last turn is the visitor's.
 - A `nav` event carries a value from `SECTIONS` or is not sent. The page never navigates to
   anything the model wrote freely.
-- Model output and visitor input are rendered with `textContent`, never as HTML.
+- Model output, visitor input and restored messages are rendered with `textContent`, never as
+  HTML.
+- What comes back from `sessionStorage` passes `parseSavedChat` first: unknown roles and
+  kinds, empty or oversized entries are dropped, and only the latest turns are kept, so a
+  tampered entry can neither inject a role nor make the next request fail.
 - Upstream errors are logged on the server and replaced by a stable code for the client.
 
 ## Gotchas
