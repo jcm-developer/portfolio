@@ -125,6 +125,9 @@ const props = defineProps<{ message: string; tone: 'info' | 'success' | 'error' 
   with "reading 'config'".
 - **What gets a test:** pure logic, above all everything in `src/lib/chat/` that decides what
   the chat endpoint accepts or forwards. Markup and styles are checked in the browser.
+- **Browser smoke tests** live in `e2e/` as `<name>.e2e.ts` (Playwright, `npm run
+  test:smoke`), never `*.test.ts` or `*.spec.ts`, which Vitest would pick up. They only check
+  that the built pages load cleanly under the real headers; behaviour stays in unit tests.
 
 - **Names** state the behaviour in English, present tense, third person: "returns null without
   items". No "should", no "works", no arrows.

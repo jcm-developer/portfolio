@@ -1,6 +1,7 @@
 name: CI
 
-# The gate from AGENTS.md: types, unit tests and a production build.
+# The gate from AGENTS.md: types, unit tests and a production build; then a browser smoke test
+# that fails on any console error or Content Security Policy violation under the real headers.
 
 on:
   push:
@@ -32,3 +33,29 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  smoke:
+    name: Browser smoke test (CSP)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        run: npm run build
+
+      # Serves dist/ with wrangler dev, so public/_headers and its CSP apply.
+      - name: Smoke test
+        run: npm run test:smoke

@@ -38,9 +38,13 @@ npm run dev                      # http://localhost:4321, with hot reload
 | `npm run preview` | Serves the last build with `wrangler dev` on http://localhost:8787: the real Worker, with the headers from `public/_headers`. Run `npm run build` first. |
 | `npm run check` | Type check of `.astro` and `.ts` files. |
 | `npm test` | Unit tests (Vitest), through `scripts/test.mjs`. Extra arguments pass through: `npm test -- src/lib/chat`. |
+| `npm run test:smoke` | Browser smoke test (Playwright) of the last build under the real headers. Run `npm run build` first. |
 
 `npm run dev` does not apply `public/_headers`, so a Content Security Policy violation only
-shows up under `npm run preview`. Check there after touching scripts, styles or fonts.
+shows up under `npm run preview`. `npm run test:smoke` checks that automatically: after
+`npm run build`, it serves `dist/` with `wrangler dev` on port 8788, opens `/en/` and `/es/` in
+Chromium and fails on any console error or `securitypolicyviolation` event. The first local run
+needs `npx playwright install chromium`.
 
 ## Deploy
 
@@ -71,7 +75,8 @@ the last line of defence if every other limit is bypassed.
 ## CI
 
 - `.github/workflows/ci.yml`: the gate (`npm run check`, `npm test`, `npm run build`) on every
-  push to `main` or `dev` and every pull request.
+  push to `main` or `dev` and every pull request, and in a parallel job the browser smoke test
+  (`npm run test:smoke`) against a fresh build.
 - `.github/workflows/standards.yml`: `scripts/check-docs.mjs` and the commit message format, on
   the same triggers.
 

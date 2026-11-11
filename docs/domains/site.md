@@ -60,7 +60,8 @@ None of its own. Copy comes from `src/i18n`, facts from `src/data/profile.ts`
   `.wrangler/deploy/config.json`, so `wrangler.jsonc` must not set `main` or `assets`.
 - Astro inlines small scripts and stylesheets by default. `assetsInlineLimit: 0` and
   `inlineStylesheets: 'never'` in `astro.config.mjs` turn that off; removing them breaks the
-  site under the Content Security Policy with no build error.
+  site under the Content Security Policy with no build error; only the smoke test in CI
+  (`e2e/smoke.e2e.ts`) catches it.
 - Elements created by a script do not get Astro's scoped style attribute. Styles for them are
   global (`Chat.astro` uses `is:global`).
 - In a scoped `<style>`, `:global()` nested inside `:not()` is left uncompiled and the rule

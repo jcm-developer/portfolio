@@ -43,9 +43,11 @@ portfolio/
 ├── README.md               # Human front door
 ├── astro.config.mjs        # Astro config: adapter, sitemap, no inline scripts or styles
 ├── wrangler.jsonc          # Worker config: name, compatibility, rate limit binding
+├── playwright.config.ts    # Browser smoke test config: serves dist/ with wrangler dev
 ├── .node-version           # Node version for CI and Cloudflare builds (Astro 7 minimum)
 ├── .dev.vars.example       # Template for local secrets
 ├── docs/                   # Code style, workflow, operations, decisions, domains
+├── e2e/                    # Browser smoke tests (*.e2e.ts), run by Playwright
 ├── public/                 # Files served as is: _headers, robots.txt, favicon, CVs, share images
 ├── scripts/                # check-docs.mjs, test.mjs (Vitest wrapper)
 ├── src/
